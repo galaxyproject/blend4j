@@ -13,7 +13,7 @@ import com.github.jmchilton.blend4j.galaxy.LibraryClient.LibraryContent;
 import com.sun.jersey.api.client.ClientResponse;
 
 public class IntegrationTest {
-  
+
   @Test
   public void checkHistories() {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
@@ -21,9 +21,10 @@ public class IntegrationTest {
     final History history = new History();
     final String testHistoryName = "testHistory" + UUID.randomUUID().toString();
     history.setName(testHistoryName);
-    final ClientResponse response = historyClient.create(history);
+    final ClientResponse response = historyClient.createRequest(history);
     Assert.assertTrue(response.getStatus() == 200, String.format("Expected 200: %d", response.getStatus()));
-    
+    final Library persistedLibrary = response.getEntity(Library.class);
+    System.out.println(persistedLibrary.getId());
     final List<History> histories = historyClient.getHistories();
     boolean foundHistory = false;
     for(final History returnedHistory : histories) {
@@ -33,19 +34,19 @@ public class IntegrationTest {
     }
     Assert.assertTrue(foundHistory, "Could not find previously created test history.");
   }
-  
+
   private void assert200(final ClientResponse clientResponse) {
-    Assert.assertTrue(clientResponse.getStatus() == 200, String.format("Expected 200 status code, got %d. %s", clientResponse.getStatus(), clientResponse.getEntity(String.class)));
+    Assert.assertTrue(clientResponse.getStatus() == 200,
+        String.format("Expected 200 status code, got %d. %s", clientResponse.getStatus(), clientResponse.getEntity(String.class)));
   }
-  
-  
+
   @Test
   public void testLibraries() {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
     final LibraryClient libraryClient = galaxyInstance.getLibraryClient();
     final Library testLibrary = new Library();
     testLibrary.setName("testLib" + UUID.randomUUID().toString());
-    final ClientResponse response = libraryClient.create(testLibrary);
+    final ClientResponse response = libraryClient.createRequest(testLibrary);
     assert200(response);
     final List<Library> libraries = libraryClient.getLibraries();
     Library matchingLibrary = null;
@@ -63,11 +64,10 @@ public class IntegrationTest {
     upload.setFolderId(rootFolderId);
     final ClientResponse uploadResponse = libraryClient.uploadFileFromUrl(matchingLibrary.getId(), upload);
     assert200(uploadResponse);
-    
 
-    //for(final LibraryContent content : contents) {
-    //  System.out.println(content);
-    //}
+    // for(final LibraryContent content : contents) {
+    // System.out.println(content);
+    // }
   }
-  
+
 }
