@@ -15,7 +15,7 @@ parity with blend.
 
 See the [integration test cases][u1] for example library usage.
 
-[u1]: /src/test/java/com/github/jmchilton/blend4j/galaxy/IntegrationTest.java
+[u1]: https://github.com/jmchilton/blend4j/blob/master/src/test/java/com/github/jmchilton/blend4j/galaxy/IntegrationTest.java
 
 # Building
 
