@@ -5,9 +5,9 @@
   <groupId>com.github.jmchilton.blend4j</groupId>
   <artifactId>blend4j</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
   <name>blend4j</name>
-  <description>A Java API for Galaxy framework (usegalaxy.org).</description>
+  <description>blend4j is a JVM partial reimplemenation of the Python library blend for interacting with Galaxy, CloudMan, and BioCloudCentral.</description>
   <dependencies>
     <dependency>
       <groupId>org.testng</groupId>
