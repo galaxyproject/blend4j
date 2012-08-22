@@ -41,14 +41,14 @@ public class IntegrationTest {
     Assert.assertEquals(historyDetails.getState(), "new");
     final ClientResponse contentsResponse = historyClient.showHistoryContentsRequest(foundHistory.getId());
     assert200(contentsResponse);
-    //System.out.println(contentsResponse.getEntity(String.class));
+    // System.out.println(contentsResponse.getEntity(String.class));
   }
 
   private void assert200(final ClientResponse clientResponse) {
     Assert.assertTrue(clientResponse.getStatus() == 200,
         String.format("Expected 200 status code, got %d. %s", clientResponse.getStatus(), clientResponse.getEntity(String.class)));
   }
-  
+
   @Test
   public void testLibraries() {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
@@ -86,14 +86,14 @@ public class IntegrationTest {
     ClientResponse response = usersClient.createUserRequest(UUID.randomUUID() + "@userexample.com");
     assert200(response);
   }
-  
+
   @Test
   public void testWorkflows() {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
     final WorkflowsClient workflowsClient = galaxyInstance.getWorkflowsClient();
     workflowsClient.getWorkflows();
   }
-  
+
   @Test
   public void testCreatePrivateDataLibrary() {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
@@ -105,7 +105,7 @@ public class IntegrationTest {
     final Library library = new Library();
     library.setName("DataImport-" + email);
     final LibrariesClient libraryClient = galaxyInstance.getLibrariesClient();
-    final Library createdLibrary = libraryClient.createLibrary(library);    
+    final Library createdLibrary = libraryClient.createLibrary(library);
     final LibraryPermissions libraryPermissions = new LibraryPermissions();
     libraryPermissions.getAccessInRoles().add(role.getId());
     final ClientResponse setPermResponse = libraryClient.setLibraryPermissions(createdLibrary.getId(), libraryPermissions);
