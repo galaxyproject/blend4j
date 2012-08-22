@@ -12,11 +12,12 @@ public class TestGalaxyInstance {
     if(properties.containsKey("test.galaxy.instance")) {
       galaxyInstanceUrl = properties.getProperty("test.galaxy.instance");
     }
+    // API key for an account created to test blend4j
     String galaxyApiKey = "274f4583a821d8fff923ac6ab5e1e030"  ;
     if(properties.containsKey("test.galaxy.key")) {
       galaxyApiKey = properties.getProperty("test.galaxy.key");
     }
-    return GalaxyInstance.getInstance(galaxyInstanceUrl, galaxyApiKey);
+    return GalaxyInstanceFactory.get(galaxyInstanceUrl, galaxyApiKey);
   }
   
 }

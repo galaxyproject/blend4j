@@ -1,36 +1,15 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-public class GalaxyInstance {
-  private String url;
-  private String key;
-  
-  private GalaxyInstance(final String url, final String key) {
-    this.url = url;
-    this.setKey(key);
-	}
-  
-  public static GalaxyInstance getInstance(final String url, final String key) {
-    return new GalaxyInstance(url, key);
-  }
+public interface GalaxyInstance {
 
-  public String getUrl() {
-    return url;
-  }
-  
-  public HistoryClient getHistoryClient() {
-    return new HistoryClient(this);
-  }
+  HistoriesClient getHistoriesClient();
 
-  public LibraryClient getLibraryClient() {
-    return new LibraryClient(this);
-  }
-  
-  public String getKey() {
-    return key;
-  }
+  LibrariesClient getLibrariesClient();
 
-  public void setKey(String key) {
-    this.key = key;
-  }
+  UsersClient getUsersClient();
+  
+  WorkflowsClient getWorkflowsClient();
+  
+  RolesClient getRolesClient();
 
 }

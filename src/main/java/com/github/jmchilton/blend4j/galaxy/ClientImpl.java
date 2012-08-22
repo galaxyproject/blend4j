@@ -10,18 +10,23 @@ import org.codehaus.jackson.type.TypeReference;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
 
-class Client {
-  private final GalaxyInstance galaxyInstance;
+class ClientImpl {
+  private final GalaxyInstanceImpl galaxyInstance;
   private final WebResource webResource;
   private final ObjectMapper mapper = new ObjectMapper();
 
-  public Client(final GalaxyInstance galaxyInstance, final String module) {
+  ClientImpl(final GalaxyInstanceImpl galaxyInstance, final String module) {
     this.galaxyInstance = galaxyInstance;
-    this.webResource = buildWebResource(module);
+    this.webResource = buildWebResource(module);  
+  }
+  
+  protected String write(final Object object) {
+    try {
+      return mapper.writer().writeValueAsString(object);
+    } catch(IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   GalaxyInstance getGalaxyInstance() {
@@ -32,12 +37,17 @@ class Client {
     return webResource;
   }
   
+  protected WebResource getWebResource(final String id) {
+    return getWebResource().path(id);
+  }
+  
+  protected WebResource getWebResourceContents(final String id) {
+    return getWebResource(id).path("contents");
+  }
+  
   private WebResource buildWebResource(final String module) {
-    final ClientConfig clientConfig = new DefaultClientConfig() ;
-    clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-    final String url = galaxyInstance.getUrl();
-    final WebResource webResource = com.sun.jersey.api.client.Client.create(clientConfig).resource(url);
-    return webResource.queryParam("key", galaxyInstance.getKey()).path("api").path(module);
+    final WebResource webResource = galaxyInstance.getWebResource();
+    return webResource.path(module);
   }
   
   protected <T> T readJson(final String json, final TypeReference<T> typeReference) {
@@ -64,8 +74,11 @@ class Client {
     final String json = webResource
         .accept(MediaType.APPLICATION_JSON)
         .get(String.class);
-    System.out.println(json);
-    return readJson(json, typeReference);    
+    return readJson(json, typeReference);
+  }
+  
+  protected <T> T show(final String id, Class<T> clazz) {
+    return getWebResource().path(id).get(clazz);
   }
 
   protected <T> List<T> get(final TypeReference<List<T>> typeReference) {
