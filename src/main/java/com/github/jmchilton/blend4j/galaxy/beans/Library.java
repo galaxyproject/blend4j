@@ -4,6 +4,13 @@ public class Library extends GalaxyObject {
   private String name = "";
   private String description = "";
   private String synopsis = "";
+  
+  public Library() {
+  }
+  
+  public Library(final String name) {
+    this.name = name;
+  }
 
   public String getName() {
     return name;

@@ -1,5 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import com.sun.jersey.api.client.WebResource;
+
 public interface GalaxyInstance {
 
   HistoriesClient getHistoriesClient();
@@ -12,4 +14,5 @@ public interface GalaxyInstance {
   
   RolesClient getRolesClient();
 
+  WebResource getWebResource();
 }

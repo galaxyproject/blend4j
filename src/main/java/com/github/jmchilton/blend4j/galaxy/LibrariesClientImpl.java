@@ -68,7 +68,6 @@ class LibrariesClientImpl extends ClientImpl implements LibrariesClient {
 
   public ClientResponse setLibraryPermissions(String libraryId, LibraryPermissions permissions) {
     final String payload = write(permissions);
-    System.out.println(payload);
     return super.create(getWebResource(libraryId).path("permissions"), payload);
   }
 

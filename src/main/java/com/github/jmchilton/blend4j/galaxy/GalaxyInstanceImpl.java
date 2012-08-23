@@ -29,7 +29,7 @@ class GalaxyInstanceImpl implements GalaxyInstance {
     return new RolesClientImpl(this);
   }
   
-  WebResource getWebResource() {
+  public WebResource getWebResource() {
     return webResourceFactory.get();
   }
 
