@@ -20,7 +20,6 @@ For simplicity, these examples assume the following import statements are used t
 
 Listing a users history:
 
-```java
     GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
     HistoriesClient historiesClient = galaxyInstance.getHistoriesClient();
     for(History history : historiesClient.getHistories()) {
@@ -29,9 +28,6 @@ Listing a users history:
       String message = String.format("Found history with name %s and id %s", name, id);
       System.out.println(message);
     }
-```
-         
-
 
 For more examples see these [integration test cases][u1].
 
