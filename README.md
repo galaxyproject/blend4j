@@ -20,6 +20,7 @@ For simplicity, these examples assume the following import statements are used t
 
 Listing current users history:
 
+```java
     GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
     HistoriesClient historiesClient = galaxyInstance.getHistoriesClient();
     for(History history : historiesClient.getHistories()) {
@@ -28,9 +29,11 @@ Listing current users history:
       String message = String.format("Found history with name %s and id %s", name, id);
       System.out.println(message);
     }
+```
 
 Find a data library by name and print its contents:
 
+```java
     final GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
     final LibrariesClient librariesClient = galaxyInstance.getLibrariesClient();
     final List<Library> libraries = librariesClient.getLibraries();
@@ -50,9 +53,11 @@ Find a data library by name and print its contents:
       final String message = String.format("Found library content of type %s with name %s and id %s", type, name, id);
       System.out.println(message);
     }
+```
 
-The following code demonstrates creating a data library at four different levels of abstraction:
+The following code demonstrates creating a data library at four different levels of abstraction (these examples require an admin key):
 
+```java
     // Most API methods have corresponding blend4j methods for dealing with 
     // both low-level request and parsed POJO responses. You can also use the method
     // galaxyInstance.getWebResource() to access the low-level Jersey APIs directly.
@@ -67,7 +72,7 @@ The following code demonstrates creating a data library at four different levels
     final Library testLibrary2 = new Library("test2");
     final ClientResponse response2 = librariesClient.createLibraryRequest(testLibrary2);
     if(response2.getStatus() == 200) {
-      final Library persistedLibrary2 = response2.getEntity(Library.class);
+      final Library persistedLibrary2 = response2.getEntity(Library.class);	
       // ...
     }
     
@@ -90,7 +95,61 @@ The following code demonstrates creating a data library at four different levels
         .post(ClientResponse.class, "{\"name\": \"test4\"}");
     final String jsonResponse4 = response4.getEntity(String.class);
     System.out.println("JSON response is: " + jsonResponse4);
+```
 
+This example demonstrates an admin process creating a private data library for a user and copying a directories contents to it. This example requires both an admin key and for use_remote_user to be enabled in the Galaxy instance's options file.
+
+```java
+    final GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
+    
+    final String email = "alice@example.com";
+    
+    // Create data library
+    final Library library = new Library("Example library for " + email);
+    final LibrariesClient librariesClient = galaxyInstance.getLibrariesClient();
+    final Library persistedLibrary = librariesClient.createLibrary(library);
+    
+    // Copy example directory into library
+    final FilesystemPathsLibraryUpload upload = new FilesystemPathsLibraryUpload();
+    final LibraryContent rootFolder = librariesClient.getRootFolder(persistedLibrary.getId());
+    upload.setFolderId(rootFolder.getId());
+    upload.setContent("test-data/variant_detection");
+    librariesClient.uploadFilesystemPathsRequest(persistedLibrary.getId(), upload);
+    
+    // Obtain user object
+    User owner = null;
+    final UsersClient usersClient = galaxyInstance.getUsersClient();
+    for(final User user : usersClient.getUsers()) {
+      if(user.getEmail().equals(email)) {
+        owner = user;
+        break;
+      }
+    }
+    if(owner == null) {
+      // In order to create users like this - use_remote_user must be enabled
+      // in the Galaxy instance's universe_wsgi.ini options.
+      owner = usersClient.createUser(email);
+    }
+    
+    // Obtain user role
+    Role ownersPrivateRole = null;
+    final RolesClient rolesClient = galaxyInstance.getRolesClient();
+    for(final Role role : rolesClient.getRoles()) {
+      if(role.getName().equals(email)) {
+        ownersPrivateRole = role;
+        break;
+      }
+    }
+    final String ownersPrivateRoleId = ownersPrivateRole.getId(); 
+    
+    // Set data library permissions
+    final LibraryPermissions permissions = new LibraryPermissions();
+    permissions.getAccessInRoles().add(ownersPrivateRoleId);
+    permissions.getAddInRoles().add(ownersPrivateRoleId);
+    permissions.getManageInRoles().add(ownersPrivateRoleId);
+    permissions.getModifyInRoles().add(ownersPrivateRoleId);
+    librariesClient.setLibraryPermissions(persistedLibrary.getId(), permissions);
+```
 
 These examples are taken from [Examples.java][u0]. For more examples see these [integration test cases][u1].
 

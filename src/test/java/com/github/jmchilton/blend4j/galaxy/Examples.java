@@ -2,15 +2,21 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
 import org.testng.annotations.Test;
 
+import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
+import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
+import com.github.jmchilton.blend4j.galaxy.beans.Role;
+import com.github.jmchilton.blend4j.galaxy.beans.User;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
@@ -25,7 +31,8 @@ public class Examples {
     final String[] exampleMethods = new String[] {
         "listHistories",
         "listLibraryContents",
-        "levelsOfAbstraction"
+        "levelsOfAbstraction",
+        "createPrivateDataLibrary"
     };
     for(final String exampleMethod : exampleMethods) {
       runExample(exampleMethod);
@@ -65,7 +72,7 @@ public class Examples {
       System.out.println(message);
     }
   }
-
+  
   public static void levelsOfAbstraction(final String url, final String apiKey) {
     // Most API methods have corresponding blend4j methods for dealing with 
     // both low-level request and parsed POJO responses. You can also use the method
@@ -105,7 +112,62 @@ public class Examples {
     final String jsonResponse4 = response4.getEntity(String.class);
     System.out.println("JSON response is: " + jsonResponse4);
   }
-  
+
+  public static void createPrivateDataLibrary(final String url, final String apiKey) {
+    final GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
+    
+    final String email = "alice@example.com";
+    
+    // Create data library
+    final Library library = new Library("Example library for " + email);
+    final LibrariesClient librariesClient = galaxyInstance.getLibrariesClient();
+    final Library persistedLibrary = librariesClient.createLibrary(library);
+    
+    // Copy example directory into library
+    final FilesystemPathsLibraryUpload upload = new FilesystemPathsLibraryUpload();
+    final LibraryContent rootFolder = librariesClient.getRootFolder(persistedLibrary.getId());
+    upload.setFolderId(rootFolder.getId());
+    upload.setContent("test-data/variant_detection");
+    librariesClient.uploadFilesystemPathsRequest(persistedLibrary.getId(), upload);
+    
+    // Obtain user object
+    User owner = null;
+    final UsersClient usersClient = galaxyInstance.getUsersClient();
+    for(final User user : usersClient.getUsers()) {
+      if(user.getEmail().equals(email)) {
+        owner = user;
+        break;
+      }
+    }
+    if(owner == null) {
+      // In order to create users like this - use_remote_user must be enabled
+      // in the Galaxy instance's universe_wsgi.ini options.
+      owner = usersClient.createUser(email);
+    }
+    
+    // Obtain user role
+    Role ownersPrivateRole = null;
+    final RolesClient rolesClient = galaxyInstance.getRolesClient();
+    for(final Role role : rolesClient.getRoles()) {
+      if(role.getName().equals(email)) {
+        ownersPrivateRole = role;
+        break;
+      }
+    }
+    final String ownersPrivateRoleId = ownersPrivateRole.getId(); 
+    
+    // Set data library permissions
+    final LibraryPermissions permissions = new LibraryPermissions();
+    permissions.getAccessInRoles().add(ownersPrivateRoleId);
+    permissions.getAddInRoles().add(ownersPrivateRoleId);
+    permissions.getManageInRoles().add(ownersPrivateRoleId);
+    permissions.getModifyInRoles().add(ownersPrivateRoleId);    
+    librariesClient.setLibraryPermissions(persistedLibrary.getId(), permissions);
+    
+   
+  }
+
+
   
   private static void runExample(final String methodName) throws Exception {
     final Method method = findExampleMethod(methodName);
