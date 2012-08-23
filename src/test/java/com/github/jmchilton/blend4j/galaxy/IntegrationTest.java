@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.github.jmchilton.blend4j.galaxy.beans.DirectoryLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
@@ -26,6 +27,7 @@ public class IntegrationTest {
     final String testHistoryName = "testHistory" + UUID.randomUUID().toString();
     history.setName(testHistoryName);
     final ClientResponse response = historyClient.createRequest(history);
+    System.out.println(response.getEntity(String.class));
     Assert.assertTrue(response.getStatus() == 200, String.format("Expected 200: %d", response.getStatus()));
     final List<History> histories = historyClient.getHistories();
     History foundHistory = null;
@@ -67,12 +69,34 @@ public class IntegrationTest {
     Assert.assertTrue(matchingLibrary != null);
     final List<LibraryContent> contents = libraryClient.getLibraryContents(matchingLibrary.getId());
     final LibraryContent rootFolderContent = contents.get(0);
-    final String rootFolderId = rootFolderContent.getId();
+    Assert.assertEquals(rootFolderContent.getName(), "/");
+  }
+  
+  @Test
+  public void testFilesystemPathsLibraryUpload() {
+    final LibrariesClient client = getLibrariesClient();
+    final Library testLibrary = createTestLibrary(client, "test-filesystem-paths" + UUID.randomUUID().toString());
+    final LibraryContent rootFolder = client.getRootFolder(testLibrary.getId());
+
     final FilesystemPathsLibraryUpload upload = new FilesystemPathsLibraryUpload();
-    upload.setContent("test-data/1.bam");
-    upload.setFolderId(rootFolderId);
-    final ClientResponse uploadResponse = libraryClient.uploadFileFromUrl(matchingLibrary.getId(), upload);
-    assert200(uploadResponse);
+    upload.setContent("test-data/variant_detection/");
+    upload.setFolderId(rootFolder.getId());
+    final ClientResponse uploadResponse = client.uploadFileFromUrl(testLibrary.getId(), upload);
+    assert200(uploadResponse);    
+    
+  }
+  
+  @Test
+  public void testDirectoryLibraryUpload() {
+    final LibrariesClient client = getLibrariesClient();
+    final Library testLibrary = createTestLibrary(client, "test-dir-upload" + UUID.randomUUID().toString());
+    final LibraryContent rootFolder = client.getRootFolder(testLibrary.getId());
+    
+    final DirectoryLibraryUpload upload2 = new DirectoryLibraryUpload();
+    upload2.setContent("test-data/variant_detection");
+    upload2.setFolderId(rootFolder.getId());
+    final ClientResponse uploadResponse2 = client.uploadServerDirectoryRequest(testLibrary.getId(), upload2);
+    assert200(uploadResponse2);    
   }
 
   @Test
@@ -112,4 +136,16 @@ public class IntegrationTest {
     assert200(setPermResponse);
   }
 
+  private LibrariesClient getLibrariesClient() {
+    final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
+    final LibrariesClient libraryClient = galaxyInstance.getLibrariesClient();
+    return libraryClient;
+  }
+  
+  private Library createTestLibrary(final LibrariesClient client, final String name) {
+    final Library testLibrary = new Library();
+    testLibrary.setName(name);
+    return client.createLibrary(testLibrary);
+  }  
+  
 }

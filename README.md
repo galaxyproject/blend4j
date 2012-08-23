@@ -13,7 +13,27 @@ parity with blend.
 
 # Usage
 
-See the [integration test cases][u1] for example library usage.
+For simplicity, these examples assume the following import statements are used to import all of blend4j's Galaxy functionality.
+
+    import com.github.jmchilton.blend4j.galaxy.beans.*;
+    import com.github.jmchilton.blend4j.galaxy.*;
+
+Listing a users history:
+
+```java
+    GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
+    HistoriesClient historiesClient = galaxyInstance.getHistoriesClient();
+    for(History history : historiesClient.getHistories()) {
+      String name = history.getName();
+      String id = history.getId();
+      String message = String.format("Found history with name %s and id %s", name, id);
+      System.out.println(message);
+    }
+```
+         
+
+
+For more examples see these [integration test cases][u1].
 
 [u1]: https://github.com/jmchilton/blend4j/blob/master/src/test/java/com/github/jmchilton/blend4j/galaxy/IntegrationTest.java
 

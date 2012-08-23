@@ -4,20 +4,29 @@ import java.util.Properties;
 
 import com.github.jmchilton.blend4j.Config;
 
-public class TestGalaxyInstance {
+class TestGalaxyInstance {
+  private static Properties properties = Config.loadBlendProperties();
   
-  public static GalaxyInstance get() {
-    final Properties properties = Config.loadBlendProperties();
-    String galaxyInstanceUrl = "https://main.g2.bx.psu.edu/"; 
-    if(properties.containsKey("test.galaxy.instance")) {
-      galaxyInstanceUrl = properties.getProperty("test.galaxy.instance");
-    }
-    // API key for an account created to test blend4j
-    String galaxyApiKey = "274f4583a821d8fff923ac6ab5e1e030"  ;
-    if(properties.containsKey("test.galaxy.key")) {
-      galaxyApiKey = properties.getProperty("test.galaxy.key");
-    }
+  static GalaxyInstance get() {
+    final String galaxyInstanceUrl = getTestInstanceUrl(); 
+    final String galaxyApiKey = getTestApiKey();
     return GalaxyInstanceFactory.get(galaxyInstanceUrl, galaxyApiKey);
+  }
+
+  static String getTestApiKey() {
+    return getProperty("test.galaxy.key", "274f4583a821d8fff923ac6ab5e1e030");
+  }
+
+  static String getTestInstanceUrl() {
+    return getProperty("test.galaxy.instance", "https://main.g2.bx.psu.edu/");
+  }
+
+  static String getProperty(final String key, final String defaultValue) {
+    String value = defaultValue;
+    if(properties.containsKey(key)) { 
+      value = properties.getProperty(key);
+    }
+    return value;
   }
   
 }

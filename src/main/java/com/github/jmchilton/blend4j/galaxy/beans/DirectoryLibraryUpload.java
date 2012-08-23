@@ -12,5 +12,10 @@ public class DirectoryLibraryUpload extends LibraryUpload {
   public String getServerDirectory() {
     return getContent();
   }
+  
+  @JsonProperty("files_0|url_paste")
+  public String getDirectory() {
+    return getContent();
+  }
 
 }

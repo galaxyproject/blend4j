@@ -23,8 +23,9 @@ class LibrariesClientImpl extends ClientImpl implements LibrariesClient {
   }
 
   public Library createLibrary(final Library library) {
-    // should not be this complicated, I suspect library API is returning wrong thing. See galaxy issue #802 
-    return readJson(createLibraryRequest(library).getEntity(String.class), new TypeReference<List<Library>>() {}).get(0);
+    // should not be this complicated, I suspect library API is returning wrong thing. See galaxy issue #802
+    return createLibraryRequest(library).getEntity(Library.class);
+    //return readJson(createLibraryRequest(library).getEntity(String.class), new TypeReference<List<Library>>() {}).get(0);
   }
 
   public List<Library> getLibraries() {
