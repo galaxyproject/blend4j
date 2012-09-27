@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.codehaus.jackson.type.TypeReference;
 
-import com.github.jmchilton.blend4j.galaxy.beans.Dataset;;
+import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
@@ -38,14 +38,13 @@ class HistoriesClientImpl extends ClientImpl implements HistoriesClient {
     return super.show(id, HistoryDetails.class);
   }
 
-  public List<HistoryContents> showHistoryContentsRequest(String historyId) {
+  public List<HistoryContents> showHistoryContents(String historyId) {
     return get(getWebResourceContents(historyId), new TypeReference<List<HistoryContents>>()
                {});
   }
-
+  
   public Dataset showDataset(String historyId, String datasetId) {
       return getWebResourceContents(historyId).path(datasetId).get(Dataset.class);
   }
-
 
 }

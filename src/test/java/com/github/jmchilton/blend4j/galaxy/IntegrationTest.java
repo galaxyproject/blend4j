@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import com.github.jmchilton.blend4j.galaxy.beans.DirectoryLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
@@ -27,7 +28,6 @@ public class IntegrationTest {
     final String testHistoryName = "testHistory" + UUID.randomUUID().toString();
     history.setName(testHistoryName);
     final ClientResponse response = historyClient.createRequest(history);
-    System.out.println(response.getEntity(String.class));
     Assert.assertTrue(response.getStatus() == 200, String.format("Expected 200: %d", response.getStatus()));
     final List<History> histories = historyClient.getHistories();
     History foundHistory = null;
@@ -41,9 +41,7 @@ public class IntegrationTest {
     assert200(showResponse);
     final HistoryDetails historyDetails = historyClient.showHistory(foundHistory.getId());
     Assert.assertEquals(historyDetails.getState(), "new");
-    final ClientResponse contentsResponse = historyClient.showHistoryContentsRequest(foundHistory.getId());
-    assert200(contentsResponse);
-    // System.out.println(contentsResponse.getEntity(String.class));
+    final List<HistoryContents> contentsResponse = historyClient.showHistoryContents(foundHistory.getId());
   }
 
   private void assert200(final ClientResponse clientResponse) {
@@ -77,9 +75,9 @@ public class IntegrationTest {
     final LibrariesClient client = getLibrariesClient();
     final Library testLibrary = createTestLibrary(client, "test-filesystem-paths" + UUID.randomUUID().toString());
     final LibraryContent rootFolder = client.getRootFolder(testLibrary.getId());
-
     final FilesystemPathsLibraryUpload upload = new FilesystemPathsLibraryUpload();
     upload.setContent("test-data/variant_detection/");
+    upload.setLinkData(true);
     upload.setFolderId(rootFolder.getId());
     final ClientResponse uploadResponse = client.uploadFileFromUrl(testLibrary.getId(), upload);
     assert200(uploadResponse);    
@@ -146,6 +144,6 @@ public class IntegrationTest {
     final Library testLibrary = new Library();
     testLibrary.setName(name);
     return client.createLibrary(testLibrary);
-  }  
+  }
   
 }
