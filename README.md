@@ -153,8 +153,14 @@ This example demonstrates an admin process creating a private data library for a
 
 These examples are taken from [Examples.java][u0]. For more examples see these [integration test cases][u1].
 
+Brad Chapman has put together a higher-level Clojure library - [clj-blend][u2], the
+source code of which can serve as additional examples of blend4j
+usage.
+
+
 [u0]: https://github.com/jmchilton/blend4j/blob/master/src/test/java/com/github/jmchilton/blend4j/galaxy/Examples.java
 [u1]: https://github.com/jmchilton/blend4j/blob/master/src/test/java/com/github/jmchilton/blend4j/galaxy/IntegrationTest.java
+[u2]: https://github.com/chapmanb/clj-blend.git
 
 # Building
 
