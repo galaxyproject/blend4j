@@ -14,6 +14,8 @@ public interface GalaxyInstance {
   
   RolesClient getRolesClient();
 
+  ToolsClient getToolsClient();
+
   WebResource getWebResource();
   
 }
