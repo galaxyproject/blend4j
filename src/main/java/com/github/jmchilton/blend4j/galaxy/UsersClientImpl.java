@@ -2,6 +2,7 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.codehaus.jackson.type.TypeReference;
@@ -18,7 +19,14 @@ class UsersClientImpl extends ClientImpl implements UsersClient {
   }
 
   public List<User> getUsers() {
-    return super.get(USER_LIST_TYPE_REFERENCE);
+    // Handles both User lists and single user retrieval
+    try {
+      return super.get(USER_LIST_TYPE_REFERENCE);
+    } catch (RuntimeException e) {
+      List out = new ArrayList();
+      out.add(super.getWebResource().get(User.class));
+      return out;
+    }
   }
   
   public ClientResponse createUserRequest(final String remoteUserEmail) {

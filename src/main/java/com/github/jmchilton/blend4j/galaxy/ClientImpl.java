@@ -70,7 +70,7 @@ class ClientImpl {
   }
   
   protected <T> List<T> get(final WebResource webResource, 
-                             final TypeReference<List<T>> typeReference) {
+                            final TypeReference<List<T>> typeReference) { 
     final String json = webResource
         .accept(MediaType.APPLICATION_JSON)
         .get(String.class);
