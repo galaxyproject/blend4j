@@ -4,6 +4,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class User extends GalaxyObject {
   private String email;
+  private String username;
 
   public String getEmail() {
     return email;
@@ -24,7 +25,11 @@ public class User extends GalaxyObject {
   }
   
   public void setUsername(final String username) {
-    
+    this.username = username;
+  }
+
+  public String getUsername() {
+    return username;
   }
   
 }
