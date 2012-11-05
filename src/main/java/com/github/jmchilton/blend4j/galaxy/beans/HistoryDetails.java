@@ -2,7 +2,8 @@ package com.github.jmchilton.blend4j.galaxy.beans;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@JsonIgnoreProperties({"contents_url", "state_details"})
+//@JsonIgnoreProperties({"contents_url", "state_details", "state_ids", "nice_size"})
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class HistoryDetails extends History {
   private String state;
 
