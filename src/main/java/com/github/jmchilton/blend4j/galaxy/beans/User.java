@@ -1,7 +1,9 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class User extends GalaxyObject {
   private String email;
   private String username;
