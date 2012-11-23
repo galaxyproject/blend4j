@@ -36,6 +36,13 @@ public class WorkflowsTest {
   }
   
   @Test
+  public void testImportExportWorkflow() {
+    final String testWorkflowId = getTestWorkflowId();
+    final String workflowJson = client.exportWorkflow(testWorkflowId);
+    final Workflow importedWorkflow = client.importWorkflow(workflowJson);
+  }
+  
+  @Test
   public void testRunWorkflow() throws IOException {
     // Find history
     final HistoriesClient historyClient = instance.getHistoriesClient();

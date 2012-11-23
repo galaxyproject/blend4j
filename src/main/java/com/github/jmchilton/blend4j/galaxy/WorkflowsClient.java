@@ -16,6 +16,10 @@ public interface WorkflowsClient {
   
   String exportWorkflow(String id);
   
+  Workflow importWorkflow(String json);
+  
+  ClientResponse importWorkflowResponse(String json);
+  
   ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
   
   WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
