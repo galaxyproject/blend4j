@@ -12,13 +12,22 @@ import org.testng.annotations.Test;
 
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
 import com.github.jmchilton.blend4j.galaxy.beans.Role;
 import com.github.jmchilton.blend4j.galaxy.beans.User;
+import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputDefinition;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import java.util.Map;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.testng.Assert;
 
 public class Examples {
   
@@ -162,9 +171,63 @@ public class Examples {
     permissions.getAddInRoles().add(ownersPrivateRoleId);
     permissions.getManageInRoles().add(ownersPrivateRoleId);
     permissions.getModifyInRoles().add(ownersPrivateRoleId);    
-    librariesClient.setLibraryPermissions(persistedLibrary.getId(), permissions);
+    librariesClient.setLibraryPermissions(persistedLibrary.getId(), permissions);   
+  }
+  
+  public static void runWorkflow(final String url, final String apiKey) {
+    final GalaxyInstance instance = GalaxyInstanceFactory.get(url, apiKey);
+    final WorkflowsClient workflowsClient = instance.getWorkflowsClient();
+
+    // Find history
+    final HistoriesClient historyClient = instance.getHistoriesClient();
+    History matchingHistory = null;
+    for(final History history : historyClient.getHistories()) {
+      if(history.getName().equals("TestHistory1")) {
+        matchingHistory = history;
+      }
+    }
+    Assert.assertNotNull(matchingHistory);
+    String input1Id = null;
+    String input2Id = null;
+    for(final HistoryContents historyDataset :historyClient.showHistoryContents(matchingHistory.getId())) {
+      if(historyDataset.getName().equals("Input1")) {
+        input1Id = historyDataset.getId();
+      }
+      if(historyDataset.getName().equals("Input2")) {
+        input2Id = historyDataset.getId();
+      }
+    }
     
-   
+    Workflow matchingWorkflow = null;
+    for(Workflow workflow : workflowsClient.getWorkflows()) {
+      if(workflow.getName().equals("TestWorkflow1")) {
+        matchingWorkflow = workflow;
+      }
+    }
+
+    final WorkflowDetails workflowDetails = workflowsClient.showWorkflow(matchingWorkflow.getId());
+    String workflowInput1Id = null;
+    String workflowInput2Id = null;
+    for(final Map.Entry<String, WorkflowInputDefinition> inputEntry : workflowDetails.getInputs().entrySet()) {
+      final String label = inputEntry.getValue().getLabel();
+      if(label.equals("WorkflowInput1")) {
+        workflowInput1Id = inputEntry.getKey();
+      }
+      if(label.equals("WorkflowInput2")) {
+        workflowInput2Id = inputEntry.getKey();
+      }
+    }
+
+    final WorkflowInputs inputs = new WorkflowInputs();
+    inputs.setDestination(new WorkflowInputs.ExistingHistory(matchingHistory.getId()));
+    inputs.setWorkflowId(matchingWorkflow.getId());
+    inputs.setInput(workflowInput1Id, new WorkflowInputs.WorkflowInput(input1Id, WorkflowInputs.InputSourceType.HDA));
+    inputs.setInput(workflowInput2Id, new WorkflowInputs.WorkflowInput(input2Id, WorkflowInputs.InputSourceType.HDA));
+    final WorkflowOutputs output = workflowsClient.runWorkflow(inputs);    
+    System.out.println("Running workflow in history " + output.getHistoryId());
+    for(String outputId : output.getOutputIds()) {
+      System.out.println("  Workflow writing to output id " + outputId);
+    }
   }
 
 

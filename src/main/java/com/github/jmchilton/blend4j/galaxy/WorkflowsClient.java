@@ -3,8 +3,21 @@ package com.github.jmchilton.blend4j.galaxy;
 import java.util.List;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
+import com.sun.jersey.api.client.ClientResponse;
 
 public interface WorkflowsClient {
-  public List<Workflow> getWorkflows();
+  
+  List<Workflow> getWorkflows();
+  
+  WorkflowDetails showWorkflow(String workflowId);
+  
+  String exportWorkflow(String id);
+  
+  ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
+  
+  WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
   
 }
