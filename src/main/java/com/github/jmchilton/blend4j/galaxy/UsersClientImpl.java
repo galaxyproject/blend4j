@@ -1,8 +1,8 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.codehaus.jackson.type.TypeReference;
