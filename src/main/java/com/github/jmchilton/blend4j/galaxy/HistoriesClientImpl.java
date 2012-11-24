@@ -44,7 +44,7 @@ class HistoriesClientImpl extends ClientImpl implements HistoriesClient {
   }
   
   public Dataset showDataset(String historyId, String datasetId) {
-      return getWebResourceContents(historyId).path(datasetId).get(Dataset.class);
+    return setGalaxyUrl(getWebResourceContents(historyId).path(datasetId).get(Dataset.class));
   }
 
 }

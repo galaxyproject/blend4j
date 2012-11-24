@@ -37,4 +37,13 @@ class GalaxyInstanceImpl implements GalaxyInstance {
     return webResourceFactory.get();
   }
 
+  public String getGalaxyUrl() {
+    if(webResourceFactory instanceof DefaultWebResourceFactoryImpl) {
+      return ((DefaultWebResourceFactoryImpl) webResourceFactory).getGalaxyUrl();
+    } else {
+      final String uriString = webResourceFactory.get().getURI().toString();
+      return uriString.substring(0, uriString.length() - "api".length());
+    }
+  }
+
 }

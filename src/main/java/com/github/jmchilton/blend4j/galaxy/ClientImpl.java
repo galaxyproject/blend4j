@@ -1,5 +1,6 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import com.github.jmchilton.blend4j.galaxy.beans.HasGalaxyUrl;
 import java.io.IOException;
 import java.util.List;
 
@@ -87,6 +88,11 @@ class ClientImpl {
   
   protected <T> TypeReference<List<T>> listTypeReference(final Class<T> clazz) {
     return new TypeReference<List<T>>() {};
+  }
+  
+  protected <T extends HasGalaxyUrl> T setGalaxyUrl(final T bean) {
+    bean.setGalaxyUrl(galaxyInstance.getGalaxyUrl());
+    return bean;
   }
   
 }

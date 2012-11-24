@@ -30,7 +30,7 @@ public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
     return client.resource(getGalaxyUrl()).queryParam("key", getKey()).path(API_PATH);
   }
   
-  protected String getGalaxyUrl() {
+  String getGalaxyUrl() {
     return url;
   }
   
