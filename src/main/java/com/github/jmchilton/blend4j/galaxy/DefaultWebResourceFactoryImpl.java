@@ -17,7 +17,7 @@ public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
   private String key;
   
   public DefaultWebResourceFactoryImpl(final String url, final String key) {
-    this.url = url;
+    this.url = url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
     this.key = key;
   }
   
