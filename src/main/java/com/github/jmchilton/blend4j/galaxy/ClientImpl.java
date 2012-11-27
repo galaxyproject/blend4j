@@ -1,6 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.HasGalaxyUrl;
+import com.sun.jersey.api.client.ClientRequest;
 import java.io.IOException;
 import java.util.List;
 
@@ -11,6 +12,12 @@ import org.codehaus.jackson.type.TypeReference;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.multipart.BodyPart;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.file.FileDataBodyPart;
+import java.net.URLEncoder;
+import java.util.Map;
 
 class ClientImpl {
   private final GalaxyInstanceImpl galaxyInstance;
@@ -93,6 +100,24 @@ class ClientImpl {
   protected <T extends HasGalaxyUrl> T setGalaxyUrl(final T bean) {
     bean.setGalaxyUrl(galaxyInstance.getGalaxyUrl());
     return bean;
+  }
+  
+  protected ClientResponse multipartPost(final WebResource resource,
+                                         final Map<String, Object> fields,
+                                         final Iterable<FileDataBodyPart> bodyParts
+                                         ) {
+    final WebResource.Builder builder = resource.type(MediaType.MULTIPART_FORM_DATA_TYPE);
+    final FormDataMultiPart multiPart = new FormDataMultiPart();
+    for(final Map.Entry<String, Object> fieldEntry : fields.entrySet()) {
+      final FormDataBodyPart bp = new FormDataBodyPart(fieldEntry.getKey(), fieldEntry.getValue(), MediaType.APPLICATION_JSON_TYPE);
+      multiPart.bodyPart(bp);
+    }
+
+    for(final FileDataBodyPart bodyPart : bodyParts) {
+      bodyPart.setMediaType(MediaType.APPLICATION_OCTET_STREAM_TYPE);
+      multiPart.bodyPart(bodyPart);
+    }
+    return builder.post(ClientResponse.class, multiPart);
   }
   
 }
