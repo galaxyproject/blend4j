@@ -1,8 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import java.util.Properties;
-
 import com.github.jmchilton.blend4j.Config;
+import java.util.Properties;
 
 class TestGalaxyInstance {
   private static Properties properties = Config.loadBlendProperties();
@@ -23,7 +22,9 @@ class TestGalaxyInstance {
 
   static String getProperty(final String key, final String defaultValue) {
     String value = defaultValue;
-    if(properties.containsKey(key)) { 
+    if(System.getProperties().contains(key)) {
+      value = System.getProperties().getProperty(key);
+    } else if(properties.containsKey(key)) { 
       value = properties.getProperty(key);
     }
     return value;
