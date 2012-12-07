@@ -34,12 +34,11 @@ class ToolsClientImpl extends ClientImpl implements ToolsClient {
     final Map<String, String> uploadParameters = new HashMap<String, String>();
     uploadParameters.put("dbkey", dbKey);
     uploadParameters.put("file_type", fileType);
-    // Following line needed?
     uploadParameters.put("files_0|NAME", file.getName());
     uploadParameters.put("files_0|type", "upload_dataset");
-    uploadParameters.put("history_id", historyId);
     final Map<String, Object> requestParameters = new HashMap<String, Object>();
     requestParameters.put("tool_id", "upload1");
+    requestParameters.put("history_id", historyId);
     requestParameters.put("inputs", write(uploadParameters));
     requestParameters.put("type", "upload_dataset");        
     return multipartPost(getWebResource(), requestParameters, Arrays.asList(fdbp));
