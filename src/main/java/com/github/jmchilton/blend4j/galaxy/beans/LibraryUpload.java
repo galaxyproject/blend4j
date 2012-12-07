@@ -8,7 +8,23 @@ public class LibraryUpload extends GalaxyObject {
   private String fileType = "auto";
   private String dbkey = "?";
   private String content;
+  private String name;
   private final String uploadOption;
+  private CreateType createType = CreateType.FILE;
+  
+  public static enum CreateType {
+    FILE("file");
+    
+    private String value;
+    
+    private CreateType(final String value) {
+      this.value = value;
+    }
+    
+    public String toJson() {
+      return value;
+    }
+  }
   
   protected LibraryUpload(final String uploadOption) {
     this.uploadOption = uploadOption;
@@ -54,10 +70,23 @@ public class LibraryUpload extends GalaxyObject {
   public void setDbkey(String dbkey) {
     this.dbkey = dbkey;
   }
+  
+  public void setCreateType(final CreateType createType) {
+    this.createType = createType;
+  }
 
   @JsonProperty("create_type")
   public String getCreateType() {
-    return "file";
+    return createType.toJson();
+  }
+  
+  @JsonProperty("NAME")
+  public String getName() {
+    return name;
+  }
+  
+  public void setName(final String name) {
+    this.name = name;
   }
 
 }

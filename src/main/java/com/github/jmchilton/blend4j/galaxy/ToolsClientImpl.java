@@ -30,7 +30,6 @@ class ToolsClientImpl extends ClientImpl implements ToolsClient {
                                           final String fileType, 
                                           final String dbKey, 
                                           final File file) {
-    final FileDataBodyPart fdbp = new FileDataBodyPart("files_0|file_data", file);
     final Map<String, String> uploadParameters = new HashMap<String, String>();
     uploadParameters.put("dbkey", dbKey);
     uploadParameters.put("file_type", fileType);
@@ -40,8 +39,8 @@ class ToolsClientImpl extends ClientImpl implements ToolsClient {
     requestParameters.put("tool_id", "upload1");
     requestParameters.put("history_id", historyId);
     requestParameters.put("inputs", write(uploadParameters));
-    requestParameters.put("type", "upload_dataset");        
-    return multipartPost(getWebResource(), requestParameters, Arrays.asList(fdbp));
+    requestParameters.put("type", "upload_dataset");
+    return multipartPost(getWebResource(), requestParameters, prepareUpload(file));
   }
   
 }

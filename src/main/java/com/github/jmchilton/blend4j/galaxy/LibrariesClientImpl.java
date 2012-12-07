@@ -5,12 +5,15 @@ import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.DirectoryLibraryUpload;
+import com.github.jmchilton.blend4j.galaxy.beans.FileLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
 import com.github.jmchilton.blend4j.galaxy.beans.UrlLibraryUpload;
 import com.sun.jersey.api.client.ClientResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 class LibrariesClientImpl extends ClientImpl implements LibrariesClient {
 
@@ -71,4 +74,15 @@ class LibrariesClientImpl extends ClientImpl implements LibrariesClient {
     return super.create(getWebResource(libraryId).path("permissions"), payload);
   }
 
+  public ClientResponse uploadFile(String libraryId, FileLibraryUpload upload) {
+    final Map<String, Object> entityMap = new HashMap<String, Object>();
+    entityMap.put("file_type", upload.getFileType());
+    entityMap.put("db_key", upload.getDbkey());
+    entityMap.put("files_0|NAME", upload.getName());
+    entityMap.put("upload_option", upload.getUploadOption());
+    entityMap.put("folder_id", upload.getFolderId());
+    entityMap.put("create_type", upload.getCreateType());
+    return super.multipartPost(getWebResourceContents(libraryId), entityMap, prepareUpload(upload.getFile()));
+  }
+  
 }

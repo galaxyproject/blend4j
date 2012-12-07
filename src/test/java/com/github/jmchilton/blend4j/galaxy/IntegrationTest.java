@@ -44,11 +44,6 @@ public class IntegrationTest {
     final List<HistoryContents> contentsResponse = historyClient.showHistoryContents(foundHistory.getId());
   }
 
-  private void assert200(final ClientResponse clientResponse) {
-    Assert.assertTrue(clientResponse.getStatus() == 200,
-        String.format("Expected 200 status code, got %d. %s", clientResponse.getStatus(), clientResponse.getEntity(String.class)));
-  }
-
   @Test
   public void testLibraries() {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
@@ -134,16 +129,21 @@ public class IntegrationTest {
     assert200(setPermResponse);
   }
 
-  private LibrariesClient getLibrariesClient() {
+  static LibrariesClient getLibrariesClient() {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
     final LibrariesClient libraryClient = galaxyInstance.getLibrariesClient();
     return libraryClient;
   }
   
-  private Library createTestLibrary(final LibrariesClient client, final String name) {
+  static Library createTestLibrary(final LibrariesClient client, final String name) {
     final Library testLibrary = new Library();
     testLibrary.setName(name);
     return client.createLibrary(testLibrary);
   }
-  
+    
+  static void assert200(final ClientResponse clientResponse) {
+    Assert.assertTrue(clientResponse.getStatus() == 200,
+        String.format("Expected 200 status code, got %d. %s", clientResponse.getStatus(), clientResponse.getEntity(String.class)));
+  }
+
 }

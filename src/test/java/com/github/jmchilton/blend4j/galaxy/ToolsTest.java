@@ -21,7 +21,7 @@ public class ToolsTest {
   @Test
   public void testUpload() {
     final String historyId = getTestHistoryId();
-    final File testFile = getTestFile();
+    final File testFile = TestHelpers.getTestFile();
     final ClientResponse clientResponse = client.fileUploadRequest(historyId, "txt", "?", testFile);
     //assert clientResponse.getStatus() == 200 : clientResponse.getEntity(String.class);
   }
@@ -32,21 +32,6 @@ public class ToolsTest {
     final History newHistory = instance.getHistoriesClient().create(testHistory);
     final String historyId = newHistory.getId();
     return historyId;
-  }
-  
-  private File getTestFile() {
-    try {
-      final File tempFile = File.createTempFile("galxtest", ".txt");
-      final FileWriter writer = new FileWriter(tempFile);
-      try {
-        writer.write("Hello World!!!");
-      } finally {
-        writer.close();
-      }
-      return tempFile;
-    } catch(final IOException ioException) {
-      throw new RuntimeException(ioException);
-    }
   }
   
 }

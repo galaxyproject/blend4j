@@ -16,7 +16,9 @@ import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
+import java.io.File;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.Map;
 
 class ClientImpl {
@@ -104,7 +106,7 @@ class ClientImpl {
   
   protected ClientResponse multipartPost(final WebResource resource,
                                          final Map<String, Object> fields,
-                                         final Iterable<FileDataBodyPart> bodyParts
+                                         final Iterable<BodyPart> bodyParts
                                          ) {
     final WebResource.Builder builder = resource.type(MediaType.MULTIPART_FORM_DATA_TYPE);
     final FormDataMultiPart multiPart = new FormDataMultiPart();
@@ -113,11 +115,15 @@ class ClientImpl {
       multiPart.bodyPart(bp);
     }
 
-    for(final FileDataBodyPart bodyPart : bodyParts) {
+    for(final BodyPart bodyPart : bodyParts) {
       bodyPart.setMediaType(MediaType.APPLICATION_OCTET_STREAM_TYPE);
       multiPart.bodyPart(bodyPart);
     }
     return builder.post(ClientResponse.class, multiPart);
   }
   
+  protected Iterable<BodyPart> prepareUpload(final File file) {
+    final FileDataBodyPart fdbp = new FileDataBodyPart("files_0|file_data", file);
+    return Arrays.<BodyPart>asList(fdbp);
+  }
 }
