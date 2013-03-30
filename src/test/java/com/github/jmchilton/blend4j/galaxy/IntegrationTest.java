@@ -86,7 +86,7 @@ public class IntegrationTest {
     final LibraryContent rootFolder = client.getRootFolder(testLibrary.getId());
 
     final DirectoryLibraryUpload upload2 = new DirectoryLibraryUpload();
-    upload.setContent("test-data/visualization/phyloviz/");
+    upload2.setContent("test-data/visualization/phyloviz/");
     upload2.setFolderId(rootFolder.getId());
     final ClientResponse uploadResponse2 = client.uploadServerDirectoryRequest(testLibrary.getId(), upload2);
     assert200(uploadResponse2);
