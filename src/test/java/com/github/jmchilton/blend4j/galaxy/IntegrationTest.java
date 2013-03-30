@@ -64,32 +64,32 @@ public class IntegrationTest {
     final LibraryContent rootFolderContent = contents.get(0);
     Assert.assertEquals(rootFolderContent.getName(), "/");
   }
-  
+
   @Test
   public void testFilesystemPathsLibraryUpload() {
     final LibrariesClient client = getLibrariesClient();
     final Library testLibrary = createTestLibrary(client, "test-filesystem-paths" + UUID.randomUUID().toString());
     final LibraryContent rootFolder = client.getRootFolder(testLibrary.getId());
     final FilesystemPathsLibraryUpload upload = new FilesystemPathsLibraryUpload();
-    upload.setContent("test-data/variant_detection/");
+    upload.setContent("test-data/visualization/phyloviz/");
     upload.setLinkData(true);
     upload.setFolderId(rootFolder.getId());
     final ClientResponse uploadResponse = client.uploadFileFromUrl(testLibrary.getId(), upload);
-    assert200(uploadResponse);    
-    
+    assert200(uploadResponse);
+
   }
-  
+
   @Test
   public void testDirectoryLibraryUpload() {
     final LibrariesClient client = getLibrariesClient();
     final Library testLibrary = createTestLibrary(client, "test-dir-upload" + UUID.randomUUID().toString());
     final LibraryContent rootFolder = client.getRootFolder(testLibrary.getId());
-    
+
     final DirectoryLibraryUpload upload2 = new DirectoryLibraryUpload();
-    upload2.setContent("test-data/variant_detection");
+    upload.setContent("test-data/visualization/phyloviz/");
     upload2.setFolderId(rootFolder.getId());
     final ClientResponse uploadResponse2 = client.uploadServerDirectoryRequest(testLibrary.getId(), upload2);
-    assert200(uploadResponse2);    
+    assert200(uploadResponse2);
   }
 
   @Test
@@ -134,13 +134,13 @@ public class IntegrationTest {
     final LibrariesClient libraryClient = galaxyInstance.getLibrariesClient();
     return libraryClient;
   }
-  
+
   static Library createTestLibrary(final LibrariesClient client, final String name) {
     final Library testLibrary = new Library();
     testLibrary.setName(name);
     return client.createLibrary(testLibrary);
   }
-    
+
   static void assert200(final ClientResponse clientResponse) {
     Assert.assertTrue(clientResponse.getStatus() == 200,
         String.format("Expected 200 status code, got %d. %s", clientResponse.getStatus(), clientResponse.getEntity(String.class)));
