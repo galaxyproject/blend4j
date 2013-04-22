@@ -20,5 +20,4 @@ public class History extends GalaxyObject {
   public void setName(String name) {
     this.name = name;
   }
-
 }

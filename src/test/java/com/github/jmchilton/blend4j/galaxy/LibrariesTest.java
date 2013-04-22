@@ -11,7 +11,6 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 public class LibrariesTest {
-
   @Test
   public void testPathPaste() {
     final LibrariesClient client = IntegrationTest.getLibrariesClient();
@@ -28,7 +27,7 @@ public class LibrariesTest {
     final ClientResponse uploadResponse = client.uploadFileFromUrl(testLibrary.getId(), upload);
     IntegrationTest.assert200(uploadResponse);
   }
-  
+
   @Test
   public void testFileUpload() {
     final File testFile = TestHelpers.getTestFile();
@@ -43,5 +42,4 @@ public class LibrariesTest {
     final ClientResponse uploadResponse = client.uploadFile(testLibrary.getId(), upload);
     IntegrationTest.assert200(uploadResponse);
   }
-  
 }

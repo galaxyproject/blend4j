@@ -9,7 +9,6 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.sun.jersey.api.client.ClientResponse;
 
 public interface HistoriesClient {
-
   ClientResponse createRequest(final History history);
 
   History create(History history);
@@ -17,11 +16,10 @@ public interface HistoriesClient {
   List<History> getHistories();
 
   ClientResponse showHistoryRequest(String historyId);
-  
+
   HistoryDetails showHistory(String historyId);
 
   List<HistoryContents> showHistoryContents(String historyId);
 
   Dataset showDataset(String historyId, String datasetId);
-
 }

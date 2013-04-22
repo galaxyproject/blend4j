@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 class ToolsClientImpl extends ClientImpl implements ToolsClient {
-
   ToolsClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "tools");
   }
@@ -25,10 +24,10 @@ class ToolsClientImpl extends ClientImpl implements ToolsClient {
     // XXX Datasets not yet properly returned from Tool creation
     return new ArrayList();
   }
-  
-  public ClientResponse fileUploadRequest(final String historyId, 
-                                          final String fileType, 
-                                          final String dbKey, 
+
+  public ClientResponse fileUploadRequest(final String historyId,
+                                          final String fileType,
+                                          final String dbKey,
                                           final File file) {
     final Map<String, String> uploadParameters = new HashMap<String, String>();
     uploadParameters.put("dbkey", dbKey);
@@ -42,5 +41,4 @@ class ToolsClientImpl extends ClientImpl implements ToolsClient {
     requestParameters.put("type", "upload_dataset");
     return multipartPost(getWebResource(), requestParameters, prepareUpload(file));
   }
-  
 }

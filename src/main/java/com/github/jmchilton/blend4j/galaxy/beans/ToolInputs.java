@@ -20,17 +20,17 @@ public class ToolInputs {
   }
 
   @JsonProperty("tool_id")
-  public String getToolId () {
+  public String getToolId() {
     return toolId;
   }
 
   @JsonProperty("inputs")
-  public Map<String, String> getInputs () {
+  public Map<String, String> getInputs() {
     return inputs;
   }
 
   @JsonProperty("history_id")
-  public String getHistoryId (){
+  public String getHistoryId() {
     return historyId;
   }
 }

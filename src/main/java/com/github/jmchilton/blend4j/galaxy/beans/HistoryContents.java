@@ -14,5 +14,4 @@ public class HistoryContents extends History {
   public void setType(String type) {
     this.type = type;
   }
-  
 }

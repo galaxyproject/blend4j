@@ -18,15 +18,13 @@ public class HistoryDetails extends History {
   public void setState(String state) {
     this.state = state;
   }
-  
+
   @JsonProperty("state_ids")
   public void setStateIds(final Map<String, List<String>> stateIds) {
     this.stateIds = stateIds;
   }
-  
+
   public Map<String, List<String>> getStateIds() {
     return stateIds;
   }
-
-  
 }

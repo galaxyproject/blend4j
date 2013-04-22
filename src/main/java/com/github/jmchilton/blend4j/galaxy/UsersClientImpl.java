@@ -22,25 +22,24 @@ class UsersClientImpl extends ClientImpl implements UsersClient {
     // Handles both User lists and single user retrieval
     try {
       return super.get(USER_LIST_TYPE_REFERENCE);
-    } catch (RuntimeException e) {
+    } catch(RuntimeException e) {
       List out = new ArrayList();
       out.add(super.getWebResource().get(User.class));
       return out;
     }
   }
-  
+
   public ClientResponse createUserRequest(final String remoteUserEmail) {
     final Map<String, String> map = new HashMap<String, String>();
     map.put("remote_user_email", remoteUserEmail);
     return super.getWebResource().post(ClientResponse.class, write(map));
   }
-  
+
   public User createUser(final String remoteUserEmail) {
     return createUserRequest(remoteUserEmail).getEntity(User.class);
   }
 
   public User showUser(String id) {
     return super.show(id, User.class);
-  }  
-  
+  }
 }

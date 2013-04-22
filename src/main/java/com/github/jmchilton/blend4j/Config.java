@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Config {
-  
   public static Properties loadBlendProperties() {
     final Properties properties = new Properties();
     final File blendPropertiesFile = getBlendPropertiesFile();
@@ -18,7 +17,7 @@ public class Config {
       } catch(IOException e) {
         e.printStackTrace();
       } finally {
-        try { 
+        try {
           if(fileInputStream != null) {
             fileInputStream.close();
           }
@@ -38,5 +37,4 @@ public class Config {
     }
     return blendPropertiesFile;
   }
-  
 }

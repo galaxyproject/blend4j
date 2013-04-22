@@ -35,5 +35,4 @@ public class LibraryFolder extends GalaxyObject {
   public String getCreateType() {
     return "folder";
   }
-
 }

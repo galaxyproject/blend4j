@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class GalaxyObject {
   private String id;
   private String url;
-  
+
   @JsonProperty("id")
   public void setId(String id) {
     this.id = id;
@@ -23,10 +23,9 @@ public class GalaxyObject {
   public String getUrl() {
     return url;
   }
-  
+
   @JsonIgnore
   public String getId() {
     return id;
   }
-  
 }

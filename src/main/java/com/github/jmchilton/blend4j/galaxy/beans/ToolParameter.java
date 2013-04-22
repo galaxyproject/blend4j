@@ -2,13 +2,12 @@ package com.github.jmchilton.blend4j.galaxy.beans;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-/**                                                                                                                                                                          
- *                                                                                                                                                                           
+/**
+ *
  * @author Mark Logghe
- *                                                                                                                                                                           
+ *
  */
 public class ToolParameter {
-
   private String parameterName;
   private String parameterValue;
 

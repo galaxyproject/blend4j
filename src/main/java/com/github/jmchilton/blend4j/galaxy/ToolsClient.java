@@ -9,12 +9,10 @@ import java.io.File;
 import java.util.List;
 
 public interface ToolsClient {
-
   List<Dataset> create(History history, ToolInputs inputs);
 
-  ClientResponse fileUploadRequest(String historyId, 
-                                   String fileType, 
-                                   String dbKey, 
+  ClientResponse fileUploadRequest(String historyId,
+                                   String fileType,
+                                   String dbKey,
                                    File file);
-
 }

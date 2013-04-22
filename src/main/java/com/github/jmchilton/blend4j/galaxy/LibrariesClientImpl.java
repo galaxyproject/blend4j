@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 class LibrariesClientImpl extends ClientImpl implements LibrariesClient {
-
   LibrariesClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "libraries");
   }
@@ -39,13 +38,13 @@ class LibrariesClientImpl extends ClientImpl implements LibrariesClient {
   public ClientResponse uploadFileFromUrlRequest(final String libraryId, final UrlLibraryUpload upload) {
     return super.create(getWebResourceContents(libraryId), upload);
   }
-  
+
   public ClientResponse uploadServerDirectoryRequest(final String libraryId, final DirectoryLibraryUpload upload) {
     return super.create(getWebResourceContents(libraryId), upload);
   }
-  
+
   public ClientResponse uploadFilesystemPathsRequest(final String libraryId, final FilesystemPathsLibraryUpload upload) {
-    return super.create(getWebResourceContents(libraryId), upload);    
+    return super.create(getWebResourceContents(libraryId), upload);
   }
 
   public LibraryContent getRootFolder(final String libraryId) {
@@ -84,5 +83,4 @@ class LibrariesClientImpl extends ClientImpl implements LibrariesClient {
     entityMap.put("create_type", upload.getCreateType());
     return super.multipartPost(getWebResourceContents(libraryId), entityMap, prepareUpload(upload.getFile()));
   }
-  
 }

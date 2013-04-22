@@ -20,15 +20,15 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 class WorkflowsClientImpl extends ClientImpl implements WorkflowsClient {
-
   public WorkflowsClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "workflows");
   }
 
   public List<Workflow> getWorkflows() {
-    return get(new TypeReference<List<Workflow>>(){});
+    return get(new TypeReference<List<Workflow>>() {
+    });
   }
-  
+
   public ClientResponse showWorkflowResponse(final String id) {
     return super.show(id, ClientResponse.class);
   }
@@ -36,7 +36,7 @@ class WorkflowsClientImpl extends ClientImpl implements WorkflowsClient {
   public WorkflowDetails showWorkflow(final String id) {
     return super.show(id, WorkflowDetails.class);
   }
-  
+
   public String exportWorkflow(final String id) {
     WebResource webResource = getWebResource().path("download").path(id);
     return webResource.get(String.class);
@@ -45,11 +45,11 @@ class WorkflowsClientImpl extends ClientImpl implements WorkflowsClient {
   public ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs) {
     return super.create(workflowInputs);
   }
-  
+
   public WorkflowOutputs runWorkflow(final WorkflowInputs workflowInputs) {
     return runWorkflowResponse(workflowInputs).getEntity(WorkflowOutputs.class);
   }
-  
+
   public ClientResponse importWorkflowResponse(final String json) {
     final String payload = String.format("{\"workflow\": %s}", json);
     return create(getWebResource().path("upload"), payload);
@@ -58,5 +58,4 @@ class WorkflowsClientImpl extends ClientImpl implements WorkflowsClient {
   public Workflow importWorkflow(String json) {
     return importWorkflowResponse(json).getEntity(Workflow.class);
   }
-  
 }

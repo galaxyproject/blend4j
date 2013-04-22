@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 class TestHelpers {
-    
   static File getTestFile() {
     try {
       final File tempFile = File.createTempFile("galxtest", ".txt");
@@ -20,5 +19,4 @@ class TestHelpers {
       throw new RuntimeException(ioException);
     }
   }
-  
 }

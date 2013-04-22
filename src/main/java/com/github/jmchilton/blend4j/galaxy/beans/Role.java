@@ -10,5 +10,4 @@ public class Role extends GalaxyObject {
   public void setName(String name) {
     this.name = name;
   }
-  
 }

@@ -22,26 +22,26 @@ public class WorkflowsTest {
   private static final String TEST_WORKFLOW_NAME = "TestWorkflow1";
   private GalaxyInstance instance;
   private WorkflowsClient client;
-  
+
   @BeforeMethod
   public void init() {
     instance = TestGalaxyInstance.get();
     client = instance.getWorkflowsClient();
   }
-  
+
   @Test
   public void testExportWorkflow() {
     final String testWorkflowId = getTestWorkflowId();
     client.exportWorkflow(testWorkflowId);
   }
-  
+
   @Test
   public void testImportExportWorkflow() {
     final String testWorkflowId = getTestWorkflowId();
     final String workflowJson = client.exportWorkflow(testWorkflowId);
     final Workflow importedWorkflow = client.importWorkflow(workflowJson);
   }
-  
+
   @Test
   public void testRunWorkflow() throws IOException {
     // Find history
@@ -88,7 +88,7 @@ public class WorkflowsTest {
       System.out.println("  Workflow Output ID " + outputId);
     }
   }
-  
+
   private String getTestWorkflowId() {
     Workflow matchingWorkflow = null;
     for(Workflow workflow : client.getWorkflows()) {
@@ -98,5 +98,4 @@ public class WorkflowsTest {
     }
     return matchingWorkflow.getId();
   }
-    
 }

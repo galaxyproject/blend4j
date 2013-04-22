@@ -15,7 +15,6 @@ public class LibraryUpload extends GalaxyObject {
 
   public static enum CreateType {
     FILE("file");
-
     private String value;
 
     private CreateType(final String value) {
@@ -81,7 +80,7 @@ public class LibraryUpload extends GalaxyObject {
     return createType.toJson();
   }
 
-  @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+  @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
   @JsonProperty("NAME")
   public String getName() {
     return name;
@@ -90,5 +89,4 @@ public class LibraryUpload extends GalaxyObject {
   public void setName(final String name) {
     this.name = name;
   }
-
 }

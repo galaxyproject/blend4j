@@ -5,9 +5,9 @@ import java.util.Properties;
 
 class TestGalaxyInstance {
   private static Properties properties = Config.loadBlendProperties();
-  
+
   static GalaxyInstance get() {
-    final String galaxyInstanceUrl = getTestInstanceUrl(); 
+    final String galaxyInstanceUrl = getTestInstanceUrl();
     final String galaxyApiKey = getTestApiKey();
     return GalaxyInstanceFactory.get(galaxyInstanceUrl, galaxyApiKey);
   }
@@ -24,10 +24,9 @@ class TestGalaxyInstance {
     String value = defaultValue;
     if(System.getProperties().contains(key)) {
       value = System.getProperties().getProperty(key);
-    } else if(properties.containsKey(key)) { 
+    } else if(properties.containsKey(key)) {
       value = properties.getProperty(key);
     }
     return value;
   }
-  
 }

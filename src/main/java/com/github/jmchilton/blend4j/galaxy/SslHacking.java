@@ -6,7 +6,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 
 public class SslHacking {
-
   public static void disableCertificateCheck() {
     javax.net.ssl.TrustManager x509 = new javax.net.ssl.X509TrustManager() {
       public void checkClientTrusted(java.security.cert.X509Certificate[] arg0, String arg1) throws java.security.cert.CertificateException {
@@ -24,8 +23,8 @@ public class SslHacking {
     SSLContext ctx = null;
     try {
       ctx = SSLContext.getInstance("SSL");
-      ctx.init(null, new javax.net.ssl.TrustManager[]{x509}, null);
-    } catch (java.security.GeneralSecurityException ex) {
+      ctx.init(null, new javax.net.ssl.TrustManager[] {x509}, null);
+    } catch(java.security.GeneralSecurityException ex) {
     }
 
 

@@ -11,13 +11,13 @@ import org.testng.annotations.Test;
 public class ToolsTest {
   private GalaxyInstance instance;
   private ToolsClient client;
-  
+
   @BeforeMethod
   public void init() {
     instance = TestGalaxyInstance.get();
     client = instance.getToolsClient();
   }
-  
+
   @Test
   public void testUpload() {
     final String historyId = getTestHistoryId();
@@ -25,7 +25,7 @@ public class ToolsTest {
     final ClientResponse clientResponse = client.fileUploadRequest(historyId, "txt", "?", testFile);
     //assert clientResponse.getStatus() == 200 : clientResponse.getEntity(String.class);
   }
-  
+
   private String getTestHistoryId() {
     final History testHistory = new History();
     testHistory.setName("Upload Test History");
@@ -33,5 +33,4 @@ public class ToolsTest {
     final String historyId = newHistory.getId();
     return historyId;
   }
-  
 }

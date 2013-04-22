@@ -4,10 +4,10 @@ public class Library extends GalaxyObject {
   private String name = "";
   private String description = "";
   private String synopsis = "";
-  
+
   public Library() {
   }
-  
+
   public Library(final String name) {
     this.name = name;
   }
@@ -35,5 +35,4 @@ public class Library extends GalaxyObject {
   public void setSynopsis(String synopsis) {
     this.synopsis = synopsis;
   }
-
 }

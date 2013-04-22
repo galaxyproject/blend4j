@@ -19,5 +19,4 @@ public class LibraryContent extends GalaxyObject {
   public void setType(String type) {
     this.type = type;
   }
-
 }

@@ -9,19 +9,17 @@ import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.sun.jersey.api.client.ClientResponse;
 
 public interface WorkflowsClient {
-  
   List<Workflow> getWorkflows();
-  
+
   WorkflowDetails showWorkflow(String workflowId);
-  
+
   String exportWorkflow(String id);
-  
+
   Workflow importWorkflow(String json);
-  
+
   ClientResponse importWorkflowResponse(String json);
-  
+
   ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
-  
+
   WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
-  
 }

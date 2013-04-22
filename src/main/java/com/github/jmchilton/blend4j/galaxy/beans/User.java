@@ -18,14 +18,12 @@ public class User extends GalaxyObject {
 
   @JsonProperty("nice_total_disk_usage")
   public void setNiceTotalDiskUsage(final String niceTotalDiskUsage) {
-    
   }
-  
-  @JsonProperty("total_disk_usage")  
+
+  @JsonProperty("total_disk_usage")
   public void setTotalDiskUsage(final String totalDiskUsage) {
-    
   }
-  
+
   public void setUsername(final String username) {
     this.username = username;
   }
@@ -33,5 +31,4 @@ public class User extends GalaxyObject {
   public String getUsername() {
     return username;
   }
-  
 }

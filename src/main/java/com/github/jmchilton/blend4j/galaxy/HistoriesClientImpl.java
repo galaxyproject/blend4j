@@ -11,7 +11,6 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.sun.jersey.api.client.ClientResponse;
 
 class HistoriesClientImpl extends ClientImpl implements HistoriesClient {
-
   HistoriesClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "histories");
   }
@@ -33,18 +32,17 @@ class HistoriesClientImpl extends ClientImpl implements HistoriesClient {
   public ClientResponse showHistoryRequest(String id) {
     return super.show(id, ClientResponse.class);
   }
-  
+
   public HistoryDetails showHistory(String id) {
     return super.show(id, HistoryDetails.class);
   }
 
   public List<HistoryContents> showHistoryContents(String historyId) {
-    return get(getWebResourceContents(historyId), new TypeReference<List<HistoryContents>>()
-               {});
+    return get(getWebResourceContents(historyId), new TypeReference<List<HistoryContents>>() {
+    });
   }
-  
+
   public Dataset showDataset(String historyId, String datasetId) {
     return setGalaxyUrl(getWebResourceContents(historyId).path(datasetId).get(Dataset.class));
   }
-
 }

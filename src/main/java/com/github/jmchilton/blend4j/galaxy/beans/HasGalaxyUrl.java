@@ -4,5 +4,4 @@ public interface HasGalaxyUrl {
   public void setGalaxyUrl(String galaxyUrl);
 
   public String getGalaxyUrl();
-  
 }

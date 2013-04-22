@@ -19,7 +19,6 @@ import com.github.jmchilton.blend4j.galaxy.beans.User;
 import com.sun.jersey.api.client.ClientResponse;
 
 public class IntegrationTest {
-
   @Test
   public void checkHistories() {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
@@ -143,7 +142,6 @@ public class IntegrationTest {
 
   static void assert200(final ClientResponse clientResponse) {
     Assert.assertTrue(clientResponse.getStatus() == 200,
-        String.format("Expected 200 status code, got %d. %s", clientResponse.getStatus(), clientResponse.getEntity(String.class)));
+                      String.format("Expected 200 status code, got %d. %s", clientResponse.getStatus(), clientResponse.getEntity(String.class)));
   }
-
 }

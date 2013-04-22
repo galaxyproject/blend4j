@@ -49,13 +49,13 @@ public class WorkflowInputs {
   }
 
   @JsonProperty("parameters")
-  @JsonSerialize(include = JsonSerialize.Inclusion.NON_EMPTY)
+  @JsonSerialize(include=JsonSerialize.Inclusion.NON_EMPTY)
   public Map<String, ToolParameter> getParameters() {
     return parameters;
   }
 
   @JsonProperty("no_add_to_history")
-  @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+  @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
   public String getNoAddToHistory() {
     return importInputsToHistory ? null : "true";
   }
@@ -73,7 +73,6 @@ public class WorkflowInputs {
   }
 
   public static class NewHistory extends WorkflowDestination {
-
     private String name;
 
     public NewHistory(final String name) {
@@ -87,7 +86,6 @@ public class WorkflowInputs {
   }
 
   public static class ExistingHistory extends WorkflowDestination {
-
     private String id;
 
     public ExistingHistory(final String id) {
@@ -101,7 +99,6 @@ public class WorkflowInputs {
   }
 
   public static class WorkflowInput {
-
     private String id;
     private InputSourceType inputSourceType;
 
@@ -121,7 +118,6 @@ public class WorkflowInputs {
   }
 
   public enum InputSourceType {
-
     LDDA("ldda"), LD("ld"), HDA("hda");
     private final String rawValue;
 
