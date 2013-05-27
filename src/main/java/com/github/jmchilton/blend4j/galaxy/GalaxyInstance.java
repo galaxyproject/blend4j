@@ -18,4 +18,6 @@ public interface GalaxyInstance {
   WebResource getWebResource();
 
   String getGalaxyUrl();
+  
+  String getApiKey();
 }

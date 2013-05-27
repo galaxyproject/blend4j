@@ -29,14 +29,14 @@ public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
    */
   public WebResource get() {
     final com.sun.jersey.api.client.Client client = getJerseyClient();
-    return client.resource(getGalaxyUrl()).queryParam("key", getKey()).path(API_PATH);
+    return client.resource(getGalaxyUrl()).queryParam("key", getApiKey()).path(API_PATH);
   }
 
-  String getGalaxyUrl() {
+  public String getGalaxyUrl() {
     return url;
   }
 
-  protected String getKey() {
+  public String getApiKey() {
     return key;
   }
 

@@ -102,6 +102,7 @@ class ClientImpl {
 
   protected <T extends HasGalaxyUrl> T setGalaxyUrl(final T bean) {
     bean.setGalaxyUrl(galaxyInstance.getGalaxyUrl());
+    bean.setApiKey(galaxyInstance.getApiKey());
     return bean;
   }
 

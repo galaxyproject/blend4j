@@ -8,4 +8,9 @@ public interface WebResourceFactory {
    * desired Galaxy key.
    */
   public WebResource get();
+  
+  public String getGalaxyUrl();
+  
+  public String getApiKey();
+
 }

@@ -13,6 +13,7 @@ public class Dataset extends HistoryDetails implements HasGalaxyUrl {
   private String genomeBuild;
   private boolean visible;
   private String galaxyUrl;
+  private String apiKey;
 
   public boolean getDeleted() {
     return deleted;
@@ -50,7 +51,10 @@ public class Dataset extends HistoryDetails implements HasGalaxyUrl {
 
   @JsonIgnore
   public String getFullDownloadUrl() {
-    return getGalaxyUrl() + getDownloadUrl();
+    return String.format("%s%s?key=%s",
+                         getGalaxyUrl(),
+                         getDownloadUrl(),
+                         this.apiKey);
   }
 
   public String getGenomeBuild() {
@@ -69,6 +73,11 @@ public class Dataset extends HistoryDetails implements HasGalaxyUrl {
   @JsonProperty("file_size")
   public void setFileSize(Integer fileSize) {
     this.fileSize = fileSize;
+  }
+  
+  @JsonIgnore
+  public void setApiKey(final String apiKey) {
+    this.apiKey = apiKey;
   }
 
   @JsonIgnore
