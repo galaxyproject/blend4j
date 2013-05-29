@@ -18,6 +18,7 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
 import java.io.File;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -122,9 +123,20 @@ class ClientImpl {
     }
     return builder.post(ClientResponse.class, multiPart);
   }
+  
+  protected Iterable<BodyPart> prepareUploads(final Iterable<File> files) {
+    final List<BodyPart> bodyParts = new ArrayList<BodyPart>();
+    int index = 0;
+    for(final File file : files) {
+      final String paramName = String.format("files_%d|file_data", index++);
+      final FileDataBodyPart fdbp = new FileDataBodyPart(paramName, file);
+      bodyParts.add(fdbp);
+    }
+    return bodyParts;
+  }
 
   protected Iterable<BodyPart> prepareUpload(final File file) {
-    final FileDataBodyPart fdbp = new FileDataBodyPart("files_0|file_data", file);
-    return Arrays.<BodyPart>asList(fdbp);
+    return prepareUploads(Arrays.asList(file));
   }
+
 }

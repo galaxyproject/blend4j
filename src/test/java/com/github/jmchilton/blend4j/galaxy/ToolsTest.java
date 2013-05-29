@@ -1,10 +1,9 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import com.github.jmchilton.blend4j.galaxy.ToolsClient.FileUploadRequest;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -22,7 +21,8 @@ public class ToolsTest {
   public void testUpload() {
     final String historyId = getTestHistoryId();
     final File testFile = TestHelpers.getTestFile();
-    final ClientResponse clientResponse = client.fileUploadRequest(historyId, "txt", "?", testFile);
+    final FileUploadRequest request = new FileUploadRequest(historyId, testFile);
+    final ClientResponse clientResponse = client.uploadRequest(request);
     //assert clientResponse.getStatus() == 200 : clientResponse.getEntity(String.class);
   }
 
