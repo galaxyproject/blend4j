@@ -120,15 +120,14 @@ class ClientImpl {
     for(final BodyPart bodyPart : bodyParts) {
       bodyPart.setMediaType(MediaType.APPLICATION_OCTET_STREAM_TYPE);
       multiPart.bodyPart(bodyPart);
-    }
+    }    
     return builder.post(ClientResponse.class, multiPart);
   }
   
   protected Iterable<BodyPart> prepareUploads(final Iterable<File> files) {
     final List<BodyPart> bodyParts = new ArrayList<BodyPart>();
-    int index = 0;
     for(final File file : files) {
-      final String paramName = String.format("files_%d|file_data", index++);
+      final String paramName = "files_0|file_data";
       final FileDataBodyPart fdbp = new FileDataBodyPart(paramName, file);
       bodyParts.add(fdbp);
     }

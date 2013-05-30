@@ -8,7 +8,9 @@ import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface ToolsClient {
   List<Dataset> create(History history, ToolInputs inputs);
@@ -57,7 +59,16 @@ public interface ToolsClient {
     private String dbKey = "?";
     private String toolId = "upload1";
     // Specify datasetName instead of file name, useful for multiple file uploads.
-    private String datasetName = null; 
+    private String datasetName = null;
+    private Map<String, String> extraParameters = new HashMap<String, String>();
+    
+    public Map<String, String> getExtraParameters() {
+      return extraParameters;
+    }
+    
+    public void setExtraParameters(final Map<String, String> extraParameters) {
+      this.extraParameters = extraParameters;
+    }
     
     private static Iterable<UploadFile> convertFiles(final Iterable<File> files) {
       final List<UploadFile> uploadFiles = new ArrayList<UploadFile>();

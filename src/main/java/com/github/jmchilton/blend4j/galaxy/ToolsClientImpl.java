@@ -36,16 +36,13 @@ class ToolsClientImpl extends ClientImpl implements ToolsClient {
     final Map<String, String> uploadParameters = new HashMap<String, String>();
     final String datasetName = request.getDatasetName();
     if(datasetName != null) {
-      uploadParameters.put("NAME", datasetName);
+      uploadParameters.put("files_0|NAME", datasetName);
+    } else {
+      uploadParameters.put("files_0|NAME", request.getFiles().iterator().next().getName());
     }
     uploadParameters.put("dbkey", request.getDbKey());
     uploadParameters.put("file_type", request.getFileType());
-    int index = 0;
-    for(final UploadFile file : request.getFiles()) {  
-      uploadParameters.put(String.format("files_%d|NAME", index), file.getName());
-      uploadParameters.put(String.format("files_%d|type", index), "upload_dataset");
-      index++;
-    }
+    uploadParameters.putAll(request.getExtraParameters());
     final Map<String, Object> requestParameters = new HashMap<String, Object>();
     requestParameters.put("tool_id", request.getToolId());
     requestParameters.put("history_id", request.getHistoryId());
