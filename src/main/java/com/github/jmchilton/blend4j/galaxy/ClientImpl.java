@@ -79,12 +79,17 @@ class ClientImpl {
             .accept(MediaType.APPLICATION_JSON)
             .post(ClientResponse.class, object);
   }
-
-  protected <T> List<T> get(final WebResource webResource,
-                            final TypeReference<List<T>> typeReference) {
+  
+  protected String getJson(final WebResource webResource) {
     final String json = webResource
             .accept(MediaType.APPLICATION_JSON)
             .get(String.class);
+    return json;
+  }
+
+  protected <T> List<T> get(final WebResource webResource,
+                            final TypeReference<List<T>> typeReference) {
+    final String json = getJson(webResource);
     return readJson(json, typeReference);
   }
 

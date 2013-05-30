@@ -32,6 +32,10 @@ class GalaxyInstanceImpl implements GalaxyInstance {
   public ToolsClient getToolsClient() {
     return new ToolsClientImpl(this);
   }
+  
+  public ConfigurationClient getConfigurationClient() {
+    return new ConfigurationClientImpl(this);
+  }
 
   public WebResource getWebResource() {
     return webResourceFactory.get();

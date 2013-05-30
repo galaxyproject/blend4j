@@ -15,6 +15,8 @@ public interface GalaxyInstance {
 
   ToolsClient getToolsClient();
 
+  ConfigurationClient getConfigurationClient();
+    
   WebResource getWebResource();
 
   String getGalaxyUrl();
