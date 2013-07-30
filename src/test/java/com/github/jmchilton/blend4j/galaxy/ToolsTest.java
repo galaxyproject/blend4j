@@ -19,18 +19,11 @@ public class ToolsTest {
 
   @Test
   public void testUpload() {
-    final String historyId = getTestHistoryId();
+    final String historyId = TestHelpers.getTestHistoryId(instance);
     final File testFile = TestHelpers.getTestFile();
     final FileUploadRequest request = new FileUploadRequest(historyId, testFile);
     final ClientResponse clientResponse = client.uploadRequest(request);
     //assert clientResponse.getStatus() == 200 : clientResponse.getEntity(String.class);
   }
 
-  private String getTestHistoryId() {
-    final History testHistory = new History();
-    testHistory.setName("Upload Test History");
-    final History newHistory = instance.getHistoriesClient().create(testHistory);
-    final String historyId = newHistory.getId();
-    return historyId;
-  }
 }
