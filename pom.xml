@@ -8,6 +8,16 @@
   <version>0.1-SNAPSHOT</version>
   <name>blend4j</name>
   <description>blend4j is a JVM partial reimplemenation of the Python library bioblend (http://bioblend.readthedocs.org/en/latest/) for interacting with Galaxy, CloudMan, and BioCloudCentral.</description>
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+  <scm>
+    <connection>scm:git:git@github.com:jmchilton/blend4j.git</connection>
+    <developerConnection>scm:git:git@github.com:jmchilton/blend4j.git</developerConnection>
+    <url>git@github.com:jmchilton/blend4j.git</url>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>org.testng</groupId>
@@ -52,6 +62,21 @@
     </dependency>
   </dependencies>
   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -66,4 +91,5 @@
       </plugins>
     </pluginManagement>
   </build>
+
 </project>
