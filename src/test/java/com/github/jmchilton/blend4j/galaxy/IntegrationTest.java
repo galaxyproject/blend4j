@@ -19,6 +19,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.User;
 import com.sun.jersey.api.client.ClientResponse;
 
 public class IntegrationTest {
+
   @Test
   public void checkHistories() {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();

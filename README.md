@@ -2,16 +2,11 @@
 
 # About
 
-blend4j is a partial reimplemenation of the Python library [blend][1]
-for the JVM. blend for Python is a library for scripting interactions
-with Galaxy, CloudMan, and BioCloudCentral. 
+blend4j is a partial reimplemenation of the Python library [bioblend][1]
+for the JVM. bioblend for Python is a library for scripting interactions
+with Galaxy, CloudMan, and BioCloudCentral.
 
-blend4j will focus initially on reimplementation the particulars parts
-of blend I am in immediate need of (a subset of the Galaxy API
-functionality), but hopefully over time it will grow into feature
-parity with blend.
-
-[1]: https://github.com/afgane/blend
+[1]: https://github.com/afgane/bioblend
 
 # Usage
 
@@ -233,13 +228,43 @@ blend4j can be built with [Apache Maven][b1].
         % cd blend4j
         % mvn compile
 
+# Testing
+
+[![Build Status](https://travis-ci.org/jmchilton/blend4j.png?branch=master)](https://travis-ci.org/jmchilton/blend4j)
+
+blend4j can be tested with [Apache Maven][b1].
+
+        % mvn test 
+
+In this default mode, blend4j will use the [galaxy-bootstrap][t1] library to download, configure,
+and run an instance of Galaxy for testing. blend4j can be tested against an existing instance
+using the following Java system properties.
+
+        % mvn -Dtest.api.key=<key> -Dtest.galaxy.instance=<url> test
+
 [b1]: http://maven.apache.org/
 
-# Downloading Jars
+# Jars
 
-The latest blend4j jar can be downloaded from [MSI's Artifactory repository][d0].
+The easiest way to obtain blend4j is using Maven Central. 
 
-[d0]: http://artifactory.msi.umn.edu/simple/libs-snapshot-local/com/github/jmchilton/blend4j/blend4j/0.1-SNAPSHOT/
+For instance, if a project is using Maven, a blend4j dependency can be added by 
+adding the following to the dependencies section of the project's pom.xml file.
+
+     <dependency>
+       <groupId>com.github.jmchilton.blend4j</groupId>
+       <artifactId>blend4j</artifactId>
+       <version>0.1-alpha-1</version>
+     </dependency>
+
+Similar dependencies can be specified if using Ivy, Grape, Gradle, Buildr, or SBT. 
+See [mvnrepository][d1] for more details.
+
+
+The latest blend4j jars can be downloaded from the [Maven Central Repository][d0].
+
+[d0]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.jmchilton.blend4j%22
+[d1]: http://mvnrepository.com/artifact/com.github.jmchilton.blend4j/blend4j/
 
 # License
 
