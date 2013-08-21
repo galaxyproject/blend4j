@@ -50,6 +50,7 @@ public class WorkflowsTest {
     }
   }
   
+  @Test
   public void testExportWorkflow() {
     ensureHasTestWorklfow1();
     final String testWorkflowId = getTestWorkflowId();
@@ -59,6 +60,7 @@ public class WorkflowsTest {
 
   @Test
   public void testImportExportWorkflow() {
+    ensureHasTestWorklfow1();
     final String testWorkflowId = getTestWorkflowId();
     final String workflowJson = client.exportWorkflow(testWorkflowId);
     final Workflow importedWorkflow = client.importWorkflow(workflowJson);
