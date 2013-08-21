@@ -50,16 +50,14 @@ public class WorkflowsTest {
     }
   }
   
-  // Commenting out these tests. Need to actually manually seed a TestWorkflow1 to 
-  // get these working.
-
-  //@Test
   public void testExportWorkflow() {
+    ensureHasTestWorklfow1();
     final String testWorkflowId = getTestWorkflowId();
-    client.exportWorkflow(testWorkflowId);
+    final String workflowExported = client.exportWorkflow(testWorkflowId);
+    assert workflowExported.contains("a_galaxy_workflow");            
   }
 
-  //@Test
+  @Test
   public void testImportExportWorkflow() {
     final String testWorkflowId = getTestWorkflowId();
     final String workflowJson = client.exportWorkflow(testWorkflowId);
