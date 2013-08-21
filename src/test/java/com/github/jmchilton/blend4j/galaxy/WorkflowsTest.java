@@ -2,6 +2,7 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputDefinition;
@@ -13,6 +14,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.sun.jersey.api.client.ClientResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -66,24 +68,23 @@ public class WorkflowsTest {
     final Workflow importedWorkflow = client.importWorkflow(workflowJson);
   }
 
-  //@Test
-  public void testRunWorkflow() throws IOException {
+  @Test
+  public void testRunWorkflow() throws IOException, InterruptedException {
     // Find history
+    final String historyId = TestHelpers.getTestHistoryId(instance);
     final HistoriesClient historyClient = instance.getHistoriesClient();
-    History matchingHistory = null;
-    for(final History history : historyClient.getHistories()) {
-      if(history.getName().equals("TestHistory1")) {
-        matchingHistory = history;
-      }
-    }
-    Assert.assertNotNull(matchingHistory);
+    final File input1 = TestHelpers.getTestFile(), input2 = TestHelpers.getTestFile();
+    TestHelpers.testUpload(instance, historyId, input1);
+    TestHelpers.testUpload(instance, historyId, input2);
+    TestHelpers.waitForHistory(instance.getHistoriesClient(), historyId);
+
     String input1Id = null;
     String input2Id = null;
-    for(final HistoryContents historyDataset : historyClient.showHistoryContents(matchingHistory.getId())) {
-      if(historyDataset.getName().equals("Input1")) {
+    for(final HistoryContents historyDataset : historyClient.showHistoryContents(historyId)) {
+      if(historyDataset.getName().equals(input1.getName())) {
         input1Id = historyDataset.getId();
       }
-      if(historyDataset.getName().equals("Input2")) {
+      if(historyDataset.getName().equals(input2.getName())) {
         input2Id = historyDataset.getId();
       }
     }
@@ -102,7 +103,7 @@ public class WorkflowsTest {
     }
 
     final WorkflowInputs inputs = new WorkflowInputs();
-    inputs.setDestination(new ExistingHistory(matchingHistory.getId()));
+    inputs.setDestination(new ExistingHistory(historyId));
     inputs.setWorkflowId(testWorkflowId);
     inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
     inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
