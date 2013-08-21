@@ -116,7 +116,7 @@ public class WorkflowsTest {
   private String getTestWorkflowId() {
     Workflow matchingWorkflow = null;
     for(Workflow workflow : client.getWorkflows()) {
-      if(workflow.getName().equals(TEST_WORKFLOW_NAME)) {
+      if(workflow.getName().startsWith(TEST_WORKFLOW_NAME)) {
         matchingWorkflow = workflow;
       }
     }
