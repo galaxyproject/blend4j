@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jmchilton/blend4j.png?branch=master)](https://travis-ci.org/jmchilton/blend4j)
+
 # About
 
 blend4j is a partial reimplemenation of the Python library [blend][1]
