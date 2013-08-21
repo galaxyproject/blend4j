@@ -2,6 +2,7 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.ToolsClient.FileUploadRequest;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
 import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import org.testng.annotations.BeforeMethod;
@@ -16,14 +17,32 @@ public class ToolsTest {
     instance = TestGalaxyInstance.get();
     client = instance.getToolsClient();
   }
-
+  
+  @Test
+  public void testUploadRequest() {
+    final FileUploadRequest request = testRequest();
+    final ClientResponse clientResponse = client.uploadRequest(request);
+    assert clientResponse.getStatus() == 200;
+    //final String reply = clientResponse.getEntity(String.class);
+    //assert false: reply;
+  }
+  
   @Test
   public void testUpload() {
+    final FileUploadRequest request = testRequest();
+    final ToolExecution toolExecution = client.upload(request);
+    assert ! toolExecution.getOutputs().isEmpty();
+    //final ClientResponse clientResponse = client.uploadRequest(request);
+    //assert clientResponse.getStatus() == 200;
+    //final String reply = clientResponse.getEntity(String.class);
+    //assert false: reply;
+  }
+    
+  private FileUploadRequest testRequest() {
     final String historyId = TestHelpers.getTestHistoryId(instance);
     final File testFile = TestHelpers.getTestFile();
     final FileUploadRequest request = new FileUploadRequest(historyId, testFile);
-    final ClientResponse clientResponse = client.uploadRequest(request);
-    //assert clientResponse.getStatus() == 200 : clientResponse.getEntity(String.class);
+    return request;
   }
 
 }

@@ -1,9 +1,8 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
-import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.util.ArrayList;
@@ -13,8 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ToolsClient {
-  List<Dataset> create(History history, ToolInputs inputs);
-
+  ToolExecution create(History history, ToolInputs inputs);
   
   /**
    * 
@@ -28,7 +26,9 @@ public interface ToolsClient {
                                    File file);
   
   ClientResponse uploadRequest(FileUploadRequest request);
-
+  
+  ToolExecution upload(FileUploadRequest request);
+  
   public static class UploadFile {
     private final File file;
     private final String name;
