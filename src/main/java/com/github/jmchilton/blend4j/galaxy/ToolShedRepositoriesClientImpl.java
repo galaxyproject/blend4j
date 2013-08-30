@@ -1,6 +1,9 @@
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.InstalledRepository;
+import com.github.jmchilton.blend4j.galaxy.beans.RepositoryInstall;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -19,6 +22,11 @@ class ToolShedRepositoriesClientImpl extends Client implements ToolShedRepositor
 
   public InstalledRepository showRepository(final String toolShedId) {
     return super.show(toolShedId, InstalledRepository.class);
+  }
+
+  public ClientResponse installRepositoryRequest(final RepositoryInstall install) {
+    final WebResource resource = super.webResource.path("new").path("install_repository_revision");
+    return super.create(resource, install);
   }
 
 }

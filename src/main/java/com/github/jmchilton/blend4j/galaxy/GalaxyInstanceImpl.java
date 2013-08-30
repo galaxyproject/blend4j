@@ -8,6 +8,10 @@ class GalaxyInstanceImpl implements GalaxyInstance {
   GalaxyInstanceImpl(final WebResourceFactory webResourceFactory) {
     this.webResourceFactory = webResourceFactory;
   }
+  
+  public ToolShedRepositoriesClient getRepositoriesClient() {
+    return new ToolShedRepositoriesClientImpl(this);
+  }
 
   public HistoriesClient getHistoriesClient() {
     return new HistoriesClientImpl(this);
