@@ -15,7 +15,6 @@ class ToolShedRepositoriesClientImpl extends Client implements ToolShedRepositor
     super(galaxyInstance, "tool_shed_repositories");
   }
 
-
   public List<InstalledRepository> getRepositories() {
     return super.get(TOOL_SHED_REPOSITORY_LIST_TYPE_REFERENCE);
   }
@@ -27,6 +26,11 @@ class ToolShedRepositoriesClientImpl extends Client implements ToolShedRepositor
   public ClientResponse installRepositoryRequest(final RepositoryInstall install) {
     final WebResource resource = super.webResource.path("new").path("install_repository_revision");
     return super.create(resource, install);
+  }
+  
+  public ClientResponse repairRepositoryRequest(final RepositoryIdentifier repositoryIdentifier) {
+    final WebResource resource = super.webResource.path("repair_repository_revision");
+    return super.create(resource, repositoryIdentifier);
   }
 
 }

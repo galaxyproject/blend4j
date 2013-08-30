@@ -2,13 +2,7 @@ package com.github.jmchilton.blend4j.galaxy.beans;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class RepositoryInstall {
-  @JsonProperty("tool_shed_url")
-  private String toolShedUrl = "http://toolshed.g2.bx.psu.edu/";
-  private String name;
-  private String owner;
-  @JsonProperty("changeset_revision")
-  private String changsetRevision;
+public class RepositoryInstall extends RepositoryIdentifier {
   @JsonProperty("new_tool_panel_section_label")
   private String newToolPanelSectionLabel = "";
   @JsonProperty("tool_panel_section_id")
@@ -17,38 +11,6 @@ public class RepositoryInstall {
   private boolean installRepositoryDependencies = false;
   @JsonProperty("install_tool_dependencies")
   private boolean installToolDependencies = false;
-
-  public String getToolShedUrl() {
-    return toolShedUrl;
-  }
-
-  public void setToolShedUrl(String toolShedUrl) {
-    this.toolShedUrl = toolShedUrl;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getOwner() {
-    return owner;
-  }
-
-  public void setOwner(String owner) {
-    this.owner = owner;
-  }
-
-  public String getChangsetRevision() {
-    return changsetRevision;
-  }
-
-  public void setChangsetRevision(String changsetRevision) {
-    this.changsetRevision = changsetRevision;
-  }
 
   public String getNewToolPanelSectionLabel() {
     return newToolPanelSectionLabel;
