@@ -43,7 +43,7 @@ class TestHelpers {
     HistoryDetails details = null;
     while(true) {
       details = client.showHistory(historyId);
-      if(!details.getState().equals("running")) {
+      if(details.isReady()) {
         break;
       }
     }

@@ -10,7 +10,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class HistoryDetails extends History {
   private String state;
   private Map<String, List<String>> stateIds = new HashMap<String, List<String>>();
-
+ 
+  public boolean isReady() {
+    return !(state.equals("running") || state.equals("queued"));
+  }
+  
   public String getState() {
     return state;
   }
