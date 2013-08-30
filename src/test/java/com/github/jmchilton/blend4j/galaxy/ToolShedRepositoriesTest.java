@@ -15,7 +15,6 @@ public class ToolShedRepositoriesTest {
     reposClient = instance.getRepositoriesClient();
   }
 
-  
   @Test
   public void testInstall() {
     RepositoryInstall install = new RepositoryInstall();
@@ -23,7 +22,7 @@ public class ToolShedRepositoriesTest {
     install.setName("dbbuilder");
     install.setOwner("galaxyp");
     final ClientResponse response = reposClient.installRepositoryRequest(install);
-    assert response.getStatus() == 200;
+    assert response.getStatus() == 200 : response.getEntity(String.class);
   }
   
   

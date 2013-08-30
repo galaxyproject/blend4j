@@ -41,6 +41,10 @@ public class BaseClient {
   protected <T> List<T> get(final TypeReference<List<T>> typeReference) {
     return get(getWebResource(), typeReference);
   }
+  
+  protected ClientResponse getResponse(final WebResource webResource) {
+    return webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+  }
 
   protected String getJson(final WebResource webResource) {
     final String json = webResource.accept(MediaType.APPLICATION_JSON).get(String.class);
@@ -52,11 +56,15 @@ public class BaseClient {
   }
 
   protected WebResource getWebResource(final String id) {
-    return getWebResource().path(id);
+    return path(id);
   }
 
   protected WebResource getWebResourceContents(final String id) {
     return getWebResource(id).path("contents");
+  }
+  
+  protected WebResource path(final String path) {
+    return getWebResource().path(path);
   }
 
   protected <T> TypeReference<List<T>> listTypeReference(final Class<T> clazz) {
@@ -99,9 +107,13 @@ public class BaseClient {
       throw new RuntimeException(e);
     }
   }
+  
+  protected <T> T read(final ClientResponse response, final TypeReference<T> typeReference) {
+    return readJson(response.getEntity(String.class), typeReference);
+  }
 
   protected <T> T show(final String id, Class<T> clazz) {
-    return getWebResource().path(id).get(clazz);
+    return getWebResource(id).get(clazz);
   }
 
   protected String write(final Object object) {

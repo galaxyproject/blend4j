@@ -1,70 +1,17 @@
 package com.github.jmchilton.blend4j.toolshed.beans;
 
-import com.github.jmchilton.blend4j.galaxy.beans.GalaxyObject;
-import org.codehaus.jackson.annotate.JsonProperty;
-
-public class Repository extends GalaxyObject {
-  @JsonProperty("times_downloaded")
-  private int timesDownloaded;
-  @JsonProperty("user_id")
-  private String userId;
-  private String description;
-  private boolean deleted;
-  private boolean deprecated;
-  @JsonProperty("private")
-  private boolean private_;
+public class Repository {
   private String owner;
-  private String type;
   private String name;
 
-  public int getTimesDownloaded() {
-    return timesDownloaded;
+  public Repository() {    
   }
 
-  public void setTimesDownloaded(int timesDownloaded) {
-    this.timesDownloaded = timesDownloaded;
+  public Repository(String owner, String name) {
+    this.owner = owner;
+    this.name = name;
   }
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public boolean isDeleted() {
-    return deleted;
-  }
-
-  public void setDeleted(boolean deleted) {
-    this.deleted = deleted;
-  }
-
-  public boolean isDeprecated() {
-    return deprecated;
-  }
-
-  public void setDeprecated(boolean deprecated) {
-    this.deprecated = deprecated;
-  }
-
-  public boolean isPrivate_() {
-    return private_;
-  }
-
-  public void setPrivate_(boolean private_) {
-    this.private_ = private_;
-  }
-
+  
   public String getOwner() {
     return owner;
   }
@@ -73,20 +20,43 @@ public class Repository extends GalaxyObject {
     this.owner = owner;
   }
 
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
   public String getName() {
     return name;
   }
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 5;
+    hash = 71 * hash + (this.owner != null ? this.owner.hashCode() : 0);
+    hash = 71 * hash + (this.name != null ? this.name.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(obj == null) {
+      return false;
+    }
+    if(getClass() != obj.getClass()) {
+      return false;
+    }
+    final Repository other = (Repository) obj;
+    if((this.owner == null) ? (other.owner != null) : !this.owner.equals(other.owner)) {
+      return false;
+    }
+    if((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "Repository{" + "owner=" + owner + ", name=" + name + '}';
   }
 
 }
