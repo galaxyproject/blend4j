@@ -9,8 +9,10 @@ public interface WebResourceFactory {
    */
   public WebResource get();
   
-  // TODO: Rename getUrl.
+  @Deprecated
   public String getGalaxyUrl();
+  
+  public String getUrl();
   
   public String getApiKey();
 

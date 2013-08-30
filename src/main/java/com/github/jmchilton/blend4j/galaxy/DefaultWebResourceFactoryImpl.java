@@ -36,9 +36,14 @@ public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
     }
     return resource;
   }
-
-  public String getGalaxyUrl() {
+  
+  public String getUrl() {
     return url;
+  }
+
+  @Deprecated
+  public String getGalaxyUrl() {
+    return getUrl();
   }
 
   public String getApiKey() {
