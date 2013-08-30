@@ -47,8 +47,10 @@ class TestHelpers {
         break;
       }
     }
-    if(!details.getState().equals("ok")) {
-      throw new RuntimeException("History no longer, but not in 'ok' state.");
+    final String state = details.getState();
+    if(!state.equals("ok")) {
+      final String message = "History no longer running, but not in 'ok' state. State is - " + state;
+      throw new RuntimeException(message);
     }
     Thread.sleep(200L);
   }
