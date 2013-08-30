@@ -1,8 +1,9 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import com.github.jmchilton.blend4j.toolshed.beans.RepositoryRevision;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class RepositoryIdentifier {
+public class InstallableRepositoryRevision {
   @JsonProperty(value="changeset_revision")
   protected String changsetRevision;
   protected String name;
@@ -10,6 +11,24 @@ public class RepositoryIdentifier {
   @JsonProperty(value="tool_shed_url")
   protected String toolShedUrl = "http://toolshed.g2.bx.psu.edu/";
 
+  public InstallableRepositoryRevision() {
+  }
+  
+  public InstallableRepositoryRevision(final String toolShedUrl, 
+                                       final RepositoryRevision repositoryRevision) {
+    this.toolShedUrl = toolShedUrl;
+    this.name = repositoryRevision.getName();
+    this.owner = repositoryRevision.getOwner();
+    this.changsetRevision = repositoryRevision.getRevision();
+  }
+  
+  public InstallableRepositoryRevision(final InstallableRepositoryRevision revision) {
+    this.toolShedUrl = revision.getToolShedUrl();
+    this.changsetRevision = revision.getChangsetRevision();
+    this.owner = revision.getOwner();
+    this.name = revision.getName();    
+  }
+  
   public String getChangsetRevision() {
     return changsetRevision;
   }

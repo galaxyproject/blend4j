@@ -12,5 +12,9 @@ class ToolShedInstanceImpl implements ToolShedInstance {
   public RepositoriesClient getRepositoriesClient() {
     return new RepositoriesClientImpl(webResourceFactory);
   }
+
+  public String getUrl() {
+    return webResourceFactory.getUrl();
+  }
   
 }

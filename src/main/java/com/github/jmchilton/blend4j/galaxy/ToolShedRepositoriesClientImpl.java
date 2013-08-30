@@ -1,7 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.InstalledRepository;
-import com.github.jmchilton.blend4j.galaxy.beans.RepositoryIdentifier;
+import com.github.jmchilton.blend4j.galaxy.beans.InstallableRepositoryRevision;
 import com.github.jmchilton.blend4j.galaxy.beans.RepositoryInstall;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -29,7 +29,7 @@ class ToolShedRepositoriesClientImpl extends Client implements ToolShedRepositor
     return super.create(resource, install);
   }
   
-  public ClientResponse repairRepositoryRequest(final RepositoryIdentifier repositoryIdentifier) {
+  public ClientResponse repairRepositoryRequest(final InstallableRepositoryRevision repositoryIdentifier) {
     final WebResource resource = super.webResource.path("repair_repository_revision");
     return super.create(resource, repositoryIdentifier);
   }

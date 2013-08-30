@@ -11,11 +11,15 @@ import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
+import com.github.jmchilton.blend4j.galaxy.beans.InstallableRepositoryRevision;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
+import com.github.jmchilton.blend4j.galaxy.beans.RepositoryInstall;
 import com.github.jmchilton.blend4j.galaxy.beans.Role;
 import com.github.jmchilton.blend4j.galaxy.beans.User;
+import com.github.jmchilton.blend4j.toolshed.ToolShedUtils;
+import com.github.jmchilton.blend4j.toolshed.beans.Repository;
 import com.sun.jersey.api.client.ClientResponse;
 
 public class IntegrationTest {
@@ -127,6 +131,25 @@ public class IntegrationTest {
     libraryPermissions.getAccessInRoles().add(role.getId());
     final ClientResponse setPermResponse = libraryClient.setLibraryPermissions(createdLibrary.getId(), libraryPermissions);
     assert200(setPermResponse);
+  }
+  
+  @Test
+  public void testInstallRepository() {
+    final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
+    final Repository repository = new Repository("iracooke", "proteomics_datatypes");
+    final InstallableRepositoryRevision revision = ToolShedUtils.getLatestInstallableRevision(repository);
+    final RepositoryInstall install = new RepositoryInstall(revision);
+
+    /// Optionally name a new panel section, specify existing section id, but not both.
+    //install.setNewToolPanelSectionLabel("Cool Tools");
+    //install.setToolPanelSectionId("textutil");
+    
+    /// Optionally install repository and tool dependencies.
+    //install.setInstallRepositoryDependencies(true);
+    //install.setInstallToolDependencies(true);
+    
+    final ClientResponse response = galaxyInstance.getRepositoriesClient().installRepositoryRequest(install);
+    assert response.getStatus() == 200;
   }
 
   static LibrariesClient getLibrariesClient() {

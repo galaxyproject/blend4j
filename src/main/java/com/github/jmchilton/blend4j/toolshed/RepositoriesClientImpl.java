@@ -47,5 +47,4 @@ public class RepositoriesClientImpl extends Client implements RepositoriesClient
     return resource.queryParam("owner", repository.getOwner()).queryParam("name", repository.getName());
   }
 
-
 }

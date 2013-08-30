@@ -2,7 +2,7 @@ package com.github.jmchilton.blend4j.galaxy.beans;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class RepositoryInstall extends RepositoryIdentifier {
+public class RepositoryInstall extends InstallableRepositoryRevision {
   @JsonProperty("new_tool_panel_section_label")
   private String newToolPanelSectionLabel = "";
   @JsonProperty("tool_panel_section_id")
@@ -12,6 +12,15 @@ public class RepositoryInstall extends RepositoryIdentifier {
   @JsonProperty("install_tool_dependencies")
   private boolean installToolDependencies = false;
 
+  public RepositoryInstall() {
+    super();
+  }
+  
+  public RepositoryInstall(final InstallableRepositoryRevision revision) {
+    super(revision);
+  }
+  
+  
   public String getNewToolPanelSectionLabel() {
     return newToolPanelSectionLabel;
   }
