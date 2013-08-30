@@ -3,7 +3,7 @@ package com.github.jmchilton.blend4j.toolshed.beans;
 import com.github.jmchilton.blend4j.galaxy.beans.GalaxyObject;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class Tool extends GalaxyObject {
+public class Repository extends GalaxyObject {
   @JsonProperty("times_downloaded")
   private int timesDownloaded;
   @JsonProperty("user_id")

@@ -1,6 +1,6 @@
 package com.github.jmchilton.blend4j.toolshed;
 
-import com.github.jmchilton.blend4j.toolshed.beans.Tool;
+import com.github.jmchilton.blend4j.toolshed.beans.Repository;
 import java.util.List;
 import org.testng.annotations.Test;
 
@@ -10,9 +10,9 @@ public class RepositoriesClientTest {
   public void testGetTools() {
     final ToolShedInstance instance = ToolShedInstanceFactory.getMainToolShedInstance();
     final RepositoriesClient reposClient = instance.getRepositoriesClient();
-    final List<Tool> tools = reposClient.getTools();
+    final List<Repository> tools = reposClient.getRepositories();
     boolean found = false;
-    for(final Tool tool : tools) {
+    for(final Repository tool : tools) {
       if(tool.getName().equals("abyss_tool")) {
         found = true;
         break;
