@@ -1,4 +1,3 @@
-
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.ToolShedRepository;
