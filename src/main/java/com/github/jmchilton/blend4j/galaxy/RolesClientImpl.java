@@ -6,7 +6,7 @@ import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Role;
 
-class RolesClientImpl extends ClientImpl implements RolesClient {
+class RolesClientImpl extends Client implements RolesClient {
   private static final TypeReference<List<Role>> ROLE_LIST_TYPE_REFERENCE = new TypeReference<List<Role>>() {
   };
 

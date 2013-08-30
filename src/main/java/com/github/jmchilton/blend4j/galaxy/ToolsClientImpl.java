@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-class ToolsClientImpl extends ClientImpl implements ToolsClient {
+class ToolsClientImpl extends Client implements ToolsClient {
   ToolsClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "tools");
   }

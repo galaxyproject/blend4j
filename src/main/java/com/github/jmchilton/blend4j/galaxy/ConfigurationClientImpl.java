@@ -3,7 +3,7 @@ package com.github.jmchilton.blend4j.galaxy;
 import java.util.Map;
 import org.codehaus.jackson.type.TypeReference;
 
-class ConfigurationClientImpl extends ClientImpl implements ConfigurationClient {
+class ConfigurationClientImpl extends Client implements ConfigurationClient {
   
   ConfigurationClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "configuration");

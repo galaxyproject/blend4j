@@ -19,7 +19,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-class WorkflowsClientImpl extends ClientImpl implements WorkflowsClient {
+class WorkflowsClientImpl extends Client implements WorkflowsClient {
   public WorkflowsClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "workflows");
   }

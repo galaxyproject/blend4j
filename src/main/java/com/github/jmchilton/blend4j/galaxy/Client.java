@@ -3,10 +3,10 @@ package com.github.jmchilton.blend4j.galaxy;
 import com.github.jmchilton.blend4j.BaseClient;
 import com.github.jmchilton.blend4j.galaxy.beans.HasGalaxyUrl;
 
-class ClientImpl extends BaseClient {
+class Client extends BaseClient {
   private final GalaxyInstanceImpl galaxyInstance;
 
-  ClientImpl(final GalaxyInstanceImpl galaxyInstance, final String module) {
+  Client(final GalaxyInstanceImpl galaxyInstance, final String module) {
     super(galaxyInstance.getWebResource(), module);
     this.galaxyInstance = galaxyInstance;
   }

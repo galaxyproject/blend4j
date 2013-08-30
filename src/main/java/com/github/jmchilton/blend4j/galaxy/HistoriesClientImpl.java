@@ -11,7 +11,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.sun.jersey.api.client.ClientResponse;
 
-class HistoriesClientImpl extends ClientImpl implements HistoriesClient {
+class HistoriesClientImpl extends Client implements HistoriesClient {
   HistoriesClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "histories");
   }

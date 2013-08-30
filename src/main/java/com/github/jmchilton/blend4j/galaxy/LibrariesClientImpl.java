@@ -15,7 +15,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-class LibrariesClientImpl extends ClientImpl implements LibrariesClient {
+class LibrariesClientImpl extends Client implements LibrariesClient {
   LibrariesClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "libraries");
   }

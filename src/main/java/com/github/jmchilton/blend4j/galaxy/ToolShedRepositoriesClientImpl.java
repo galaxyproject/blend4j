@@ -4,7 +4,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.ToolShedRepository;
 import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
-class ToolShedRepositoriesClientImpl extends ClientImpl implements ToolShedRepositoriesClient {
+class ToolShedRepositoriesClientImpl extends Client implements ToolShedRepositoriesClient {
   private static final TypeReference<List<ToolShedRepository>> TOOL_SHED_REPOSITORY_LIST_TYPE_REFERENCE = new TypeReference<List<ToolShedRepository>>() {
   };
 
