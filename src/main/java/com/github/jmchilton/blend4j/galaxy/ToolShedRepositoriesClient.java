@@ -1,12 +1,12 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.beans.ToolShedRepository;
+import com.github.jmchilton.blend4j.galaxy.beans.InstalledRepository;
 import java.util.List;
 
 public interface ToolShedRepositoriesClient {
 
-  List<ToolShedRepository> getRepositories();
+  List<InstalledRepository> getRepositories();
   
-  ToolShedRepository showRepository(String toolShedId);
+  InstalledRepository showRepository(String toolShedId);
 
 }

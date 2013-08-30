@@ -1,11 +1,11 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.beans.ToolShedRepository;
+import com.github.jmchilton.blend4j.galaxy.beans.InstalledRepository;
 import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
 class ToolShedRepositoriesClientImpl extends Client implements ToolShedRepositoriesClient {
-  private static final TypeReference<List<ToolShedRepository>> TOOL_SHED_REPOSITORY_LIST_TYPE_REFERENCE = new TypeReference<List<ToolShedRepository>>() {
+  private static final TypeReference<List<InstalledRepository>> TOOL_SHED_REPOSITORY_LIST_TYPE_REFERENCE = new TypeReference<List<InstalledRepository>>() {
   };
 
   ToolShedRepositoriesClientImpl(GalaxyInstanceImpl galaxyInstance) {
@@ -13,12 +13,12 @@ class ToolShedRepositoriesClientImpl extends Client implements ToolShedRepositor
   }
 
 
-  public List<ToolShedRepository> getRepositories() {
+  public List<InstalledRepository> getRepositories() {
     return super.get(TOOL_SHED_REPOSITORY_LIST_TYPE_REFERENCE);
   }
 
-  public ToolShedRepository showRepository(final String toolShedId) {
-    return super.show(toolShedId, ToolShedRepository.class);
+  public InstalledRepository showRepository(final String toolShedId) {
+    return super.show(toolShedId, InstalledRepository.class);
   }
 
 }
