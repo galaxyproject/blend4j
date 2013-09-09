@@ -15,6 +15,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
   private static final boolean DEBUG = false;
   public static String API_PATH = "api";
+  private static final Integer CHUNKED_ENCODING_SIZE = Integer.valueOf(1024);
   private String url;
   private String key;
 
@@ -29,6 +30,9 @@ public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
    */
   public WebResource get() {
     final com.sun.jersey.api.client.Client client = getJerseyClient();
+    if(CHUNKED_ENCODING_SIZE != null) {
+      client.setChunkedEncodingSize(CHUNKED_ENCODING_SIZE);      
+    }
     final String apiKey = getApiKey();
     WebResource resource = client.resource(getGalaxyUrl()).path(API_PATH);
     if(apiKey != null) {

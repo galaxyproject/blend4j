@@ -6,8 +6,12 @@ import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
+import com.sun.jersey.multipart.file.StreamDataBodyPart;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +21,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
 public class BaseClient {
+  // http://stackoverflow.com/questions/10326460/upload-a-large-file-using-jersey-client
+  // Why does it only chunk streams and not files, seems wrong?
+  private static final boolean STREAMING_FILES = false; 
+
   protected final ObjectMapper mapper = new ObjectMapper();
   protected final WebResource webResource;
 
@@ -94,8 +102,18 @@ public class BaseClient {
     final List<BodyPart> bodyParts = new ArrayList<BodyPart>();
     for(final File file : files) {
       final String paramName = "files_0|file_data";
-      final FileDataBodyPart fdbp = new FileDataBodyPart(paramName, file);
-      bodyParts.add(fdbp);
+      final BodyPart bp;
+      if(STREAMING_FILES) {
+        try {
+          final InputStream fileInStream = new FileInputStream(file);
+          bp = new StreamDataBodyPart(paramName, fileInStream, file.getName());
+        } catch(final FileNotFoundException e) {
+          throw new RuntimeException(e);
+        }
+      } else{
+        bp = new FileDataBodyPart(paramName, file);
+      }
+      bodyParts.add(bp);
     }
     return bodyParts;
   }
