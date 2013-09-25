@@ -25,6 +25,47 @@ public class InstalledRepository extends GalaxyObject {
   private boolean uninstalled;
   @JsonProperty("update_avaiable")
   private boolean updateAvailable;
+  
+  public static enum InstallationStatus {
+    NEW("New", false),
+    CLONING("Cloning", false),
+    SETTING_TOOL_VERSIONS("Setting tool versions", false),
+    INSTALLING_REPOSITORY_DEPENDENCIES("Installing repository dependencies", false),
+    INSTALLING_TOOL_DEPENDENCIES("Installing tool dependencies", false),
+    LOADING_PROPRIETARY_DATATYPES("Loading proprietary datatypes", false),
+    INSTALLED("Installed"),
+    DEACTIVATED("Deactivated"),
+    ERROR("Error"),
+    UNINSTALLED("Uninstalled");
+
+    private final String text;
+    private final boolean complete;
+    
+    private InstallationStatus(final String text) {
+      this(text, true);
+    }
+
+    private InstallationStatus(final String text, final boolean complete) {
+      this.text = text;
+      this.complete = complete;
+    }
+
+    public boolean isComplete() {
+      return complete;
+    }
+    
+    public static InstallationStatus fromText(final String text) {
+      InstallationStatus targetStatus = null;
+      for(InstallationStatus status : values()) {
+        if(status.text.equals(text)) {
+          targetStatus = status;
+          break;
+        }
+      }
+      return targetStatus;
+    }
+    
+  }
 
   public String getChangesetRevision() {
     return changesetRevision;
@@ -96,6 +137,10 @@ public class InstalledRepository extends GalaxyObject {
 
   public void setOwner(String owner) {
     this.owner = owner;
+  }
+  
+  public InstallationStatus getInstallationStatus() {
+    return InstallationStatus.fromText(status);
   }
 
   public String getStatus() {

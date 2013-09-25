@@ -109,7 +109,9 @@ public class BaseClient {
   }
   
   protected <T> T read(final ClientResponse response, final TypeReference<T> typeReference) {
-    return readJson(response.getEntity(String.class), typeReference);
+    final String json = response.getEntity(String.class);
+    System.out.println(json);
+    return readJson(json, typeReference);
   }
 
   protected <T> T show(final String id, Class<T> clazz) {
