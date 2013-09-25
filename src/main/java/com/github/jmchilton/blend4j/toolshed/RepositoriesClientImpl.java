@@ -36,11 +36,13 @@ public class RepositoriesClientImpl extends Client implements RepositoriesClient
   }
 
   public ClientResponse getRepositoryRevisionInstallInfoRequest(RepositoryRevision revision) {
-    return super.getResponse(withQueryParams(super.path("repository_revision_install_info"), revision));   
+    final WebResource baseResource = super.path("get_repository_revision_install_info");
+    final WebResource resource = withQueryParams(baseResource, revision);
+    return super.getResponse(resource);
   }
   
   private WebResource withQueryParams(final WebResource resource, RepositoryRevision revision) {
-    return withQueryParams(resource, (Repository) revision).queryParam("revision", revision.getRevision());
+    return withQueryParams(resource, (Repository) revision).queryParam("changeset_revision", revision.getRevision());
   }
   
   private WebResource withQueryParams(final WebResource resource, final Repository repository) {

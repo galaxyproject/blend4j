@@ -21,7 +21,10 @@ public class TestGalaxyInstance {
     if(getTestApiKey() == null) {
       final BootStrapper bootStrapper = new BootStrapper();
       bootStrapper.setupGalaxy();
-      final GalaxyProperties galaxyProperties = new GalaxyProperties().assignFreePort();
+      final GalaxyProperties galaxyProperties = 
+        new GalaxyProperties()
+              .assignFreePort()
+              .configureNestedShedTools();
       final GalaxyData galaxyData = new GalaxyData();
       final GalaxyData.User adminUser = new GalaxyData.User("admin@localhost");
       final GalaxyData.User normalUser = new GalaxyData.User("user@localhost");

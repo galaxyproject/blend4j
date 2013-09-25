@@ -63,7 +63,7 @@
     <dependency>
       <groupId>com.github.jmchilton.galaxybootstrap</groupId>
       <artifactId>galaxybootstrap</artifactId>
-      <version>0.1</version>
+      <version>0.2.0-rc1</version>
       <scope>test</scope>
     </dependency>
 
