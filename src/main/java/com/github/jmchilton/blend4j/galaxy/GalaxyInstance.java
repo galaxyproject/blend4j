@@ -20,6 +20,8 @@ public interface GalaxyInstance {
   
   ToolShedRepositoriesClient getRepositoriesClient();
     
+  SearchClient getSearchClient();
+  
   WebResource getWebResource();
 
   String getGalaxyUrl();

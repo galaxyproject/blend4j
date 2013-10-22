@@ -16,7 +16,7 @@ class TestHelpers {
       try {
         writer.write("Hello World!!!");
       } finally {
-        writer.close();
+          writer.close();
       }
       return tempFile;
     } catch(final IOException ioException) {

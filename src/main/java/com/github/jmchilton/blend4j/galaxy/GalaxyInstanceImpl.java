@@ -40,6 +40,10 @@ class GalaxyInstanceImpl implements GalaxyInstance {
   public ConfigurationClient getConfigurationClient() {
     return new ConfigurationClientImpl(this);
   }
+  
+  public SearchClient getSearchClient() {
+    return new SearchClientImpl(this);
+  }
 
   public WebResource getWebResource() {
     return webResourceFactory.get();
@@ -52,5 +56,6 @@ class GalaxyInstanceImpl implements GalaxyInstance {
   public String getApiKey() {
     return webResourceFactory.getApiKey();
   }
+
 
 }

@@ -9,6 +9,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.sun.jersey.api.client.ClientResponse;
 
 class HistoriesClientImpl extends Client implements HistoriesClient {
@@ -49,5 +50,11 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
 
   public HistoryContentsProvenance showProvenance(String historyId, String datasetId) {
     return getWebResourceContents(historyId).path(datasetId).path("provenance").get(HistoryContentsProvenance.class);
+  }
+
+
+  public HistoryDetails createHistoryDataset(String historyId, HistoryDataset hd) {
+    final ClientResponse response = super.create(super.path(historyId).path("contents"), hd);
+    return response.getEntity(HistoryDetails.class);
   }
 }
