@@ -6,15 +6,14 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ToolExecution {
-  private List<Dataset> outputs = new ArrayList<Dataset>();
+  private List<OutputDataset> outputs = new ArrayList<OutputDataset>();
 
-  public List<Dataset> getOutputs() {
+  public List<OutputDataset> getOutputs() {
     return outputs;
   }
 
-  public void setOutputs(List<Dataset> outputs) {
+  public void setOutputs(List<OutputDataset> outputs) {
     this.outputs = outputs;
   }
-
 
 }
