@@ -108,10 +108,22 @@ public class BaseClient {
     }
   }
   
+  protected <T> T readJson(final String json, final Class<T> clazz) {
+    try {
+      return mapper.readValue(json, clazz);
+    } catch(IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   protected <T> T read(final ClientResponse response, final TypeReference<T> typeReference) {
     final String json = response.getEntity(String.class);
-    System.out.println(json);
     return readJson(json, typeReference);
+  }
+
+  protected <T> T read(final ClientResponse response, final Class<T> clazz) {
+    final String json = response.getEntity(String.class);
+    return readJson(json, clazz);
   }
 
   protected <T> T show(final String id, Class<T> clazz) {

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.User;
+import com.github.jmchilton.blend4j.galaxy.beans.UserCreate;
 import com.sun.jersey.api.client.ClientResponse;
 
 class UsersClientImpl extends Client implements UsersClient {
@@ -42,4 +43,16 @@ class UsersClientImpl extends Client implements UsersClient {
   public User showUser(String id) {
     return super.show(id, User.class);
   }
+
+
+  @Override
+  public User createUser(UserCreate userCreate) {
+    return super.getWebResource().post(ClientResponse.class, write(userCreate)).getEntity(User.class);
+  }
+
+  @Override
+  public String createApiKey(String userId) {
+    return super.read(super.getWebResource().path(userId).path("api_key").post(ClientResponse.class), String.class);
+  }
+
 }
