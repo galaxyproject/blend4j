@@ -7,6 +7,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.FileLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
+import com.github.jmchilton.blend4j.galaxy.beans.LibraryFolder;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
 import com.github.jmchilton.blend4j.galaxy.beans.UrlLibraryUpload;
 import com.sun.jersey.api.client.ClientResponse;
@@ -15,8 +16,12 @@ public interface LibrariesClient {
   ClientResponse createLibraryRequest(Library library);
 
   Library createLibrary(Library library);
-
+  
   List<Library> getLibraries();
+
+  ClientResponse createFolderRequest(String libraryId, LibraryFolder libraryFolder);
+
+  LibraryFolder createFolder(String libraryId, LibraryFolder libraryFolder);
 
   ClientResponse uploadFileFromUrlRequest(String libraryId, UrlLibraryUpload upload);
 

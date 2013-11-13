@@ -7,10 +7,12 @@ public class LibraryFolder extends GalaxyObject {
   private String name;
   private String description = "";
 
+  @JsonProperty("folder_id")
   public String getFolderId() {
     return folderId;
   }
 
+  @JsonProperty("folder_id")
   public void setFolderId(String folderId) {
     this.folderId = folderId;
   }

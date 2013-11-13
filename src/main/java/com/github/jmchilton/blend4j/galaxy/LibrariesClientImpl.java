@@ -9,6 +9,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.FileLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
+import com.github.jmchilton.blend4j.galaxy.beans.LibraryFolder;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
 import com.github.jmchilton.blend4j.galaxy.beans.UrlLibraryUpload;
 import com.sun.jersey.api.client.ClientResponse;
@@ -28,6 +29,19 @@ class LibrariesClientImpl extends Client implements LibrariesClient {
     // should not be this complicated, I suspect library API is returning wrong thing. See galaxy issue #802
     return createLibraryRequest(library).getEntity(Library.class);
     //return readJson(createLibraryRequest(library).getEntity(String.class), new TypeReference<List<Library>>() {}).get(0);
+  }
+  
+  public ClientResponse createFolderRequest(final String libraryId, final LibraryFolder folder) {
+    final String baseFolderId = folder.getFolderId();
+    if(baseFolderId == null) {
+      throw new IllegalArgumentException("Must specify parent folder id");
+    }
+    return super.create(getWebResourceContents(libraryId), folder);
+  }
+  
+  
+  public LibraryFolder createFolder(final String libraryId, final LibraryFolder folder) {  
+    return readJson(createFolderRequest(libraryId, folder).getEntity(String.class), new TypeReference<List<LibraryFolder>>() {}).get(0);
   }
 
   public List<Library> getLibraries() {
