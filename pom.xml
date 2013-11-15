@@ -115,7 +115,7 @@
           <artifactId>maven-release-plugin</artifactId>
           <configuration>
             <preparationGoals>clean install verify</preparationGoals>
-            <goals>clean install javadoc:jar source:jar</goals>
+            <goals>clean install javadoc:jar source:jar deploy</goals>
             <arguments>-Dmaven.test.skip=true</arguments>
           </configuration>
         </plugin>
