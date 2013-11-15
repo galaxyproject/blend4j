@@ -4,7 +4,7 @@
   <groupId>com.github.jmchilton.blend4j</groupId>
   <artifactId>blend4j</artifactId>
   <packaging>jar</packaging>
-  <version>0.1-alpha-5-SNAPSHOT</version>
+  <version>0.1-alpha-5</version>
   <name>blend4j</name>
   <description>blend4j is a JVM partial reimplemenation of the Python library bioblend (http://bioblend.readthedocs.org/en/latest/) for interacting with Galaxy, CloudMan, and BioCloudCentral.</description>
   <parent>
