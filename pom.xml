@@ -4,7 +4,7 @@
   <groupId>com.github.jmchilton.blend4j</groupId>
   <artifactId>blend4j</artifactId>
   <packaging>jar</packaging>
-  <version>0.1-alpha-2-SNAPSHOT</version>
+  <version>0.1-alpha-2</version>
   <name>blend4j</name>
   <description>blend4j is a JVM partial reimplemenation of the Python library bioblend (http://bioblend.readthedocs.org/en/latest/) for interacting with Galaxy, CloudMan, and BioCloudCentral.</description>
   <parent>
@@ -108,6 +108,15 @@
             <source>1.6</source>
             <target>1.6</target>
             <compilerArgument />
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <configuration>
+<!--          <preparationGoals>clean install verify</preparationGoals> -->
+<!--          <goals>clean install javadoc:javadoc assembly:assembly deploy</goals> -->
+            <arguments>-Dmaven.test.skip=true</arguments>
           </configuration>
         </plugin>
       </plugins>
