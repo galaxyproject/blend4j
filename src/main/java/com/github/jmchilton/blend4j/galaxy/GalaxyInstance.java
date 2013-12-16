@@ -21,6 +21,8 @@ public interface GalaxyInstance {
     
   SearchClient getSearchClient();
   
+  DatasetCollectionsClient getDatasetCollectionsClient();
+  
   WebResource getWebResource();
 
   String getGalaxyUrl();

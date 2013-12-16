@@ -11,8 +11,13 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import java.util.Map;
 
 class HistoriesClientImpl extends Client implements HistoriesClient {
+  public static TypeReference<List<HistoryContents>> HISTORY_CONTENTS_LIST_TYPE_REFERENCE =
+     new TypeReference<List<HistoryContents>>() {};
+
   HistoriesClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "histories");
   }
@@ -40,8 +45,19 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   public List<HistoryContents> showHistoryContents(String historyId) {
-    return get(getWebResourceContents(historyId), new TypeReference<List<HistoryContents>>() {
-    });
+    return get(getWebResourceContents(historyId), HISTORY_CONTENTS_LIST_TYPE_REFERENCE);
+  }
+
+  public ClientResponse showHistoryContentsRequest(final IndexHistoryContents index) {
+    WebResource resource = getWebResourceContents(index.getHistoryId());
+    for(final Map.Entry<String, String> entry : index.toParams().entrySet()) {
+      resource = resource.queryParam(entry.getKey(), entry.getValue());    
+    }
+    return super.getResponse(resource);
+  }
+  
+  public List<HistoryContents> showHistoryContents(final IndexHistoryContents index) {
+    return readJson(showHistoryContentsRequest(index).getEntity(String.class), HISTORY_CONTENTS_LIST_TYPE_REFERENCE);
   }
 
   public Dataset showDataset(String historyId, String datasetId) {

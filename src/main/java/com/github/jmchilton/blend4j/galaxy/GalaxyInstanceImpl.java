@@ -45,6 +45,11 @@ class GalaxyInstanceImpl implements GalaxyInstance {
     return new SearchClientImpl(this);
   }
 
+  @Override
+  public DatasetCollectionsClient getDatasetCollectionsClient() {
+    return new DatasetCollectionsClientImpl(this);
+  }
+
   public WebResource getWebResource() {
     return webResourceFactory.get();
   }
@@ -56,6 +61,5 @@ class GalaxyInstanceImpl implements GalaxyInstance {
   public String getApiKey() {
     return webResourceFactory.getApiKey();
   }
-
 
 }
