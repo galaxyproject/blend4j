@@ -16,6 +16,7 @@ import com.google.common.io.Resources;
 import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.Assert;
@@ -72,22 +73,11 @@ public class WorkflowsTest {
   public void testRunWorkflow() throws IOException, InterruptedException {
     // Find history
     final String historyId = TestHelpers.getTestHistoryId(instance);
-    final HistoriesClient historyClient = instance.getHistoriesClient();
-    final File input1 = TestHelpers.getTestFile(), input2 = TestHelpers.getTestFile();
-    TestHelpers.testUpload(instance, historyId, input1);
-    TestHelpers.testUpload(instance, historyId, input2);
-    TestHelpers.waitForHistory(instance.getHistoriesClient(), historyId);
+    final List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
 
-    String input1Id = null;
-    String input2Id = null;
-    for(final HistoryContents historyDataset : historyClient.showHistoryContents(historyId)) {
-      if(historyDataset.getName().equals(input1.getName())) {
-        input1Id = historyDataset.getId();
-      }
-      if(historyDataset.getName().equals(input2.getName())) {
-        input2Id = historyDataset.getId();
-      }
-    }
+    final String input1Id = ids.get(0);
+    final String input2Id = ids.get(1);
+ 
     final String testWorkflowId = getTestWorkflowId();
     final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
     String workflowInput1Id = null;

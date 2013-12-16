@@ -2,10 +2,14 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
+import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
+import com.google.common.collect.Lists;
 import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 class TestHelpers {
 
@@ -24,11 +28,10 @@ class TestHelpers {
     }
   }
   
-  static ClientResponse testUpload(final GalaxyInstance galaxyInstance, final String historyId, final File testFile) {
+  static OutputDataset testUpload(final GalaxyInstance galaxyInstance, final String historyId, final File testFile) {
     final ToolsClient.FileUploadRequest request = new ToolsClient.FileUploadRequest(historyId, testFile);
-    final ClientResponse clientResponse = galaxyInstance.getToolsClient().uploadRequest(request);
-    assert clientResponse.getStatus() == 200;
-    return clientResponse;
+    final ToolExecution execution = galaxyInstance.getToolsClient().upload(request);
+    return execution.getOutputs().get(0);
   }
   
   static String getTestHistoryId(final GalaxyInstance instance) {
@@ -55,5 +58,15 @@ class TestHelpers {
     Thread.sleep(200L);
   }
   
+  static List<String> populateTestDatasets(final GalaxyInstance instance, final String historyId, final int count) throws InterruptedException {
+    final List<String> ids = Lists.newArrayListWithCapacity(count);
+    for(int i = 0; i < count; i++) {
+      final File input = getTestFile();
+      OutputDataset dataset = testUpload(instance, historyId, input);
+      ids.add(dataset.getId());
+    }
+    waitForHistory(instance.getHistoriesClient(), historyId);
+    return ids;
+  }
   
 }
