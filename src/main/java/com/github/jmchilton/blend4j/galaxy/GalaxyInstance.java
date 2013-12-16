@@ -1,6 +1,5 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.toolshed.RepositoriesClient;
 import com.sun.jersey.api.client.WebResource;
 
 public interface GalaxyInstance {
