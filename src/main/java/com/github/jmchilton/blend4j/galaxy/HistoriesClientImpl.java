@@ -10,7 +10,11 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import java.util.Map;
+import javax.ws.rs.core.MediaType;
 
 class HistoriesClientImpl extends Client implements HistoriesClient {
   HistoriesClientImpl(GalaxyInstanceImpl galaxyInstance) {
@@ -57,4 +61,18 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     final ClientResponse response = super.create(super.path(historyId).path("contents"), hd);
     return response.getEntity(HistoryDetails.class);
   }
+
+  public HistoryExport exportHistory(String historyId) {
+    final WebResource.Builder resource = super.path(historyId).path("exports").type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON);
+    final ClientResponse response = resource.put(ClientResponse.class);
+    final int status = response.getStatus();
+    if(status == 200) {
+      return response.getEntity(HistoryExport.class);
+    } else if(status == 202) {
+      return new HistoryExport();
+    } else {
+      throw new RuntimeException("Problems with history export.");
+    }
+  }
+
 }

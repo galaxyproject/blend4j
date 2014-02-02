@@ -2,6 +2,7 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.util.List;
@@ -24,6 +25,21 @@ public class HistoriesTest {
   public void testShowHistory() {
     //final HistoriesClient client = IntegrationTest.getHistoriesClient();
     // TODO:
+  }
+  
+  @Test
+  public void testImportExport() throws InterruptedException {
+    final String historyId = TestHelpers.getTestHistoryId(instance);
+    final File testFile = TestHelpers.getTestFile();
+    final ToolsClient.FileUploadRequest request = new ToolsClient.FileUploadRequest(historyId, testFile);
+    final ClientResponse clientResponse = toolsClient.uploadRequest(request);
+    TestHelpers.waitForHistory(historiesClient, historyId);
+    HistoryExport export = historiesClient.exportHistory(historyId);
+    assert ! export.isReady();
+    do {
+      export = historiesClient.exportHistory(historyId);
+    } while( ! export.isReady() );
+    throw new RuntimeException( export.getDownloadUrl() );
   }
   
   @Test

@@ -8,6 +8,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.sun.jersey.api.client.ClientResponse;
 
 public interface HistoriesClient {
@@ -28,5 +29,7 @@ public interface HistoriesClient {
   Dataset showDataset(String historyId, String datasetId);
   
   HistoryContentsProvenance showProvenance(String historyId, String datasetId);
+  
+  HistoryExport exportHistory(String historyId);
   
 }
