@@ -8,6 +8,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.annotations.Test;
 
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
 
 // Not a true unit test, just a place to play around with Jackson mapping.
 public class ObjectMapperTest {
@@ -16,6 +17,10 @@ public class ObjectMapperTest {
     final ObjectMapper mapper = new ObjectMapper();
     LibraryPermissions libraryPermissions = new LibraryPermissions();
     libraryPermissions.getAccessInRoles().add("moocow");
+    mapper.writer().writeValueAsString(libraryPermissions);
+
+    final WorkflowInputs inputs = new WorkflowInputs();
+    inputs.setToolParameter("randomlines", "num_lines", 5);
     mapper.writer().writeValueAsString(libraryPermissions);
 
   }

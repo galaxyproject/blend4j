@@ -9,16 +9,21 @@ import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 class TestHelpers {
 
   static File getTestFile() {
+    return getTestFile("Hello World!!");
+  }
+  
+  static File getTestFile(final String contents) {
     try {
       final File tempFile = File.createTempFile("galxtest", ".txt");
       final FileWriter writer = new FileWriter(tempFile);
       try {
-        writer.write("Hello World!!!");
+        writer.write(contents);
       } finally {
           writer.close();
       }
@@ -59,14 +64,29 @@ class TestHelpers {
   }
   
   static List<String> populateTestDatasets(final GalaxyInstance instance, final String historyId, final int count) throws InterruptedException {
-    final List<String> ids = Lists.newArrayListWithCapacity(count);
+    final List<File> files = Lists.newArrayListWithCapacity(count);
     for(int i = 0; i < count; i++) {
-      final File input = getTestFile();
-      OutputDataset dataset = testUpload(instance, historyId, input);
+      files.add(getTestFile());
+    }
+    return populateTestDatasets(instance, historyId, files);
+  }
+
+  static List<String> populateTestDatasets(final GalaxyInstance instance, final String historyId, final List<File> files) throws InterruptedException {
+    final List<String> ids = Lists.newArrayListWithCapacity(files.size());
+    for(final File file : files) {
+      OutputDataset dataset = testUpload(instance, historyId, file);
       ids.add(dataset.getId());
     }
     waitForHistory(instance.getHistoriesClient(), historyId);
     return ids;
+  }  
+
+  static String populateTestDataset(final GalaxyInstance instance, final String historyId, final File file) throws InterruptedException {
+    return populateTestDatasets(instance, historyId, Arrays.asList(file)).get(0);
   }
-  
+
+  static String populateTestDataset(final GalaxyInstance instance, final String historyId, final String contents) throws InterruptedException {
+    return populateTestDatasets(instance, historyId, Arrays.asList(getTestFile(contents))).get(0);
+  }
+
 }

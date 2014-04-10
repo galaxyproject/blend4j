@@ -1,0 +1,89 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "Random Lines", 
+    "format-version": "0.1", 
+    "name": "TestWorkflowRandomlines", 
+    "steps": {
+        "0": {
+            "annotation": "", 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 191, 
+                "top": 200
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "1": {
+            "annotation": "", 
+            "id": 1, 
+            "input_connections": {
+                "input": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Select random lines", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 432.5, 
+                "top": 254
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "random_lines1", 
+            "tool_state": "{\"input\": \"null\", \"seed_source\": \"{\\\"__current_case__\\\": 0, \\\"seed_source_selector\\\": \\\"no_seed\\\"}\", \"__rerun_remap_job_id__\": null, \"num_lines\": \"\\\"5\\\"\", \"__page__\": 0}", 
+            "tool_version": "2.0.1", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "2": {
+            "annotation": "", 
+            "id": 2, 
+            "input_connections": {
+                "input": {
+                    "id": 1, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Select random lines", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 690.5, 
+                "top": 235
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "random_lines1", 
+            "tool_state": "{\"input\": \"null\", \"seed_source\": \"{\\\"__current_case__\\\": 0, \\\"seed_source_selector\\\": \\\"no_seed\\\"}\", \"__rerun_remap_job_id__\": null, \"num_lines\": \"\\\"2\\\"\", \"__page__\": 0}", 
+            "tool_version": "2.0.1", 
+            "type": "tool", 
+            "user_outputs": []
+        }
+    }
+}

@@ -15,7 +15,7 @@ public class WorkflowInputs {
   private WorkflowDestination destination;
   private boolean importInputsToHistory = false;
   private Map<String, WorkflowInput> inputs = new HashMap<String, WorkflowInput>();
-  private Map<String, ToolParameter> parameters = new HashMap<String, ToolParameter>();
+  private Map<Object, Map<String, Object>> parameters = new HashMap<Object, Map<String, Object>>();
 
   public void setWorkflowId(final String workflowId) {
     this.workflowId = workflowId;
@@ -44,13 +44,48 @@ public class WorkflowInputs {
     return inputs;
   }
 
-  public void setParameter(final String toolName, final ToolParameter toolParameter) {
-    this.parameters.put(toolName, toolParameter);
+  @Deprecated
+  public void setParameter(final String toolId, final ToolParameter toolParameter) {
+    this.setToolParameter(toolId, toolParameter);
   }
 
+  public void setToolParameter(final String toolId, final String parameterName, final Object parameterValue) {
+    this.setParameter(toolId, parameterName, parameterValue);
+  }
+
+  public void setToolParameter(final String toolId, final ToolParameter toolParameter) {
+    this.setParameter(toolId, toolParameter.getParameterName(), toolParameter.getParameterValue());
+  }
+
+  // Some parts of API return step ids as strings others as ints - allow either
+  public void setStepParameter(final String stepId, final String parameterName, final Object parameterValue) {
+    this.setParameter(stepId, parameterName, parameterValue);
+  }
+  
+  public void setStepParameter(final int stepId, final String parameterName, final Object parameterValue) {
+    this.setParameter(stepId, parameterName, parameterValue);
+  }
+
+  public void setStepParameter(final String stepId, final ToolParameter toolParameter) {
+    this.setParameter(stepId, toolParameter.getParameterName(), toolParameter.getParameterValue());
+  }
+  
+  public void setStepParameter(final int stepId, final ToolParameter toolParameter) {
+    this.setParameter(stepId, toolParameter.getParameterName(), toolParameter.getParameterValue());
+  }
+
+  synchronized private void setParameter(final Object toolOrStepId, final String parameterName, final Object parameterValue) {
+    Map<String, Object> keyValueMap = this.parameters.get(toolOrStepId);
+    if(keyValueMap == null) {
+      keyValueMap = new HashMap<String, Object>();
+    }
+    keyValueMap.put(parameterName, parameterValue);
+    this.parameters.put(toolOrStepId, keyValueMap);
+  }
+  
   @JsonProperty("parameters")
   @JsonSerialize(include=JsonSerialize.Inclusion.NON_EMPTY)
-  public Map<String, ToolParameter> getParameters() {
+  public Map<Object, Map<String, Object>> getParameters() {
     return parameters;
   }
 
