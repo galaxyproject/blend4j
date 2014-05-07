@@ -13,7 +13,28 @@ public class Dataset extends HistoryContents implements HasGalaxyUrl {
   private boolean visible;
   private String galaxyUrl;
   private String apiKey;
+  private String info;
+  private String blurb;
 
+  public String getBlurb() {
+    return blurb;
+  }
+
+  @JsonProperty("misc_blurb")
+  public void setBlurb(String blurb) {
+    this.blurb = blurb;
+  }
+  
+  public String getInfo() {
+    return info;
+  }
+
+  @JsonProperty("misc_info")
+  public void setInfo(String info) {
+    this.info = info;
+  }
+  
+  
   public boolean getVisible() {
     return visible;
   }
