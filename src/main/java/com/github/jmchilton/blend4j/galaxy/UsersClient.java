@@ -12,7 +12,9 @@ public interface UsersClient {
   ClientResponse createUserRequest(final String remoteUserEmail);
 
   User createUser(final String remoteUserEmail);
-  
+
+  ClientResponse createUserRequest(final UserCreate userCreate);
+
   User createUser(final UserCreate userCreate);
 
   String createApiKey(final String userId);

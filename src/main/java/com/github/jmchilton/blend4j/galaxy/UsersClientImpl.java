@@ -47,12 +47,17 @@ class UsersClientImpl extends Client implements UsersClient {
 
   @Override
   public User createUser(UserCreate userCreate) {
-    return super.getWebResource().post(ClientResponse.class, write(userCreate)).getEntity(User.class);
+    return createUserRequest(userCreate).getEntity(User.class);
   }
 
   @Override
   public String createApiKey(String userId) {
     return super.read(super.getWebResource().path(userId).path("api_key").post(ClientResponse.class), String.class);
+  }
+
+  @Override
+  public ClientResponse createUserRequest(UserCreate userCreate) {
+    return super.getWebResource().post(ClientResponse.class, write(userCreate));
   }
 
 }
