@@ -105,8 +105,8 @@ public class IntegrationTest {
     for(final User user : users) {
       usersClient.showUser(user.getId());
     }
-    ClientResponse response = usersClient.createUserRequest(UUID.randomUUID() + "@userexample.com");
-    assert200(response);
+    // testCreatePrivateDataLibrary demonstrates how to create user depending on whether use_remote_user is set or not
+    // on remote Galaxy instance.
   }
 
   @Test
@@ -123,6 +123,8 @@ public class IntegrationTest {
     final String email = UUID.randomUUID().toString() + "@createprivatelibraryexample.com";
 
     Object useRemoteUser = galaxyInstance.getConfigurationClient().getRawConfiguration().get("use_remote_user");
+    // If remote Galaxy has `use_remote_user` to True, just send along an e-mail, otherwise
+    // user creation requires email, username, and password.
     if(useRemoteUser != null && (Boolean) useRemoteUser) {
       final ClientResponse response = usersClient.createUserRequest(email);
       assert200(response);
