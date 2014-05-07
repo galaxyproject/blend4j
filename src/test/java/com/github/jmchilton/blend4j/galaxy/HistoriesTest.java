@@ -39,7 +39,6 @@ public class HistoriesTest {
     do {
       export = historiesClient.exportHistory(historyId);
     } while( ! export.isReady() );
-    throw new RuntimeException( export.getDownloadUrl() );
   }
   
   @Test

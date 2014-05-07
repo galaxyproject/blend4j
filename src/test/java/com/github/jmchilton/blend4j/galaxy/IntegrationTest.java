@@ -18,6 +18,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
 import com.github.jmchilton.blend4j.galaxy.beans.RepositoryInstall;
 import com.github.jmchilton.blend4j.galaxy.beans.Role;
 import com.github.jmchilton.blend4j.galaxy.beans.User;
+import com.github.jmchilton.blend4j.galaxy.beans.UserCreate;
 import com.github.jmchilton.blend4j.toolshed.ToolShedUtils;
 import com.github.jmchilton.blend4j.toolshed.beans.Repository;
 import com.sun.jersey.api.client.ClientResponse;
@@ -75,7 +76,7 @@ public class IntegrationTest {
     final Library testLibrary = createTestLibrary(client, "test-filesystem-paths" + UUID.randomUUID().toString());
     final LibraryContent rootFolder = client.getRootFolder(testLibrary.getId());
     final FilesystemPathsLibraryUpload upload = new FilesystemPathsLibraryUpload();
-    upload.setContent("test-data/visualization/phyloviz/");
+    upload.setContent("test-data/users/test1@bx.psu.edu/");
     upload.setLinkData(true);
     upload.setFolderId(rootFolder.getId());
     final ClientResponse uploadResponse = client.uploadFileFromUrl(testLibrary.getId(), upload);
@@ -90,7 +91,7 @@ public class IntegrationTest {
     final LibraryContent rootFolder = client.getRootFolder(testLibrary.getId());
 
     final DirectoryLibraryUpload upload2 = new DirectoryLibraryUpload();
-    upload2.setContent("test-data/visualization/phyloviz/");
+    upload2.setContent("test-data/users/test1@bx.psu.edu/");
     upload2.setFolderId(rootFolder.getId());
     final ClientResponse uploadResponse2 = client.uploadServerDirectoryRequest(testLibrary.getId(), upload2);
     assert200(uploadResponse2);
@@ -120,8 +121,18 @@ public class IntegrationTest {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
     final UsersClient usersClient = galaxyInstance.getUsersClient();
     final String email = UUID.randomUUID().toString() + "@createprivatelibraryexample.com";
-    final ClientResponse response = usersClient.createUserRequest(email);
-    assert200(response);
+
+    Object useRemoteUser = galaxyInstance.getConfigurationClient().getRawConfiguration().get("use_remote_user");
+    if(useRemoteUser != null && (Boolean) useRemoteUser) {
+      final ClientResponse response = usersClient.createUserRequest(email);
+      assert200(response);
+    } else {
+      final UserCreate newUser = new UserCreate();
+      newUser.setEmail(email);
+      newUser.setPassword("test12345");
+      newUser.setUsername(UUID.randomUUID().toString());
+      usersClient.createUserRequest(newUser);
+    }
     final Role role = galaxyInstance.getRolesClient().getRole(email);
     final Library library = new Library();
     library.setName("DataImport-" + email);

@@ -30,7 +30,6 @@ public class UserTest {
     assert user.getUsername().equals(username);
     
     final String apiKey = client.createApiKey(user.getId());
-    System.out.println(apiKey);
   }
 
 }

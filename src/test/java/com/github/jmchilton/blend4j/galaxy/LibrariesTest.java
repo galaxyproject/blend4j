@@ -41,10 +41,10 @@ public class LibrariesTest {
     final boolean linkData = false;
     final FilesystemPathsLibraryUpload upload = new FilesystemPathsLibraryUpload(composite);
     upload.setName("MOOCOW");
-    upload.setContent("test-data/visualization/phyloviz/");
+    upload.setContent("test-data/users/test1@bx.psu.edu/");
     upload.setLinkData(linkData);
     upload.setFolderId(rootFolder.getId());
-    upload.setFileType("tabular");
+    upload.setFileType("fasta");
     final ClientResponse uploadResponse = client.uploadFileFromUrl(testLibrary.getId(), upload);
     IntegrationTest.assert200(uploadResponse);
   }
