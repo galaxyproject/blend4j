@@ -1,6 +1,9 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
@@ -57,6 +60,14 @@ class TestHelpers {
     }
     final String state = details.getState();
     if(!state.equals("ok")) {
+      for(HistoryContents content : client.showHistoryContents(historyId)) {
+        if(!content.getState().equals("ok")) {
+          HistoryContentsProvenance provenance = client.showProvenance(historyId, content.getId());
+          final String standardError = provenance.getStandardError().replace("\n", "");
+          final String message = "History no longer running, but not in 'ok' state. Found content in error with standard error " + standardError;
+          throw new RuntimeException(message);
+        }
+      }
       final String message = "History no longer running, but not in 'ok' state. State is - " + state;
       throw new RuntimeException(message);
     }
