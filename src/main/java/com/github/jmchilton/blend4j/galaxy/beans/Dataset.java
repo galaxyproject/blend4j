@@ -5,23 +5,14 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Dataset extends HistoryDetails implements HasGalaxyUrl {
+public class Dataset extends HistoryContents implements HasGalaxyUrl {
   private String dataType;
-  private boolean deleted;
   private String downloadUrl;
   private Integer fileSize;
   private String genomeBuild;
   private boolean visible;
   private String galaxyUrl;
   private String apiKey;
-
-  public boolean getDeleted() {
-    return deleted;
-  }
-
-  public void setDeleted(boolean deleted) {
-    this.deleted = deleted;
-  }
 
   public boolean getVisible() {
     return visible;
