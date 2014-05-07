@@ -9,6 +9,9 @@ public class HistoryContentsProvenance {
   private String id;
   private String uuid;
   private String toolId;
+  private String jobId;
+  private String standardOutput;
+  private String standardError;
   private Map<String, Object> parameters;
 
   public String getId() {
@@ -43,7 +46,32 @@ public class HistoryContentsProvenance {
   public void setParameters(Map<String, Object> parameters) {
     this.parameters = parameters;
   }
+
+  public String getStandardOutput() {
+    return standardOutput;
+  }
+
+  @JsonProperty("stdout")
+  public void setStandardOutput(String standardOutput) {
+    this.standardOutput = standardOutput;
+  }
+
+  public String getStandardError() {
+    return standardError;
+  }
   
+  @JsonProperty("stderr")
+  public void setStandardError(String standardError) {
+    this.standardError = standardError;
+  }
   
+  public String getJobId() {
+    return jobId;
+  }
+
+  @JsonProperty("job_id")
+  public void setJobId(String jobId) {
+    this.jobId = jobId;
+  }
   
 }
