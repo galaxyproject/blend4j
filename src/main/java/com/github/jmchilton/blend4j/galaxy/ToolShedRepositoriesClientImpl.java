@@ -63,7 +63,7 @@ class ToolShedRepositoriesClientImpl extends Client implements ToolShedRepositor
     final WebResource resource = super.webResource.path(toolShedId).path("import_workflow");
     final HashMap<String, Object> postObject = new HashMap<String, Object>();
     postObject.put("index", index);
-    return super.create(webResource, postObject);
+    return super.create(resource, postObject);
   }
 
   public Workflow importWorkflow(String toolShedId, int index) {
@@ -73,7 +73,7 @@ class ToolShedRepositoriesClientImpl extends Client implements ToolShedRepositor
 
   public ClientResponse importWorkflowsRequest(String toolShedId) {
     final WebResource resource = super.webResource.path(toolShedId).path("import_workflows");
-    return super.create(webResource);
+    return super.create(resource);
   }
 
   public List<Workflow> importWorkflows(String toolShedId) {
