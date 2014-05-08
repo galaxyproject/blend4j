@@ -7,6 +7,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.RepositoryWorkflow;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import java.util.HashMap;
 import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -60,7 +61,9 @@ class ToolShedRepositoriesClientImpl extends Client implements ToolShedRepositor
 
   public ClientResponse importWorkflowRequest(String toolShedId, int index) {
     final WebResource resource = super.webResource.path(toolShedId).path("import_workflow");
-    return super.create(webResource, index);
+    final HashMap<String, Object> postObject = new HashMap<String, Object>();
+    postObject.put("index", index);
+    return super.create(webResource, postObject);
   }
 
   public Workflow importWorkflow(String toolShedId, int index) {
