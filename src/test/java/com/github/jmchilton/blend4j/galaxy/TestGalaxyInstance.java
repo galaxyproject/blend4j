@@ -38,7 +38,6 @@ public class TestGalaxyInstance {
       galaxyData.getUsers().add(normalUser);
       galaxyProperties.setAdminUser("admin@localhost");
       galaxyProperties.setAppProperty("allow_library_path_paste", "true");
-      galaxyProperties.setAppProperty("use_remote_user", "true");
       galaxyProperties.setAppProperty("library_import_dir", ".");
       galaxyProperties.setAppProperty("tool_dependency_dir", "tool_dependencies");
       final int port = galaxyProperties.getPort();
