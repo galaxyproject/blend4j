@@ -45,7 +45,7 @@ public class ToolShedRepositoriesTest {
     }
     assert reposClient.showRepository(repositoryId).getInstallationStatus().equals(InstallationStatus.INSTALLED);
     final List<RepositoryWorkflow> workflows = reposClient.exportedWorkflows(repositoryId);
-    assert workflows.size() == 1 : "Incorrect number of exported workflows discovered - " + workflows.size();
+    assert workflows.size() == 3 : "Incorrect number of exported workflows discovered - " + workflows.size();
     final Workflow workflow = reposClient.importWorkflow(repositoryId, workflows.get(0).getIndex());
     assert workflow != null : "Returned workflow is null.";
   }
