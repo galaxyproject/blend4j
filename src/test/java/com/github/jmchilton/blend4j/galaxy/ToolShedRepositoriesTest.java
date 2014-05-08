@@ -5,11 +5,12 @@ import com.github.jmchilton.blend4j.galaxy.beans.InstalledRepository.Installatio
 import com.github.jmchilton.blend4j.galaxy.beans.RepositoryInstall;
 import com.github.jmchilton.blend4j.galaxy.beans.RepositoryWorkflow;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
+import com.sun.jersey.api.client.ClientResponse;
 import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ToolShedRepositoriesTest {
+public class ToolShedRepositoriesTest extends IntegrationTest {
   private GalaxyInstance instance;
   private ToolShedRepositoriesClient reposClient;
 
@@ -46,8 +47,8 @@ public class ToolShedRepositoriesTest {
     assert reposClient.showRepository(repositoryId).getInstallationStatus().equals(InstallationStatus.INSTALLED);
     final List<RepositoryWorkflow> workflows = reposClient.exportedWorkflows(repositoryId);
     assert workflows.size() == 3 : "Incorrect number of exported workflows discovered - " + workflows.size();
-    final Workflow workflow = reposClient.importWorkflow(repositoryId, workflows.get(0).getIndex());
-    assert workflow != null : "Returned workflow is null.";
+    final ClientResponse response = reposClient.importWorkflowRequest(repositoryId, workflows.get(0).getIndex());
+    assert200(response);
   }
 
 }
