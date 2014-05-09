@@ -1,0 +1,220 @@
+<html>
+<body>
+
+<p>blend4j is a partial reimplemenation of the Python library <a
+href="https://github.com/afgane/bioblend">bioblend</a> for the JVM. bioblend
+for Python is a library for scripting interactions with Galaxy. These API
+documents describe how to use it - for general information including how to
+obtain and test blend4j checkout its home on <a
+href="https://github.com/jmchilton/blend4j">github</a>.</p>
+
+<h2>Examples</h2>
+
+<p>These examples demonstrate some simple use cases - see specific packages and classes for more details. For simplicity, these examples assume the following import statements are used to import all of blend4j's Galaxy functionality.</p>
+
+<pre class="brush:java">
+import com.github.jmchilton.blend4j.galaxy.beans.*;
+import com.github.jmchilton.blend4j.galaxy.*;
+</pre>
+
+<p>Listing current users history:</p>
+
+<pre class="brush:java">
+  GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
+  HistoriesClient historiesClient = galaxyInstance.getHistoriesClient();
+  for(History history : historiesClient.getHistories()) {
+    String name = history.getName();
+    String id = history.getId();
+    String message = String.format("Found history with name %s and id %s", name, id);
+    System.out.println(message);
+  }
+</pre>
+
+<p>Find a data library by name and print its contents:</p>
+
+<pre class="brush:java">
+  final GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
+  final LibrariesClient librariesClient = galaxyInstance.getLibrariesClient();
+  final List&lt;Library&gt; libraries = librariesClient.getLibraries();
+  Library testLibrary = null;
+  for(final Library library : libraries) {
+    if(library.getName().equals("test-library")) {
+      testLibrary = library;
+    }
+  }
+  if(testLibrary == null) {
+    return;
+  }
+  for(final LibraryContent content : librariesClient.getLibraryContents(testLibrary.getId())) {
+    final String type = content.getType(); // file or folder
+    final String name = content.getName();
+    final String id = content.getId();
+    final String message = String.format("Found library content of type %s with name %s and id %s", type, name, id);
+    System.out.println(message);
+  }
+</pre>
+
+<p>The following code demonstrates running a workflow. It assumes the existence of
+a workflow named TestWorkflow1 with two inputs labeled WorkflowInput1 and 
+WorkflowInput2. Additionally it assumes a history named TestHistory1 already
+exists containing two datasets Input1 and Input2.</p>
+
+<pre class="brush:java">
+final GalaxyInstance instance = GalaxyInstanceFactory.get(url, apiKey);
+final WorkflowsClient workflowsClient = instance.getWorkflowsClient();</p>
+
+// Find history
+final HistoriesClient historyClient = instance.getHistoriesClient();
+History matchingHistory = null;
+for(final History history : historyClient.getHistories()) {
+  if(history.getName().equals("TestHistory1")) {
+    matchingHistory = history;
+  }
+}
+Assert.assertNotNull(matchingHistory);
+String input1Id = null;
+String input2Id = null;
+for(final HistoryContents historyDataset :historyClient.showHistoryContents(matchingHistory.getId())) {
+  if(historyDataset.getName().equals("Input1")) {
+    input1Id = historyDataset.getId();
+  }
+  if(historyDataset.getName().equals("Input2")) {
+    input2Id = historyDataset.getId();
+  }
+}
+
+Workflow matchingWorkflow = null;
+for(Workflow workflow : workflowsClient.getWorkflows()) {
+  if(workflow.getName().equals("TestWorkflow1")) {
+    matchingWorkflow = workflow;
+  }
+}
+
+final WorkflowDetails workflowDetails = workflowsClient.showWorkflow(matchingWorkflow.getId());
+String workflowInput1Id = null;
+String workflowInput2Id = null;
+for(final Map.Entry&lt;String, WorkflowInputDefinition&gt; inputEntry : workflowDetails.getInputs().entrySet()) {
+  final String label = inputEntry.getValue().getLabel();
+  if(label.equals("WorkflowInput1")) {
+    workflowInput1Id = inputEntry.getKey();
+  }
+  if(label.equals("WorkflowInput2")) {
+    workflowInput2Id = inputEntry.getKey();
+  }
+}
+
+final WorkflowInputs inputs = new WorkflowInputs();
+inputs.setDestination(new WorkflowInputs.ExistingHistory(matchingHistory.getId()));
+inputs.setWorkflowId(matchingWorkflow.getId());
+inputs.setInput(workflowInput1Id, new WorkflowInputs.WorkflowInput(input1Id, WorkflowInputs.InputSourceType.HDA));
+inputs.setInput(workflowInput2Id, new WorkflowInputs.WorkflowInput(input2Id, WorkflowInputs.InputSourceType.HDA));
+final WorkflowOutputs output = workflowsClient.runWorkflow(inputs);    
+System.out.println("Running workflow in history " + output.getHistoryId());
+for(String outputId : output.getOutputIds()) {
+  System.out.println("  Workflow writing to output id " + outputId);
+}
+</pre>
+
+<p>The following code demonstrates creating a data library at four different levels of abstraction (these examples require an admin key):</p>
+  
+<pre class="brush:java">
+// Most API methods have corresponding blend4j methods for dealing with 
+// both low-level request and parsed POJO responses. You can also use the method
+// galaxyInstance.getWebResource() to access the low-level Jersey APIs directly.
+final GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
+final LibrariesClient librariesClient = galaxyInstance.getLibrariesClient(); 
+
+// Highest level of abstraction, deal with POJO responses
+final Library testLibrary1 = new Library("test1");
+final Library persistedLibrary1 = librariesClient.createLibrary(testLibrary1);
+
+// Deal with Jersey ClientResponse object in case want to check return status, etc...
+final Library testLibrary2 = new Library("test2");
+final ClientResponse response2 = librariesClient.createLibraryRequest(testLibrary2);
+if(response2.getStatus() == 200) {
+  final Library persistedLibrary2 = response2.getEntity(Library.class); 
+  // ...
+}
+
+// Use Jersey directly (with POJOs)
+final WebResource webResource3 = galaxyInstance.getWebResource();
+final Library testLibrary3 = new Library("test3");
+final ClientResponse response3 = webResource3
+    .path("libraries")
+    .type(MediaType.APPLICATION_JSON)
+    .accept(MediaType.APPLICATION_JSON)
+    .post(ClientResponse.class, testLibrary3);
+final Library persistedLibrary3 = response3.getEntity(Library.class);
+
+// Use Jersey directly (no POJOs)
+final WebResource webResource4 = galaxyInstance.getWebResource();
+final ClientResponse response4 = webResource4
+    .path("libraries")
+    .type(MediaType.APPLICATION_JSON)
+    .accept(MediaType.APPLICATION_JSON)
+    .post(ClientResponse.class, "{\"name\": \"test4\"}");
+final String jsonResponse4 = response4.getEntity(String.class);
+System.out.println("JSON response is: " + jsonResponse4);
+</pre>
+
+<p>This example demonstrates an admin process creating a private data library for a user and copying a directories contents to it. This example requires both an admin key and for use<em>remote</em>user to be enabled in the Galaxy instance's options file.</p>
+
+<pre class="brush:java">
+final GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);</p>
+final String email = "alice@example.com";
+
+// Create data library
+final Library library = new Library("Example library for " + email);
+final LibrariesClient librariesClient = galaxyInstance.getLibrariesClient();
+final Library persistedLibrary = librariesClient.createLibrary(library);
+
+// Copy example directory into library
+final FilesystemPathsLibraryUpload upload = new FilesystemPathsLibraryUpload();
+final LibraryContent rootFolder = librariesClient.getRootFolder(persistedLibrary.getId());
+upload.setFolderId(rootFolder.getId());
+upload.setContent("test-data/variant_detection");
+librariesClient.uploadFilesystemPathsRequest(persistedLibrary.getId(), upload);
+
+// Obtain user object
+User owner = null;
+final UsersClient usersClient = galaxyInstance.getUsersClient();
+for(final User user : usersClient.getUsers()) {
+  if(user.getEmail().equals(email)) {
+    owner = user;
+    break;
+  }
+}
+if(owner == null) {
+  // In order to create users like this - use_remote_user must be enabled
+  // in the Galaxy instance's universe_wsgi.ini options.
+  owner = usersClient.createUser(email);
+}
+
+// Obtain user role
+Role ownersPrivateRole = null;
+final RolesClient rolesClient = galaxyInstance.getRolesClient();
+for(final Role role : rolesClient.getRoles()) {
+  if(role.getName().equals(email)) {
+    ownersPrivateRole = role;
+    break;
+  }
+}
+final String ownersPrivateRoleId = ownersPrivateRole.getId(); 
+
+// Set data library permissions
+final LibraryPermissions permissions = new LibraryPermissions();
+permissions.getAccessInRoles().add(ownersPrivateRoleId);
+permissions.getAddInRoles().add(ownersPrivateRoleId);
+permissions.getManageInRoles().add(ownersPrivateRoleId);
+permissions.getModifyInRoles().add(ownersPrivateRoleId);
+librariesClient.setLibraryPermissions(persistedLibrary.getId(), permissions);
+</pre>
+
+<p>These examples are taken from <a href="https://github.com/jmchilton/blend4j/blob/master/src/test/java/com/github/jmchilton/blend4j/galaxy/Examples.java">Examples.java</a>. For more examples see these <a href="https://github.com/jmchilton/blend4j/blob/master/src/test/java/com/github/jmchilton/blend4j/galaxy/IntegrationTest.java">integration test cases</a> or the rest of the integration tests <a href="https://github.com/jmchilton/blend4j/blob/master/src/test/java/com/github/jmchilton/blend4j/galaxy">here</a>.</p>
+
+<p>Brad Chapman has put together a higher-level Clojure library - <a href="https://github.com/chapmanb/clj-blend.git">clj-blend</a>, the
+source code of which can serve as additional examples of blend4j
+usage.</p>
+
+</body>
+</html>
