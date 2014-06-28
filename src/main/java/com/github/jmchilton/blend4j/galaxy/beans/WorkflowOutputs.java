@@ -12,7 +12,7 @@ public class WorkflowOutputs {
   }
 
   @JsonProperty("outputs")
-  public void seOutputIds(final List<String> outputIds) {
+  public void setOutputIds(final List<String> outputIds) {
     this.outputIds = outputIds;
   }
 

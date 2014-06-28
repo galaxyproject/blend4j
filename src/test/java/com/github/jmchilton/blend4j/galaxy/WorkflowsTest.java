@@ -36,7 +36,7 @@ public class WorkflowsTest {
     client = instance.getWorkflowsClient();
   }
   
-  private String ensureHasTestWorklfow1() {
+  private String ensureHasTestWorkflow1() {
     return ensureHasWorkflow(TEST_WORKFLOW_NAME);
   }
   
@@ -63,7 +63,7 @@ public class WorkflowsTest {
   
   @Test
   public void testExportWorkflow() {
-    ensureHasTestWorklfow1();
+    ensureHasTestWorkflow1();
     final String testWorkflowId = getTestWorkflowId();
     final String workflowExported = client.exportWorkflow(testWorkflowId);
     assert workflowExported.contains("a_galaxy_workflow");            
@@ -71,7 +71,7 @@ public class WorkflowsTest {
 
   @Test
   public void testImportExportWorkflow() {
-    ensureHasTestWorklfow1();
+    ensureHasTestWorkflow1();
     final String testWorkflowId = getTestWorkflowId();
     final String workflowJson = client.exportWorkflow(testWorkflowId);
     final Workflow importedWorkflow = client.importWorkflow(workflowJson);
