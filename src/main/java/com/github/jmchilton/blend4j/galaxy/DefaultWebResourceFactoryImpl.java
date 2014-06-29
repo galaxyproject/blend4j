@@ -17,6 +17,7 @@ public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
   public static String API_PATH = "api";
   private String url;
   private String key;
+  private boolean debug;
 
   public DefaultWebResourceFactoryImpl(final String url, final String key, final boolean debug) {
     this.url = url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
