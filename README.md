@@ -15,7 +15,7 @@ examples can be found in  [Aaron Petkau][apetkau]'s [blend4j tutorials][tutorial
 and the [integration tests][tests]. Examples of using
 blend4j in larger open source projects include [Molgenis integration][molgensis] by [Dennis Hendriksen][dennishendriksen] and the
 [TraIT Workflow Runner][trait] for use with
-[transMART][https://github.com/transmart] by [Freek de Bruijn][freekdb].
+[tranSMART][transmart] by [Freek de Bruijn][freekdb].
 
 [api]: http://jmchilton.github.io/blend4j/apidocs/
 [tutorial]: https://github.com/apetkau/blend4j-tutorials
