@@ -46,7 +46,7 @@ blend4j can be tested with [Apache Maven][b1].
 In this default mode, blend4j will use the [galaxy-bootstrap][t1] library to download, configure,
 and run an instance of Galaxy for testing (requiring an Internet connection). blend4j can be tested against an existing instance using the following Java system properties.
 
-        % mvn -Dtest.api.key=<key> -Dtest.galaxy.instance=<url> test
+        % mvn -Dtest.galaxy.key=<key> -Dtest.galaxy.instance=<url> test
 
 The above example will run a variety of tests and make various assumptions - some which may not be true for the supplied API key. Maven can be configured to run [a specific test or tests][t2].
 
