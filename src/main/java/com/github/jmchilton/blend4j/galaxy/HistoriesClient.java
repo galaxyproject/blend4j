@@ -3,6 +3,7 @@ package com.github.jmchilton.blend4j.galaxy;
 import java.util.List;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
+import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollection;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
@@ -32,4 +33,11 @@ public interface HistoriesClient {
   
   HistoryExport exportHistory(String historyId);
   
+  /**
+   * Gets a Dataset collection for the given historyId and datasetCollectionId.
+   * @param historyId  The ID of the history to search for dataset collections.
+   * @param datasetCollectionId  The id of the dataset collection to search for.
+   * @return  A DatasetCollection from the passed ids.
+   */
+  DatasetCollection showDatasetCollection(String historyId, String datasetCollectionId);
 }

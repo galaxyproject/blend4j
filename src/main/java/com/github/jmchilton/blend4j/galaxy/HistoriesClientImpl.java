@@ -5,6 +5,7 @@ import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
+import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollection;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
@@ -13,7 +14,9 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+
 import java.util.Map;
+
 import javax.ws.rs.core.MediaType;
 
 class HistoriesClientImpl extends Client implements HistoriesClient {
@@ -75,4 +78,19 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     }
   }
 
+  @Override
+  public DatasetCollection showDatasetCollection(String historyId,
+      String datasetCollectionId) {
+    return getWebResourceContents(historyId).path("dataset_collections").
+        path(datasetCollectionId).get(DatasetCollection.class);
+  }
+  
+  public static void main(String[] args) {
+    GalaxyInstance instance = GalaxyInstanceFactory.get("http://localhost:8888", "9066adc7dd6a344f1339c4b98e60a292",true);
+    HistoriesClient client = instance.getHistoriesClient();
+    
+    DatasetCollection d = client.showDatasetCollection("63cd3858d057a6d1", "500665cb113baad6");
+    System.out.println("*****");
+    System.out.println(d.getName());
+  }
 }
