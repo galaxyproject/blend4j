@@ -2,25 +2,54 @@ package com.github.jmchilton.blend4j.galaxy.beans;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  *  Class for storing information on DatasetCollections within a History.
  */
+@JsonIgnoreProperties(ignoreUnknown=false)
 public class DatasetCollection extends HistoryContents {
   
-  private List<HistoryContents> elements;
-  private String collection_type;
+  private List<DatasetCollectionElement> elements;
   
+  @JsonProperty("collection_type")
+  private String collectionType;
   
-  public List<HistoryContents> getElements() {
+  @JsonProperty("history_id")
+  private String historyId;
+  
+  private boolean visible;
+
+  public List<DatasetCollectionElement> getElements() {
     return elements;
   }
-  public void setElements(List<HistoryContents> elements) {
+
+  public void setElements(List<DatasetCollectionElement> elements) {
     this.elements = elements;
   }
-  public String getCollection_type() {
-    return collection_type;
+
+  public String getCollectionType() {
+    return collectionType;
   }
-  public void setCollection_type(String collection_type) {
-    this.collection_type = collection_type;
+
+  public void setCollectionType(String collectionType) {
+    this.collectionType = collectionType;
+  }
+
+  public String getHistoryId() {
+    return historyId;
+  }
+
+  public void setHistoryId(String historyId) {
+    this.historyId = historyId;
+  }
+
+  public boolean isVisible() {
+    return visible;
+  }
+
+  public void setVisible(boolean visible) {
+    this.visible = visible;
   }
 }
