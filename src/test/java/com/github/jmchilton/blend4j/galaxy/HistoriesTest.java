@@ -54,6 +54,36 @@ public class HistoriesTest {
     TestHelpers.waitForHistory(historiesClient, collectionHistoryId);
   }
   
+  /**
+   * Checks to make sure the given dataset collection response matches the collection description.
+   * @param collectionResponse  The DatasetCollection response from the server.
+   * @param collectionDescription  The description of the dataset collection to send to the server.
+   */
+  private void assertDatasetCollectionResponseValid(DatasetCollection collectionResponse, 
+    DatasetCollectionDescription collectionDescription) {
+    
+    Assert.assertEquals(collectionDescription.getName(), collectionResponse.getName());
+    Assert.assertEquals(collectionDescription.getCollectionType(), collectionResponse.getCollectionType());
+    Assert.assertNotNull(collectionResponse.getId());
+    
+    List<DatasetCollectionElement> elementsResponse = collectionResponse.getElements();
+    List<HistoryDatasetElement> elementsDescription = collectionDescription.getDatasetElements();
+    
+    Assert.assertEquals(elementsDescription.size(), elementsResponse.size());
+    
+    for (int i = 0; i < elementsDescription.size(); i++) {
+      HistoryDatasetElement elementDescription = elementsDescription.get(i);
+      DatasetCollectionElement elementResponse = elementsResponse.get(i);
+      
+      Assert.assertEquals(i, elementResponse.getElementIndex());
+      Assert.assertNotNull(elementResponse.getId());
+      
+      Dataset elementResponseDataset = elementResponse.getDataset();
+      
+      Assert.assertEquals(elementDescription.getName(), elementResponseDataset.getName());
+    }
+  }
+  
   private String responseErrorMessage(ClientResponse response) {
 	  return "Response is " + response .getStatus() + ", content="
 		        + response.getEntity(String.class);
@@ -71,7 +101,7 @@ public class HistoriesTest {
    */
   @Test
   public void testCreateDatasetCollectionListPass() throws InterruptedException {
-	String collectionName = "testCreateDatasetCollectionListPass";
+	  String collectionName = "testCreateDatasetCollectionListPass";
 	  
     HistoryDatasetElement element1 = new HistoryDatasetElement();
     element1.setId(collectionDataset1.getId());
@@ -90,19 +120,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element2);
     
     DatasetCollection collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
-    Assert.assertEquals(collectionName, collection.getName());
-    Assert.assertEquals("list", collection.getCollectionType());
-    Assert.assertNotNull(collection.getId());
-    
-    List<DatasetCollectionElement> elements = collection.getElements();
-    Assert.assertEquals(2, elements.size());
-    
-    DatasetCollectionElement responseElement1 = elements.get(0);
-    Assert.assertEquals(0, responseElement1.getElementIndex());
-    Assert.assertNotNull(responseElement1.getId());
-    
-    Dataset responseDataset1 = responseElement1.getDataset();
-    Assert.assertEquals(collectionDataset1.getName(), responseDataset1.getName());
+    assertDatasetCollectionResponseValid(collection, collectionDescription);
   }
   
   /**
