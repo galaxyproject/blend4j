@@ -91,14 +91,20 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     final ClientResponse response = super.create(super.path(historyId).path("contents"), collectionDescription);
     return response;
   }
+
+  @Override
+  public DatasetCollection createDatasetCollection(String historyId,
+      DatasetCollectionDescription collectionDescription) {
+    return createDatasetCollectionRequest(historyId, collectionDescription).getEntity(DatasetCollection.class);
+  }
   
   public static void main(String[] args) {
     GalaxyInstance instance = GalaxyInstanceFactory.get("http://localhost:8888", "9066adc7dd6a344f1339c4b98e60a292",true);
     HistoriesClient client = instance.getHistoriesClient();
     
-    DatasetCollection d = client.showDatasetCollection("63cd3858d057a6d1", "500665cb113baad6");
-    System.out.println("*****");
-    System.out.println(d.getName());
+//    DatasetCollection d = client.showDatasetCollection("63cd3858d057a6d1", "500665cb113baad6");
+//    System.out.println("*****");
+//    System.out.println(d.getName());
     
     HistoryDatasetElement dataset1 = new HistoryDatasetElement();
     dataset1.setSource("hda");
@@ -110,11 +116,11 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     dataset2.setName("reverse");
     DatasetCollectionDescription description = new DatasetCollectionDescription();
     description.setCollectionType("paired");
-    description.setName("collection_blend4j2");
+    description.setName("collection_blend4j3");
     description.addDatasetElement(dataset1);
     description.addDatasetElement(dataset2);
     
-    ClientResponse response = client.createDatasetCollectionRequest("63cd3858d057a6d1", description);
-    System.out.println("response : " + response.getStatus() + " " + response.getEntity(String.class));
+    DatasetCollection collection = client.createDatasetCollection("63cd3858d057a6d1", description);
+    System.out.println(collection);
   }
 }

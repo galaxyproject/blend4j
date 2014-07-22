@@ -1,6 +1,9 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
+import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollection;
 import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionElement;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDatasetElement;
@@ -86,9 +89,22 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
-    Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 200);
+    DatasetCollection collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    Assert.assertEquals(collectionName, collection.getName());
+    Assert.assertEquals("list", collection.getCollectionType());
+    Assert.assertNotNull(collection.getId());
+    
+    List<DatasetCollectionElement> elements = collection.getElements();
+    Assert.assertEquals(2, elements.size());
+    
+    DatasetCollectionElement responseElement1 = elements.get(0);
+    Assert.assertEquals(0, responseElement1.getElementIndex());
+    Assert.assertNotNull(responseElement1.getId());
+    
+    Dataset responseDataset1 = responseElement1.getDataset();
+    Assert.assertEquals(collectionDataset1.getName(), responseDataset1.getName());
   }
+  
   /**
    * Tests out building a new list dataset collection and failing.
    * @throws InterruptedException

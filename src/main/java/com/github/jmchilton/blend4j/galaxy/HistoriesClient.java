@@ -50,4 +50,13 @@ public interface HistoriesClient {
    */
   ClientResponse createDatasetCollectionRequest(String historyId,
       DatasetCollectionDescription collectionDescription);
+  
+  /**
+   * Creates a new Dataset Collection from the given information.
+   * @param historyId  The history to store this dataset collection.
+   * @param collectionDescription  A CollectionDescription describing the dataset collection to create.
+   * @return  A DatasetCollection describing the created dataset collection.
+   */
+  DatasetCollection createDatasetCollection(String historyId,
+      DatasetCollectionDescription collectionDescription);
 }
