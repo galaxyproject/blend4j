@@ -12,7 +12,7 @@ public class HistoryDetails extends History {
   private Map<String, List<String>> stateIds = new HashMap<String, List<String>>();
  
   public boolean isReady() {
-    return !(state.equals("running") || state.equals("queued"));
+    return !(state.equals("running") || state.equals("queued") || state.equals("new"));
   }
   
   public String getState() {
