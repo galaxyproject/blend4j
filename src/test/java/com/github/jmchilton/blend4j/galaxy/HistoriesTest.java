@@ -78,9 +78,7 @@ public class HistoriesTest {
       Assert.assertEquals(i, elementResponse.getElementIndex());
       Assert.assertNotNull(elementResponse.getId());
       
-      Dataset elementResponseDataset = elementResponse.getDataset();
-      
-      Assert.assertEquals(elementDescription.getName(), elementResponseDataset.getName());
+      Assert.assertEquals(elementDescription.getName(), elementResponse.getElementIdentifier());
     }
   }
   
@@ -127,7 +125,7 @@ public class HistoriesTest {
    * Tests out building a new list dataset collection and failing.
    * @throws InterruptedException
    */
-  @Test
+  @Test(expectedExceptions = RuntimeException.class)
   public void testCreateDatasetCollectionListFail() throws InterruptedException {
 	String collectionName = "testCreateDatasetCollectionListFail";
 	  
@@ -147,8 +145,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
-    Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 500);
+    historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
   }
   
   /**
@@ -175,15 +172,15 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
-    Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 200);
+    DatasetCollection collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    assertDatasetCollectionResponseValid(collection, collectionDescription);
   }
   
   /**
    * Tests out building a new paired dataset collection and failing.
    * @throws InterruptedException
    */
-  @Test
+  @Test(expectedExceptions = RuntimeException.class)
   public void testCreateDatasetCollectionPairedFail() throws InterruptedException {
 	String collectionName = "testCreateDatasetCollectionPairedFail";
 	  
@@ -203,8 +200,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
-    Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 500);
+    historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);;
   }
   
   @Test(expectedExceptions = RuntimeException.class)
