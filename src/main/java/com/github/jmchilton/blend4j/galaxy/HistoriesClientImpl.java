@@ -103,13 +103,14 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     HistoryDatasetElement dataset1 = new HistoryDatasetElement();
     dataset1.setSource("hda");
     dataset1.setId("638e3e2aad389e03");
-    dataset1.setName("a_1.fastq");
+    dataset1.setName("forward");
     HistoryDatasetElement dataset2 = new HistoryDatasetElement();
     dataset2.setSource("hda");
     dataset2.setId("1a5b83933dc4bf08");
-    dataset2.setName("a_2.fastq");
+    dataset2.setName("reverse");
     DatasetCollectionDescription description = new DatasetCollectionDescription();
-    description.setName("collection_blend4j1");
+    description.setCollectionType("paired");
+    description.setName("collection_blend4j2");
     description.addDatasetElement(dataset1);
     description.addDatasetElement(dataset2);
     

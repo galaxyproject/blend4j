@@ -83,9 +83,94 @@ public class HistoriesTest {
     DatasetCollectionDescription collectionDescription = new DatasetCollectionDescription();
     collectionDescription.setCollectionType("list");
     collectionDescription.setName(collectionName);
+    collectionDescription.addDatasetElement(element1);
+    collectionDescription.addDatasetElement(element2);
     
     ClientResponse response = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 200);
+  }
+  /**
+   * Tests out building a new list dataset collection and failing.
+   * @throws InterruptedException
+   */
+  @Test
+  public void testCreateDatasetCollectionListFail() throws InterruptedException {
+	String collectionName = "testCreateDatasetCollectionListFail";
+	  
+    HistoryDatasetElement element1 = new HistoryDatasetElement();
+    element1.setId(collectionDataset1.getId());
+    element1.setName(collectionDataset1.getName());
+    element1.setSource("hda");
+    
+    HistoryDatasetElement element2 = new HistoryDatasetElement();
+    element2.setId(collectionDataset2.getId() + "makeFailNow");
+    element2.setName(collectionDataset2.getName());
+    element2.setSource("hda");
+    
+    DatasetCollectionDescription collectionDescription = new DatasetCollectionDescription();
+    collectionDescription.setCollectionType("list");
+    collectionDescription.setName(collectionName);
+    collectionDescription.addDatasetElement(element1);
+    collectionDescription.addDatasetElement(element2);
+    
+    ClientResponse response = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 500);
+  }
+  
+  /**
+   * Tests out building a new paired dataset collection successfully.
+   * @throws InterruptedException
+   */
+  @Test
+  public void testCreateDatasetCollectionPairedPass() throws InterruptedException {
+	String collectionName = "testCreateDatasetCollectionPairedPass";
+	  
+    HistoryDatasetElement element1 = new HistoryDatasetElement();
+    element1.setId(collectionDataset1.getId());
+    element1.setName("forward");
+    element1.setSource("hda");
+    
+    HistoryDatasetElement element2 = new HistoryDatasetElement();
+    element2.setId(collectionDataset2.getId());
+    element2.setName("reverse");
+    element2.setSource("hda");
+    
+    DatasetCollectionDescription collectionDescription = new DatasetCollectionDescription();
+    collectionDescription.setCollectionType("paired");
+    collectionDescription.setName(collectionName);
+    collectionDescription.addDatasetElement(element1);
+    collectionDescription.addDatasetElement(element2);
+    
+    ClientResponse response = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 200);
+  }
+  
+  /**
+   * Tests out building a new paired dataset collection and failing.
+   * @throws InterruptedException
+   */
+  @Test
+  public void testCreateDatasetCollectionPairedFail() throws InterruptedException {
+	String collectionName = "testCreateDatasetCollectionPairedFail";
+	  
+    HistoryDatasetElement element1 = new HistoryDatasetElement();
+    element1.setId(collectionDataset1.getId());
+    element1.setName("forward");
+    element1.setSource("hda");
+    
+    HistoryDatasetElement element2 = new HistoryDatasetElement();
+    element2.setId(collectionDataset2.getId() + "makeFailNow");
+    element2.setName("reverse");
+    element2.setSource("hda");
+    
+    DatasetCollectionDescription collectionDescription = new DatasetCollectionDescription();
+    collectionDescription.setCollectionType("paired");
+    collectionDescription.setName(collectionName);
+    collectionDescription.addDatasetElement(element1);
+    collectionDescription.addDatasetElement(element2);
+    
+    ClientResponse response = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 500);
   }
   
   @Test(expectedExceptions = RuntimeException.class)
