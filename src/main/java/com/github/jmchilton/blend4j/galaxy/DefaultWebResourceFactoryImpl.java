@@ -34,9 +34,8 @@ public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
    * desired Galaxy key.
    */
   public WebResource get() {
-    final com.sun.jersey.api.client.Client client = getJerseyClient();
     final String apiKey = getApiKey();
-    WebResource resource = client.resource(getGalaxyUrl()).path(API_PATH);
+    WebResource resource = getRawWebResource();
     if(apiKey != null) {
       resource = resource.queryParam("key", apiKey);
     }
@@ -73,5 +72,17 @@ public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
       client.addFilter(new LoggingFilter(System.out));
     }
     return client;
+  }
+  
+  /**
+   * Build Jersey client, and get {@link WebResource} targeting Galaxy API.
+   * Use public method get() to get higher level WebResource with key populated
+   * for instance.
+   * 
+   * @return Web resource corresponding to target Galaxy API.
+   */
+  protected WebResource getRawWebResource() {
+    final com.sun.jersey.api.client.Client client = getJerseyClient();
+    return client.resource(getUrl()).path(API_PATH);
   }
 }
