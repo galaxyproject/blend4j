@@ -27,6 +27,14 @@ public class HistoriesTest {
     // TODO:
   }
   
+  @Test(expectedExceptions = RuntimeException.class)
+  public void testShowDatasetCollectionFail() {
+    final String historyId = TestHelpers.getTestHistoryId(instance);
+    final String fakeDatasetCollectionId = "fake";
+    
+    historiesClient.showDatasetCollection(historyId, fakeDatasetCollectionId);
+  }
+  
   @Test
   public void testImportExport() throws InterruptedException {
     final String historyId = TestHelpers.getTestHistoryId(instance);

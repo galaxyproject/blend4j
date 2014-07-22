@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
 import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollection;
+import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
@@ -40,4 +41,13 @@ public interface HistoriesClient {
    * @return  A DatasetCollection from the passed ids.
    */
   DatasetCollection showDatasetCollection(String historyId, String datasetCollectionId);
+  
+  /**
+   * Creates a new Dataset Collection from the given information.
+   * @param historyId  The history to store this dataset collection.
+   * @param collectionDescription  A CollectionDescription describing the dataset collection to create.
+   * @return  A ClientResponse.
+   */
+  ClientResponse createDatasetCollection(String historyId,
+      DatasetCollectionDescription collectionDescription);
 }
