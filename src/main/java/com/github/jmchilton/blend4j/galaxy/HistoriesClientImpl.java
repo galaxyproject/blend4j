@@ -86,7 +86,7 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
   
   @Override
-  public ClientResponse createDatasetCollection(String historyId,
+  public ClientResponse createDatasetCollectionRequest(String historyId,
       DatasetCollectionDescription collectionDescription) {
     final ClientResponse response = super.create(super.path(historyId).path("contents"), collectionDescription);
     return response;
@@ -114,7 +114,7 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     description.addDatasetElement(dataset1);
     description.addDatasetElement(dataset2);
     
-    ClientResponse response = client.createDatasetCollection("63cd3858d057a6d1", description);
+    ClientResponse response = client.createDatasetCollectionRequest("63cd3858d057a6d1", description);
     System.out.println("response : " + response.getStatus() + " " + response.getEntity(String.class));
   }
 }

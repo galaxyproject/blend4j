@@ -86,7 +86,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    ClientResponse response = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
     Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 200);
   }
   /**
@@ -113,7 +113,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    ClientResponse response = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
     Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 500);
   }
   
@@ -141,7 +141,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    ClientResponse response = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
     Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 200);
   }
   
@@ -169,7 +169,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    ClientResponse response = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
     Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 500);
   }
   
