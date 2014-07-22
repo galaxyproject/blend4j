@@ -1,7 +1,6 @@
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionDescription;
-import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionElement;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDatasetElement;
@@ -20,12 +19,41 @@ public class HistoriesTest {
   private GalaxyInstance instance;
   private ToolsClient toolsClient;
   private HistoriesClient historiesClient;
+  
+  private File collectionFile1;
+  private File collectionFile2;
+  private OutputDataset collectionDataset1;
+  private OutputDataset collectionDataset2;
+  
+  private String collectionHistoryId;
 
   @BeforeMethod
-  public void init() {
+  public void init() throws InterruptedException {
     instance = TestGalaxyInstance.get();
     toolsClient = instance.getToolsClient();
     historiesClient = instance.getHistoriesClient();
+    
+    buildHistoryForDatasets();
+  }
+  
+  private void buildHistoryForDatasets() throws InterruptedException {
+    String historyName = "collectionsHistory";
+    collectionHistoryId = TestHelpers.createTestHistory(instance, historyName);
+    
+    collectionFile1 = TestHelpers.getTestFile();
+    collectionFile2 = TestHelpers.getTestFile();
+    collectionDataset1 = TestHelpers.testUpload(instance, collectionHistoryId, collectionFile1);
+    collectionDataset2 = TestHelpers.testUpload(instance, collectionHistoryId, collectionFile2);
+    Assert.assertNotNull(collectionDataset1);
+    Assert.assertNotNull(collectionDataset2);
+    Assert.assertEquals(collectionDataset1.getName(), collectionFile1.getName());
+    Assert.assertEquals(collectionDataset2.getName(), collectionFile2.getName());
+    TestHelpers.waitForHistory(historiesClient, collectionHistoryId);
+  }
+  
+  private String responseErrorMessage(ClientResponse response) {
+	  return "Response is " + response .getStatus() + ", content="
+		        + response.getEntity(String.class);
   }
 
   @Test
@@ -35,42 +63,29 @@ public class HistoriesTest {
   }
   
   /**
-   * Tests out building a new dataset collection list successfully.
+   * Tests out building a new list dataset collection successfully.
    * @throws InterruptedException
    */
   @Test
   public void testCreateDatasetCollectionListPass() throws InterruptedException {
-    String historyName = "testCreateDatasetCollectionListPass";
-    String collectionName = "collection1";
-    final String historyId = TestHelpers.createTestHistory(instance, historyName);
-    
-    File file1 = TestHelpers.getTestFile();
-    File file2 = TestHelpers.getTestFile();
-    OutputDataset dataset1 = TestHelpers.testUpload(instance, historyId, file1);
-    OutputDataset dataset2 = TestHelpers.testUpload(instance, historyId, file2);
-    Assert.assertNotNull(dataset1);
-    Assert.assertNotNull(dataset2);
-    Assert.assertEquals(dataset1.getName(), file1.getName());
-    Assert.assertEquals(dataset2.getName(), file2.getName());
-    TestHelpers.waitForHistory(historiesClient, historyId);
-    
+	String collectionName = "testCreateDatasetCollectionListPass";
+	  
     HistoryDatasetElement element1 = new HistoryDatasetElement();
-    element1.setId(dataset1.getId());
-    element1.setName(file1.getName());
+    element1.setId(collectionDataset1.getId());
+    element1.setName(collectionDataset1.getName());
     element1.setSource("hda");
     
     HistoryDatasetElement element2 = new HistoryDatasetElement();
-    element2.setId(dataset2.getId());
-    element2.setName(dataset2.getName());
+    element2.setId(collectionDataset2.getId());
+    element2.setName(collectionDataset2.getName());
     element2.setSource("hda");
     
     DatasetCollectionDescription collectionDescription = new DatasetCollectionDescription();
     collectionDescription.setCollectionType("list");
     collectionDescription.setName(collectionName);
     
-    ClientResponse response = historiesClient.createDatasetCollection(historyId, collectionDescription);
-    Assert.assertEquals("Response is " + response .getStatus() + ", content="
-        + response.getEntity(String.class), response.getStatus(), 200);
+    ClientResponse response = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    Assert.assertEquals(responseErrorMessage(response), response.getStatus(), 200);
   }
   
   @Test(expectedExceptions = RuntimeException.class)
