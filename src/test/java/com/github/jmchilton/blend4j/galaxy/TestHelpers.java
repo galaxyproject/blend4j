@@ -43,8 +43,18 @@ class TestHelpers {
   }
   
   static String getTestHistoryId(final GalaxyInstance instance) {
+    return createTestHistory(instance, "blend4j Test History");
+  }
+  
+  /**
+   * Creates a new history for testing purposes.
+   * @param instance  The instance of Galaxy to create a new history within.
+   * @param historyName  The name of the history to create.
+   * @return  The history id of the newly created history.
+   */
+  static String createTestHistory(final GalaxyInstance instance, String historyName) {
     final History testHistory = new History();
-    testHistory.setName("blend4j Test History");
+    testHistory.setName(historyName);
     final History newHistory = instance.getHistoriesClient().create(testHistory);
     final String historyId = newHistory.getId();
     return historyId;
