@@ -1,12 +1,13 @@
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollection;
+import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionElementDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionDescription;
-import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionElement;
+import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionElementResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryDatasetElement;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDatasetElementDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
 import com.sun.jersey.api.client.ClientResponse;
@@ -59,21 +60,21 @@ public class HistoriesTest {
    * @param collectionResponse  The DatasetCollection response from the server.
    * @param collectionDescription  The description of the dataset collection to send to the server.
    */
-  private void assertDatasetCollectionResponseValid(DatasetCollection collectionResponse, 
+  private void assertDatasetCollectionResponseValid(DatasetCollectionResponse collectionResponse, 
     DatasetCollectionDescription collectionDescription) {
     
     Assert.assertEquals(collectionDescription.getName(), collectionResponse.getName());
     Assert.assertEquals(collectionDescription.getCollectionType(), collectionResponse.getCollectionType());
     Assert.assertNotNull(collectionResponse.getId());
     
-    List<DatasetCollectionElement> elementsResponse = collectionResponse.getElements();
-    List<HistoryDatasetElement> elementsDescription = collectionDescription.getDatasetElements();
+    List<DatasetCollectionElementResponse> elementsResponse = collectionResponse.getElements();
+    List<DatasetCollectionElementDescription> elementsDescription = collectionDescription.getDatasetElements();
     
     Assert.assertEquals(elementsDescription.size(), elementsResponse.size());
     
     for (int i = 0; i < elementsDescription.size(); i++) {
-      HistoryDatasetElement elementDescription = elementsDescription.get(i);
-      DatasetCollectionElement elementResponse = elementsResponse.get(i);
+      DatasetCollectionElementDescription elementDescription = elementsDescription.get(i);
+      DatasetCollectionElementResponse elementResponse = elementsResponse.get(i);
       
       Assert.assertEquals(i, elementResponse.getElementIndex());
       Assert.assertNotNull(elementResponse.getId());
@@ -101,12 +102,12 @@ public class HistoriesTest {
   public void testCreateDatasetCollectionListPass() throws InterruptedException {
 	  String collectionName = "testCreateDatasetCollectionListPass";
 	  
-    HistoryDatasetElement element1 = new HistoryDatasetElement();
+    HistoryDatasetElementDescription element1 = new HistoryDatasetElementDescription();
     element1.setId(collectionDataset1.getId());
     element1.setName(collectionDataset1.getName());
     element1.setSource("hda");
     
-    HistoryDatasetElement element2 = new HistoryDatasetElement();
+    HistoryDatasetElementDescription element2 = new HistoryDatasetElementDescription();
     element2.setId(collectionDataset2.getId());
     element2.setName(collectionDataset2.getName());
     element2.setSource("hda");
@@ -117,7 +118,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    DatasetCollection collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    DatasetCollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     assertDatasetCollectionResponseValid(collection, collectionDescription);
   }
   
@@ -129,12 +130,12 @@ public class HistoriesTest {
   public void testCreateDatasetCollectionListFail() throws InterruptedException {
 	String collectionName = "testCreateDatasetCollectionListFail";
 	  
-    HistoryDatasetElement element1 = new HistoryDatasetElement();
+    HistoryDatasetElementDescription element1 = new HistoryDatasetElementDescription();
     element1.setId(collectionDataset1.getId());
     element1.setName(collectionDataset1.getName());
     element1.setSource("hda");
     
-    HistoryDatasetElement element2 = new HistoryDatasetElement();
+    HistoryDatasetElementDescription element2 = new HistoryDatasetElementDescription();
     element2.setId(collectionDataset2.getId() + "makeFailNow");
     element2.setName(collectionDataset2.getName());
     element2.setSource("hda");
@@ -156,12 +157,12 @@ public class HistoriesTest {
   public void testCreateDatasetCollectionPairedPass() throws InterruptedException {
 	String collectionName = "testCreateDatasetCollectionPairedPass";
 	  
-    HistoryDatasetElement element1 = new HistoryDatasetElement();
+    HistoryDatasetElementDescription element1 = new HistoryDatasetElementDescription();
     element1.setId(collectionDataset1.getId());
     element1.setName("forward");
     element1.setSource("hda");
     
-    HistoryDatasetElement element2 = new HistoryDatasetElement();
+    HistoryDatasetElementDescription element2 = new HistoryDatasetElementDescription();
     element2.setId(collectionDataset2.getId());
     element2.setName("reverse");
     element2.setSource("hda");
@@ -172,7 +173,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    DatasetCollection collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    DatasetCollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     assertDatasetCollectionResponseValid(collection, collectionDescription);
   }
   
@@ -184,12 +185,12 @@ public class HistoriesTest {
   public void testCreateDatasetCollectionPairedFail() throws InterruptedException {
 	String collectionName = "testCreateDatasetCollectionPairedFail";
 	  
-    HistoryDatasetElement element1 = new HistoryDatasetElement();
+    HistoryDatasetElementDescription element1 = new HistoryDatasetElementDescription();
     element1.setId(collectionDataset1.getId());
     element1.setName("forward");
     element1.setSource("hda");
     
-    HistoryDatasetElement element2 = new HistoryDatasetElement();
+    HistoryDatasetElementDescription element2 = new HistoryDatasetElementDescription();
     element2.setId(collectionDataset2.getId() + "makeFailNow");
     element2.setName("reverse");
     element2.setSource("hda");

@@ -18,7 +18,8 @@ public class DatasetCollectionDescription {
   private String collectionType = "list";
   
   @JsonProperty("element_identifiers")
-  private List<HistoryDatasetElement> datasetElements = new LinkedList<HistoryDatasetElement>();
+  private List<DatasetCollectionElementDescription> datasetElements
+    = new LinkedList<DatasetCollectionElementDescription>();
   
   /**
    * Gets the name of this dataset collection.
@@ -40,7 +41,7 @@ public class DatasetCollectionDescription {
    * Gets a list of elements within this dataset collection.
    * @return  A list of elements within this dataset collection.
    */
-  public List<HistoryDatasetElement> getDatasetElements() {
+  public List<DatasetCollectionElementDescription> getDatasetElements() {
     return datasetElements;
   }
   
@@ -48,7 +49,7 @@ public class DatasetCollectionDescription {
    * Adds an element to this dataset collection.
    * @param datasetElement The dataset element to add.
    */
-  public void addDatasetElement(HistoryDatasetElement datasetElement) {
+  public void addDatasetElement(DatasetCollectionElementDescription datasetElement) {
     this.datasetElements.add(datasetElement);
   }
 

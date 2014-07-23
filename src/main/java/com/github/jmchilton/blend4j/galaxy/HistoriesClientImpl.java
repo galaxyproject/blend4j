@@ -5,10 +5,10 @@ import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollection;
+import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryDatasetElement;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDatasetElementDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
@@ -79,10 +79,10 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   @Override
-  public DatasetCollection showDatasetCollection(String historyId,
+  public DatasetCollectionResponse showDatasetCollection(String historyId,
       String datasetCollectionId) {
     return getWebResourceContents(historyId).path("dataset_collections").
-        path(datasetCollectionId).get(DatasetCollection.class);
+        path(datasetCollectionId).get(DatasetCollectionResponse.class);
   }
   
   @Override
@@ -93,9 +93,9 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   @Override
-  public DatasetCollection createDatasetCollection(String historyId,
+  public DatasetCollectionResponse createDatasetCollection(String historyId,
       DatasetCollectionDescription collectionDescription) {
-    return createDatasetCollectionRequest(historyId, collectionDescription).getEntity(DatasetCollection.class);
+    return createDatasetCollectionRequest(historyId, collectionDescription).getEntity(DatasetCollectionResponse.class);
   }
   
   public static void main(String[] args) {
@@ -106,12 +106,10 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
 //    System.out.println("*****");
 //    System.out.println(d.getName());
     
-    HistoryDatasetElement dataset1 = new HistoryDatasetElement();
-    dataset1.setSource("hda");
+    HistoryDatasetElementDescription dataset1 = new HistoryDatasetElementDescription();
     dataset1.setId("638e3e2aad389e03");
     dataset1.setName("forward");
-    HistoryDatasetElement dataset2 = new HistoryDatasetElement();
-    dataset2.setSource("hda");
+    HistoryDatasetElementDescription dataset2 = new HistoryDatasetElementDescription();
     dataset2.setId("1a5b83933dc4bf08");
     dataset2.setName("reverse");
     DatasetCollectionDescription description = new DatasetCollectionDescription();
@@ -120,7 +118,7 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     description.addDatasetElement(dataset1);
     description.addDatasetElement(dataset2);
     
-    DatasetCollection collection = client.createDatasetCollection("63cd3858d057a6d1", description);
+    DatasetCollectionResponse collection = client.createDatasetCollection("63cd3858d057a6d1", description);
     System.out.println(collection);
   }
 }

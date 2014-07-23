@@ -2,7 +2,10 @@ package com.github.jmchilton.blend4j.galaxy.beans;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class HistoryDatasetElement {
+/**
+ * Description for a DatasetCollectionElement for requesting creation of a dataset collection in Galaxy.
+ */
+public class DatasetCollectionElementDescription {
   
   @JsonProperty("id")
   private String id;

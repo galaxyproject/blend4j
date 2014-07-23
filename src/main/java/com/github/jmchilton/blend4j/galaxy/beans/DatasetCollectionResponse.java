@@ -6,12 +6,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- *  Class for storing information on DatasetCollections within a History.
+ *  Class for storing response information from Galaxy on DatasetCollections within a History.
  */
 @JsonIgnoreProperties(ignoreUnknown=false)
-public class DatasetCollection extends HistoryContents {
+public class DatasetCollectionResponse extends HistoryContents {
   
-  private List<DatasetCollectionElement> elements;
+  private List<DatasetCollectionElementResponse> elements;
   
   @JsonProperty("collection_type")
   private String collectionType;
@@ -21,11 +21,11 @@ public class DatasetCollection extends HistoryContents {
   
   private boolean visible;
 
-  public List<DatasetCollectionElement> getElements() {
+  public List<DatasetCollectionElementResponse> getElements() {
     return elements;
   }
 
-  public void setElements(List<DatasetCollectionElement> elements) {
+  public void setElements(List<DatasetCollectionElementResponse> elements) {
     this.elements = elements;
   }
 

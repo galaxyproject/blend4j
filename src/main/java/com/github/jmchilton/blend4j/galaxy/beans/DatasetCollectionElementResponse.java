@@ -4,9 +4,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * 
- * Represents a single element within a DatasetCollection.
+ * Represents a single element from a DatasetCollection response from Galaxy.
  */
-public class DatasetCollectionElement {
+public class DatasetCollectionElementResponse {
   
   @JsonProperty("element_identifier")
   private String elementIdentifier;
