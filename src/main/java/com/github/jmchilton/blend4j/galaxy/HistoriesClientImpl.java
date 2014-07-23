@@ -11,6 +11,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
+import com.github.jmchilton.blend4j.galaxy.beans.dataset.CollectionElementDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.dataset.HistoryDatasetElementDescription;
@@ -112,11 +113,17 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     HistoryDatasetElementDescription dataset2 = new HistoryDatasetElementDescription();
     dataset2.setId("1a5b83933dc4bf08");
     dataset2.setName("reverse");
+    
+    CollectionElementDescription element1 = new CollectionElementDescription();
+    element1.setName("element1");
+    element1.setCollectionType("paired");
+    element1.addCollectionElement(dataset1);
+    element1.addCollectionElement(dataset2);
+    
     DatasetCollectionDescription description = new DatasetCollectionDescription();
-    description.setCollectionType("paired");
-    description.setName("collection_blend4j3");
-    description.addDatasetElement(dataset1);
-    description.addDatasetElement(dataset2);
+    description.setCollectionType("list:paired");
+    description.setName("collection_blend4j4");
+    description.addDatasetElement(element1);
     
     DatasetCollectionResponse collection = client.createDatasetCollection("63cd3858d057a6d1", description);
     System.out.println(collection);

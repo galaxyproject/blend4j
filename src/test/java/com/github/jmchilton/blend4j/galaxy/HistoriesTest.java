@@ -6,6 +6,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.dataset.CollectionDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.dataset.CollectionElementDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionElementResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionResponse;
@@ -133,12 +134,10 @@ public class HistoriesTest {
     HistoryDatasetElementDescription element1 = new HistoryDatasetElementDescription();
     element1.setId(collectionDataset1.getId());
     element1.setName(collectionDataset1.getName());
-    element1.setSource("hda");
     
     HistoryDatasetElementDescription element2 = new HistoryDatasetElementDescription();
     element2.setId(collectionDataset2.getId() + "makeFailNow");
     element2.setName(collectionDataset2.getName());
-    element2.setSource("hda");
     
     DatasetCollectionDescription collectionDescription = new DatasetCollectionDescription();
     collectionDescription.setCollectionType("list");
@@ -160,12 +159,10 @@ public class HistoriesTest {
     HistoryDatasetElementDescription element1 = new HistoryDatasetElementDescription();
     element1.setId(collectionDataset1.getId());
     element1.setName("forward");
-    element1.setSource("hda");
     
     HistoryDatasetElementDescription element2 = new HistoryDatasetElementDescription();
     element2.setId(collectionDataset2.getId());
     element2.setName("reverse");
-    element2.setSource("hda");
     
     DatasetCollectionDescription collectionDescription = new DatasetCollectionDescription();
     collectionDescription.setCollectionType("paired");
@@ -175,6 +172,42 @@ public class HistoriesTest {
     
     DatasetCollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     assertDatasetCollectionResponseValid(collection, collectionDescription);
+  }
+  
+  /**
+   * Tests out building a new list of paired dataset collections successfully.
+   * @throws InterruptedException
+   */
+  @Test
+  public void testCreateDatasetCollectionListPairedPass() throws InterruptedException {
+  String collectionName = "testCreateDatasetCollectionListPairedPass";
+    
+    HistoryDatasetElementDescription element1 = new HistoryDatasetElementDescription();
+    element1.setId(collectionDataset1.getId());
+    element1.setName("forward");
+    
+    HistoryDatasetElementDescription element2 = new HistoryDatasetElementDescription();
+    element2.setId(collectionDataset2.getId());
+    element2.setName("reverse");
+    
+    CollectionElementDescription pairedSet1 = new CollectionElementDescription();
+    pairedSet1.setName("paired1");
+    pairedSet1.addCollectionElement(element1);
+    pairedSet1.addCollectionElement(element2);
+    
+    CollectionElementDescription pairedSet2 = new CollectionElementDescription();
+    pairedSet2.setName("paired2");
+    pairedSet2.addCollectionElement(element1);
+    pairedSet2.addCollectionElement(element2);
+    
+    DatasetCollectionDescription collectionDescription = new DatasetCollectionDescription();
+    collectionDescription.setCollectionType("list:paired");
+    collectionDescription.setName(collectionName);
+    collectionDescription.addDatasetElement(pairedSet1);
+    collectionDescription.addDatasetElement(pairedSet2);
+    
+    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
+    Assert.assertEquals(responseErrorMessage(response), 200, response.getStatus());
   }
   
   /**
