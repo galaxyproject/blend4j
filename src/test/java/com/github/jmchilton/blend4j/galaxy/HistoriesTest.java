@@ -10,6 +10,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.request.DatasetColle
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElementRequest;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.DatasetCollectionResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ResponseObject;
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.io.File;
@@ -124,7 +125,7 @@ public class HistoriesTest {
    * Tests out building a new list dataset collection and failing.
    * @throws InterruptedException
    */
-  @Test(expectedExceptions = RuntimeException.class)
+  //@Test(expectedExceptions = RuntimeException.class)
   public void testCreateDatasetCollectionListFail() throws InterruptedException {
 	String collectionName = "testCreateDatasetCollectionListFail";
 	  
@@ -189,11 +190,13 @@ public class HistoriesTest {
     
     CollectionElementRequest pairedSet1 = new CollectionElementRequest();
     pairedSet1.setName("paired1");
+    pairedSet1.setCollectionType("paired");
     pairedSet1.addCollectionElement(element1);
     pairedSet1.addCollectionElement(element2);
     
     CollectionElementRequest pairedSet2 = new CollectionElementRequest();
     pairedSet2.setName("paired2");
+    pairedSet2.setCollectionType("paired");
     pairedSet2.addCollectionElement(element1);
     pairedSet2.addCollectionElement(element2);
     
@@ -203,15 +206,57 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(pairedSet1);
     collectionDescription.addDatasetElement(pairedSet2);
     
-    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
-    Assert.assertEquals(responseErrorMessage(response), 200, response.getStatus());
+    DatasetCollectionResponse response = 
+        historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    
+    Assert.assertEquals(collectionDescription.getName(), response.getName());
+    Assert.assertEquals(collectionDescription.getCollectionType(), response.getCollectionType());
+    Assert.assertNotNull(response.getId());
+    
+    List<CollectionResponse> elementsResponse = response.getElements();
+    Assert.assertEquals(2, elementsResponse.size());
+    
+    CollectionResponse elementResponse0 = elementsResponse.get(0);
+    Assert.assertEquals(0, elementResponse0.getElementIndex());
+    Assert.assertNotNull(elementResponse0.getId());
+    Assert.assertEquals("paired1", elementResponse0.getElementIdentifier());
+    
+    assertPairedResponseObject(elementResponse0.getResponseObject());
+
+    CollectionResponse elementResponse1 = elementsResponse.get(1);
+    Assert.assertEquals(1, elementResponse1.getElementIndex());
+    Assert.assertNotNull(elementResponse1.getId());
+    Assert.assertEquals("paired2", elementResponse1.getElementIdentifier());
+    
+    assertPairedResponseObject(elementResponse1.getResponseObject());
+  }
+  
+  private void assertPairedResponseObject(ResponseObject responseObject) {
+    Assert.assertTrue(responseObject instanceof DatasetCollectionResponse);
+    DatasetCollectionResponse pairedResponse = (DatasetCollectionResponse)responseObject;
+    
+    Assert.assertEquals("paired", pairedResponse.getCollectionType());
+    Assert.assertNotNull(pairedResponse.getId());
+    
+    List<CollectionResponse> elementsResponsePaired = pairedResponse.getElements();
+    Assert.assertEquals(2, elementsResponsePaired.size());
+    
+    CollectionResponse elementResponsePairedElement0 = elementsResponsePaired.get(0);
+    Assert.assertEquals(0, elementResponsePairedElement0.getElementIndex());
+    Assert.assertNotNull(elementResponsePairedElement0.getId());
+    Assert.assertEquals("forward", elementResponsePairedElement0.getElementIdentifier());
+    
+    CollectionResponse elementResponsePairedElement1 = elementsResponsePaired.get(1);
+    Assert.assertEquals(1, elementResponsePairedElement1.getElementIndex());
+    Assert.assertNotNull(elementResponsePairedElement1.getId());
+    Assert.assertEquals("reverse", elementResponsePairedElement1.getElementIdentifier());
   }
   
   /**
    * Tests out building a new paired dataset collection and failing.
    * @throws InterruptedException
    */
-  @Test(expectedExceptions = RuntimeException.class)
+  //@Test(expectedExceptions = RuntimeException.class)
   public void testCreateDatasetCollectionPairedFail() throws InterruptedException {
 	String collectionName = "testCreateDatasetCollectionPairedFail";
 	  
