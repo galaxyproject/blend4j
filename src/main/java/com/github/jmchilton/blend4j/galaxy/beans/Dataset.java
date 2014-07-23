@@ -4,8 +4,10 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ResponseObject;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Dataset extends HistoryContents implements HasGalaxyUrl {
+public class Dataset extends HistoryContents implements HasGalaxyUrl, ResponseObject {
   private String dataType;
   private String downloadUrl;
   private Integer fileSize;

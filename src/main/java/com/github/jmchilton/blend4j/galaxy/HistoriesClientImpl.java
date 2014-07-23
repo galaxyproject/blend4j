@@ -14,7 +14,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElementRequest;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.DatasetCollectionRequest;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElementRequest;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.DatasetCollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
@@ -80,10 +80,10 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   @Override
-  public CollectionResponse showDatasetCollection(String historyId,
+  public DatasetCollectionResponse showDatasetCollection(String historyId,
       String datasetCollectionId) {
     return getWebResourceContents(historyId).path("dataset_collections").
-        path(datasetCollectionId).get(CollectionResponse.class);
+        path(datasetCollectionId).get(DatasetCollectionResponse.class);
   }
   
   @Override
@@ -94,9 +94,9 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   @Override
-  public CollectionResponse createDatasetCollection(String historyId,
+  public DatasetCollectionResponse createDatasetCollection(String historyId,
       DatasetCollectionRequest collectionDescription) {
-    return createDatasetCollectionRequest(historyId, collectionDescription).getEntity(CollectionResponse.class);
+    return createDatasetCollectionRequest(historyId, collectionDescription).getEntity(DatasetCollectionResponse.class);
   }
   
   public static void main(String[] args) {
@@ -125,7 +125,13 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     description.setName("collection_blend4j4");
     description.addDatasetElement(element1);
     
-    CollectionResponse collection = client.createDatasetCollection("63cd3858d057a6d1", description);
+//    DatasetCollectionRequest description = new DatasetCollectionRequest();
+//    description.setCollectionType("list");
+//    description.setName("collection_blend4j5");
+//    description.addDatasetElement(dataset1);
+//    description.addDatasetElement(dataset2);
+    
+    DatasetCollectionResponse collection = client.createDatasetCollection("63cd3858d057a6d1", description);
     System.out.println(collection);
   }
 }

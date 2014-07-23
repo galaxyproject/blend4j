@@ -10,7 +10,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.DatasetCollectionRequest;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.DatasetCollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 
 public interface HistoriesClient {
@@ -40,7 +40,7 @@ public interface HistoriesClient {
    * @param datasetCollectionId  The id of the dataset collection to search for.
    * @return  A DatasetCollection from the passed ids.
    */
-  CollectionResponse showDatasetCollection(String historyId, String datasetCollectionId);
+  DatasetCollectionResponse showDatasetCollection(String historyId, String datasetCollectionId);
   
   /**
    * Creates a new Dataset Collection from the given information.
@@ -57,6 +57,6 @@ public interface HistoriesClient {
    * @param collectionDescription  A CollectionDescription describing the dataset collection to create.
    * @return  A DatasetCollection describing the created dataset collection.
    */
-  CollectionResponse createDatasetCollection(String historyId,
+  DatasetCollectionResponse createDatasetCollection(String historyId,
       DatasetCollectionRequest collectionDescription);
 }

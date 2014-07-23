@@ -8,8 +8,8 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionRe
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElementRequest;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.DatasetCollectionRequest;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElementRequest;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionElementResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.DatasetCollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.io.File;
@@ -60,21 +60,21 @@ public class HistoriesTest {
    * @param collectionResponse  The DatasetCollection response from the server.
    * @param collectionDescription  The description of the dataset collection to send to the server.
    */
-  private void assertDatasetCollectionResponseValid(CollectionResponse collectionResponse, 
+  private void assertDatasetCollectionResponseValid(DatasetCollectionResponse collectionResponse, 
     DatasetCollectionRequest collectionDescription) {
     
     Assert.assertEquals(collectionDescription.getName(), collectionResponse.getName());
     Assert.assertEquals(collectionDescription.getCollectionType(), collectionResponse.getCollectionType());
     Assert.assertNotNull(collectionResponse.getId());
     
-    List<CollectionElementResponse> elementsResponse = collectionResponse.getElements();
+    List<CollectionResponse> elementsResponse = collectionResponse.getElements();
     List<CollectionRequest> elementsDescription = collectionDescription.getDatasetElements();
     
     Assert.assertEquals(elementsDescription.size(), elementsResponse.size());
     
     for (int i = 0; i < elementsDescription.size(); i++) {
       CollectionRequest elementDescription = elementsDescription.get(i);
-      CollectionElementResponse elementResponse = elementsResponse.get(i);
+      CollectionResponse elementResponse = elementsResponse.get(i);
       
       Assert.assertEquals(i, elementResponse.getElementIndex());
       Assert.assertNotNull(elementResponse.getId());
@@ -116,7 +116,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    CollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    DatasetCollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     assertDatasetCollectionResponseValid(collection, collectionDescription);
   }
   
@@ -167,7 +167,7 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    CollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    DatasetCollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     assertDatasetCollectionResponseValid(collection, collectionDescription);
   }
   
