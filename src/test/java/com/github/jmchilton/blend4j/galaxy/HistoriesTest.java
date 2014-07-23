@@ -1,15 +1,15 @@
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.CollectionElementDescription;
-import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionResponse;
-import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionDescription;
-import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionElementResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryDatasetElementDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
+import com.github.jmchilton.blend4j.galaxy.beans.dataset.CollectionDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionElementResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.dataset.HistoryDatasetElementDescription;
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.io.File;
@@ -68,12 +68,12 @@ public class HistoriesTest {
     Assert.assertNotNull(collectionResponse.getId());
     
     List<DatasetCollectionElementResponse> elementsResponse = collectionResponse.getElements();
-    List<CollectionElementDescription> elementsDescription = collectionDescription.getDatasetElements();
+    List<CollectionDescription> elementsDescription = collectionDescription.getDatasetElements();
     
     Assert.assertEquals(elementsDescription.size(), elementsResponse.size());
     
     for (int i = 0; i < elementsDescription.size(); i++) {
-      CollectionElementDescription elementDescription = elementsDescription.get(i);
+      CollectionDescription elementDescription = elementsDescription.get(i);
       DatasetCollectionElementResponse elementResponse = elementsResponse.get(i);
       
       Assert.assertEquals(i, elementResponse.getElementIndex());

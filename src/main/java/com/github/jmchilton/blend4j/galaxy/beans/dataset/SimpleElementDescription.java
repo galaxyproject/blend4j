@@ -1,8 +1,8 @@
-package com.github.jmchilton.blend4j.galaxy.beans;
+package com.github.jmchilton.blend4j.galaxy.beans.dataset;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public abstract class SimpleCollectionElementDescription extends CollectionElementDescription {
+public abstract class SimpleElementDescription extends CollectionDescription {
   
   @JsonProperty("id")
   private String id;

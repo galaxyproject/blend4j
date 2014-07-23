@@ -1,6 +1,8 @@
-package com.github.jmchilton.blend4j.galaxy.beans;
+package com.github.jmchilton.blend4j.galaxy.beans.dataset;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
 
 /**
  * 

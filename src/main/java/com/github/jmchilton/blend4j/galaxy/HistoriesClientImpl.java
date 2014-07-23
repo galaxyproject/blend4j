@@ -5,15 +5,15 @@ import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionResponse;
-import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryDatasetElementDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
+import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.dataset.HistoryDatasetElementDescription;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 

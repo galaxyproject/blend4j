@@ -1,9 +1,11 @@
-package com.github.jmchilton.blend4j.galaxy.beans;
+package com.github.jmchilton.blend4j.galaxy.beans.dataset;
 
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 
 /**
  *  Class for storing response information from Galaxy on DatasetCollections within a History.
