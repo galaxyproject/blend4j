@@ -1,7 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionElementDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.CollectionElementDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.DatasetCollectionElementResponse;
@@ -68,12 +68,12 @@ public class HistoriesTest {
     Assert.assertNotNull(collectionResponse.getId());
     
     List<DatasetCollectionElementResponse> elementsResponse = collectionResponse.getElements();
-    List<DatasetCollectionElementDescription> elementsDescription = collectionDescription.getDatasetElements();
+    List<CollectionElementDescription> elementsDescription = collectionDescription.getDatasetElements();
     
     Assert.assertEquals(elementsDescription.size(), elementsResponse.size());
     
     for (int i = 0; i < elementsDescription.size(); i++) {
-      DatasetCollectionElementDescription elementDescription = elementsDescription.get(i);
+      CollectionElementDescription elementDescription = elementsDescription.get(i);
       DatasetCollectionElementResponse elementResponse = elementsResponse.get(i);
       
       Assert.assertEquals(i, elementResponse.getElementIndex());
