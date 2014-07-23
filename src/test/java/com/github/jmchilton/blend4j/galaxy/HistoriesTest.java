@@ -125,7 +125,7 @@ public class HistoriesTest {
    * Tests out building a new list dataset collection and failing.
    * @throws InterruptedException
    */
-  //@Test(expectedExceptions = RuntimeException.class)
+  @Test
   public void testCreateDatasetCollectionListFail() throws InterruptedException {
 	String collectionName = "testCreateDatasetCollectionListFail";
 	  
@@ -143,7 +143,8 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
+    Assert.assertEquals(responseErrorMessage(response), 500, response.getStatus());
   }
   
   /**
@@ -231,6 +232,44 @@ public class HistoriesTest {
     assertPairedResponseObject(elementResponse1.getResponseObject());
   }
   
+  /**
+   * Tests out building a new list of paired dataset collections and failing.
+   * @throws InterruptedException
+   */
+  @Test
+  public void testCreateDatasetCollectionListPairedFail() throws InterruptedException {
+  String collectionName = "testCreateDatasetCollectionListPairedPass";
+    
+    HistoryDatasetElementRequest element1 = new HistoryDatasetElementRequest();
+    element1.setId(collectionDataset1.getId() + "fail");
+    element1.setName("forward");
+    
+    HistoryDatasetElementRequest element2 = new HistoryDatasetElementRequest();
+    element2.setId(collectionDataset2.getId());
+    element2.setName("reverse");
+    
+    CollectionElementRequest pairedSet1 = new CollectionElementRequest();
+    pairedSet1.setName("paired1");
+    pairedSet1.setCollectionType("paired");
+    pairedSet1.addCollectionElement(element1);
+    pairedSet1.addCollectionElement(element2);
+    
+    CollectionElementRequest pairedSet2 = new CollectionElementRequest();
+    pairedSet2.setName("paired2");
+    pairedSet2.setCollectionType("paired");
+    pairedSet2.addCollectionElement(element1);
+    pairedSet2.addCollectionElement(element2);
+    
+    DatasetCollectionRequest collectionDescription = new DatasetCollectionRequest();
+    collectionDescription.setCollectionType("list:paired");
+    collectionDescription.setName(collectionName);
+    collectionDescription.addDatasetElement(pairedSet1);
+    collectionDescription.addDatasetElement(pairedSet2);
+    
+    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
+    Assert.assertEquals(responseErrorMessage(response), 500, response.getStatus());
+  }
+  
   private void assertPairedResponseObject(ResponseObject responseObject) {
     Assert.assertTrue(responseObject instanceof DatasetCollectionResponse);
     DatasetCollectionResponse pairedResponse = (DatasetCollectionResponse)responseObject;
@@ -256,7 +295,7 @@ public class HistoriesTest {
    * Tests out building a new paired dataset collection and failing.
    * @throws InterruptedException
    */
-  //@Test(expectedExceptions = RuntimeException.class)
+  @Test
   public void testCreateDatasetCollectionPairedFail() throws InterruptedException {
 	String collectionName = "testCreateDatasetCollectionPairedFail";
 	  
@@ -274,7 +313,8 @@ public class HistoriesTest {
     collectionDescription.addDatasetElement(element1);
     collectionDescription.addDatasetElement(element2);
     
-    historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);;
+    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
+    Assert.assertEquals(responseErrorMessage(response), 500, response.getStatus());
   }
   
   @Test(expectedExceptions = RuntimeException.class)
