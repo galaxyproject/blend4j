@@ -1,4 +1,4 @@
-package com.github.jmchilton.blend4j.galaxy.beans.dataset;
+package com.github.jmchilton.blend4j.galaxy.beans.collection.response;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
  *  Class for storing response information from Galaxy on DatasetCollections within a History.
  */
 @JsonIgnoreProperties(ignoreUnknown=false)
-public class DatasetCollectionResponse extends HistoryContents {
+public class CollectionResponse extends HistoryContents {
   
-  private List<DatasetCollectionElementResponse> elements;
+  private List<CollectionElementResponse> elements;
   
   @JsonProperty("collection_type")
   private String collectionType;
@@ -23,11 +23,11 @@ public class DatasetCollectionResponse extends HistoryContents {
   
   private boolean visible;
 
-  public List<DatasetCollectionElementResponse> getElements() {
+  public List<CollectionElementResponse> getElements() {
     return elements;
   }
 
-  public void setElements(List<DatasetCollectionElementResponse> elements) {
+  public void setElements(List<CollectionElementResponse> elements) {
     this.elements = elements;
   }
 

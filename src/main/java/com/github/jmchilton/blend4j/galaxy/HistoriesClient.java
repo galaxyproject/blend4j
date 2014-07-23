@@ -9,8 +9,8 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
-import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionDescription;
-import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.DatasetCollectionRequest;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 
 public interface HistoriesClient {
@@ -40,7 +40,7 @@ public interface HistoriesClient {
    * @param datasetCollectionId  The id of the dataset collection to search for.
    * @return  A DatasetCollection from the passed ids.
    */
-  DatasetCollectionResponse showDatasetCollection(String historyId, String datasetCollectionId);
+  CollectionResponse showDatasetCollection(String historyId, String datasetCollectionId);
   
   /**
    * Creates a new Dataset Collection from the given information.
@@ -49,7 +49,7 @@ public interface HistoriesClient {
    * @return  A ClientResponse describing the response.
    */
   ClientResponse createDatasetCollectionRequest(String historyId,
-      DatasetCollectionDescription collectionDescription);
+      DatasetCollectionRequest collectionDescription);
   
   /**
    * Creates a new Dataset Collection from the given information.
@@ -57,6 +57,6 @@ public interface HistoriesClient {
    * @param collectionDescription  A CollectionDescription describing the dataset collection to create.
    * @return  A DatasetCollection describing the created dataset collection.
    */
-  DatasetCollectionResponse createDatasetCollection(String historyId,
-      DatasetCollectionDescription collectionDescription);
+  CollectionResponse createDatasetCollection(String historyId,
+      DatasetCollectionRequest collectionDescription);
 }

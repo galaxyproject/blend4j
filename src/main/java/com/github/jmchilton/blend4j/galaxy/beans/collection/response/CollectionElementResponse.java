@@ -1,4 +1,4 @@
-package com.github.jmchilton.blend4j.galaxy.beans.dataset;
+package com.github.jmchilton.blend4j.galaxy.beans.collection.response;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -8,7 +8,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
  * 
  * Represents a single element from a DatasetCollection response from Galaxy.
  */
-public class DatasetCollectionElementResponse {
+public class CollectionElementResponse {
   
   @JsonProperty("element_identifier")
   private String elementIdentifier;

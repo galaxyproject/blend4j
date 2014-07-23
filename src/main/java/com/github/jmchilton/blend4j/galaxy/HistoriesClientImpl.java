@@ -11,10 +11,10 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
-import com.github.jmchilton.blend4j.galaxy.beans.dataset.CollectionElementDescription;
-import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionDescription;
-import com.github.jmchilton.blend4j.galaxy.beans.dataset.DatasetCollectionResponse;
-import com.github.jmchilton.blend4j.galaxy.beans.dataset.HistoryDatasetElementDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElementRequest;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.DatasetCollectionRequest;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElementRequest;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
@@ -80,23 +80,23 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   @Override
-  public DatasetCollectionResponse showDatasetCollection(String historyId,
+  public CollectionResponse showDatasetCollection(String historyId,
       String datasetCollectionId) {
     return getWebResourceContents(historyId).path("dataset_collections").
-        path(datasetCollectionId).get(DatasetCollectionResponse.class);
+        path(datasetCollectionId).get(CollectionResponse.class);
   }
   
   @Override
   public ClientResponse createDatasetCollectionRequest(String historyId,
-      DatasetCollectionDescription collectionDescription) {
+      DatasetCollectionRequest collectionDescription) {
     final ClientResponse response = super.create(super.path(historyId).path("contents"), collectionDescription);
     return response;
   }
 
   @Override
-  public DatasetCollectionResponse createDatasetCollection(String historyId,
-      DatasetCollectionDescription collectionDescription) {
-    return createDatasetCollectionRequest(historyId, collectionDescription).getEntity(DatasetCollectionResponse.class);
+  public CollectionResponse createDatasetCollection(String historyId,
+      DatasetCollectionRequest collectionDescription) {
+    return createDatasetCollectionRequest(historyId, collectionDescription).getEntity(CollectionResponse.class);
   }
   
   public static void main(String[] args) {
@@ -107,25 +107,25 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
 //    System.out.println("*****");
 //    System.out.println(d.getName());
     
-    HistoryDatasetElementDescription dataset1 = new HistoryDatasetElementDescription();
+    HistoryDatasetElementRequest dataset1 = new HistoryDatasetElementRequest();
     dataset1.setId("638e3e2aad389e03");
     dataset1.setName("forward");
-    HistoryDatasetElementDescription dataset2 = new HistoryDatasetElementDescription();
+    HistoryDatasetElementRequest dataset2 = new HistoryDatasetElementRequest();
     dataset2.setId("1a5b83933dc4bf08");
     dataset2.setName("reverse");
     
-    CollectionElementDescription element1 = new CollectionElementDescription();
+    CollectionElementRequest element1 = new CollectionElementRequest();
     element1.setName("element1");
     element1.setCollectionType("paired");
     element1.addCollectionElement(dataset1);
     element1.addCollectionElement(dataset2);
     
-    DatasetCollectionDescription description = new DatasetCollectionDescription();
+    DatasetCollectionRequest description = new DatasetCollectionRequest();
     description.setCollectionType("list:paired");
     description.setName("collection_blend4j4");
     description.addDatasetElement(element1);
     
-    DatasetCollectionResponse collection = client.createDatasetCollection("63cd3858d057a6d1", description);
+    CollectionResponse collection = client.createDatasetCollection("63cd3858d057a6d1", description);
     System.out.println(collection);
   }
 }

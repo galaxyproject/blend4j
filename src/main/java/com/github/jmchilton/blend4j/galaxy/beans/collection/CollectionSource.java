@@ -1,4 +1,4 @@
-package com.github.jmchilton.blend4j.galaxy.beans.dataset;
+package com.github.jmchilton.blend4j.galaxy.beans.collection;
 
 import org.codehaus.jackson.annotate.JsonValue;
 

@@ -1,11 +1,13 @@
-package com.github.jmchilton.blend4j.galaxy.beans.dataset;
+package com.github.jmchilton.blend4j.galaxy.beans.collection.request;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.github.jmchilton.blend4j.galaxy.beans.collection.CollectionSource;
 
 /**
  * Description for a DatasetCollectionElement for requesting creation of a dataset collection in Galaxy.
  */
-public abstract class CollectionDescription {
+public abstract class CollectionRequest {
   
   @JsonProperty("name")
   private String name;

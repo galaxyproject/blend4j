@@ -1,23 +1,25 @@
-package com.github.jmchilton.blend4j.galaxy.beans.dataset;
+package com.github.jmchilton.blend4j.galaxy.beans.collection.request;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.github.jmchilton.blend4j.galaxy.beans.collection.CollectionSource;
+
 /**
  * Class defining an element in a collection that can contain other collection elements.
  */
-public class CollectionElementDescription extends CollectionDescription {
+public class CollectionElementRequest extends CollectionRequest {
 
   @JsonProperty("element_identifiers")
-  private List<CollectionDescription> collectionElements
-    = new LinkedList<CollectionDescription>();
+  private List<CollectionRequest> collectionElements
+    = new LinkedList<CollectionRequest>();
   
   @JsonProperty("collection_type")
   private String collectionType = "list";
   
-  public CollectionElementDescription() {
+  public CollectionElementRequest() {
     setSource(CollectionSource.COLLECTION);
   }
 
@@ -25,7 +27,7 @@ public class CollectionElementDescription extends CollectionDescription {
    * Gets the list of contained collection elements.
    * @return  The list of contained collection elements.
    */
-  public List<CollectionDescription> getCollectionElements() {
+  public List<CollectionRequest> getCollectionElements() {
     return collectionElements;
   }
   
@@ -33,7 +35,7 @@ public class CollectionElementDescription extends CollectionDescription {
    * Adds an element to this dataset collection.
    * @param datasetElement The dataset element to add.
    */
-  public void addCollectionElement(CollectionDescription collectionElement) {
+  public void addCollectionElement(CollectionRequest collectionElement) {
     this.collectionElements.add(collectionElement);
   }
   

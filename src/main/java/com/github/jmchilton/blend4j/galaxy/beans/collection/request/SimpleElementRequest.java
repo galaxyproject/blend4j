@@ -1,12 +1,11 @@
-package com.github.jmchilton.blend4j.galaxy.beans.dataset;
+package com.github.jmchilton.blend4j.galaxy.beans.collection.request;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public abstract class SimpleElementDescription extends CollectionDescription {
+public abstract class SimpleElementRequest extends CollectionRequest {
   
   @JsonProperty("id")
   private String id;
-
   
   /**
    * Gets the id of this dataset element.
