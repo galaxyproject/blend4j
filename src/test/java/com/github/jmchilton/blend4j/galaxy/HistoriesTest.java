@@ -1,6 +1,5 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
@@ -106,12 +105,10 @@ public class HistoriesTest {
     HistoryDatasetElementDescription element1 = new HistoryDatasetElementDescription();
     element1.setId(collectionDataset1.getId());
     element1.setName(collectionDataset1.getName());
-    element1.setSource("hda");
     
     HistoryDatasetElementDescription element2 = new HistoryDatasetElementDescription();
     element2.setId(collectionDataset2.getId());
     element2.setName(collectionDataset2.getName());
-    element2.setSource("hda");
     
     DatasetCollectionDescription collectionDescription = new DatasetCollectionDescription();
     collectionDescription.setCollectionType("list");
@@ -221,12 +218,10 @@ public class HistoriesTest {
     HistoryDatasetElementDescription element1 = new HistoryDatasetElementDescription();
     element1.setId(collectionDataset1.getId());
     element1.setName("forward");
-    element1.setSource("hda");
     
     HistoryDatasetElementDescription element2 = new HistoryDatasetElementDescription();
     element2.setId(collectionDataset2.getId() + "makeFailNow");
     element2.setName("reverse");
-    element2.setSource("hda");
     
     DatasetCollectionDescription collectionDescription = new DatasetCollectionDescription();
     collectionDescription.setCollectionType("paired");

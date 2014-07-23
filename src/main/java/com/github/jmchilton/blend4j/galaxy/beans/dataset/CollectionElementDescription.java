@@ -18,7 +18,7 @@ public class CollectionElementDescription extends CollectionDescription {
   private String collectionType = "list";
   
   public CollectionElementDescription() {
-    setSource("new_collection");
+    setSource(CollectionSource.COLLECTION);
   }
 
   /**

@@ -7,6 +7,6 @@ package com.github.jmchilton.blend4j.galaxy.beans.dataset;
  */
 public class HistoryDatasetElementDescription extends SimpleElementDescription {
   public HistoryDatasetElementDescription() {
-    setSource("hda");
+    setSource(CollectionSource.HDA);
   }
 }

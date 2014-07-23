@@ -11,13 +11,13 @@ public abstract class CollectionDescription {
   private String name;
   
   @JsonProperty("src")
-  private String source;
+  private CollectionSource source;
   
   /**
    * Gets the source of this dataset element.
    * @return  The source of this dataset element.
    */
-  public String getSource() {
+  public CollectionSource getSource() {
     return source;
   }
 
@@ -25,7 +25,7 @@ public abstract class CollectionDescription {
    * Sets the source of this dataset element.
    * @param source  The source of this dataset element.
    */
-  public void setSource(String source) {
+  public void setSource(CollectionSource source) {
     this.source = source;
   }
 
