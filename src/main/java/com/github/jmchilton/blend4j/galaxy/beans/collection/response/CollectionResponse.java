@@ -3,7 +3,6 @@ package com.github.jmchilton.blend4j.galaxy.beans.collection.response;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
 
