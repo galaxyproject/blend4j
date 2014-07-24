@@ -105,40 +105,4 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
           " returned=" + response.getEntity(String.class));
     }
   }
-  
-  public static void main(String[] args) {
-    GalaxyInstance instance = GalaxyInstanceFactory.get("http://localhost:8888", "9066adc7dd6a344f1339c4b98e60a292",true);
-    HistoriesClient client = instance.getHistoriesClient();
-    
-//    DatasetCollection d = client.showDatasetCollection("63cd3858d057a6d1", "500665cb113baad6");
-//    System.out.println("*****");
-//    System.out.println(d.getName());
-    
-    HistoryDatasetElementRequest dataset1 = new HistoryDatasetElementRequest();
-    dataset1.setId("638e3e2aad389e03");
-    dataset1.setName("forward");
-    HistoryDatasetElementRequest dataset2 = new HistoryDatasetElementRequest();
-    dataset2.setId("1a5b83933dc4bf08");
-    dataset2.setName("reverse");
-    
-    CollectionElementRequest element1 = new CollectionElementRequest();
-    element1.setName("element1");
-    element1.setCollectionType("paired");
-    element1.addCollectionElement(dataset1);
-    element1.addCollectionElement(dataset2);
-    
-    DatasetCollectionRequest description = new DatasetCollectionRequest();
-    description.setCollectionType("list:paired");
-    description.setName("collection_blend4j4");
-    description.addDatasetElement(element1);
-    
-//    DatasetCollectionRequest description = new DatasetCollectionRequest();
-//    description.setCollectionType("list");
-//    description.setName("collection_blend4j5");
-//    description.addDatasetElement(dataset1);
-//    description.addDatasetElement(dataset2);
-    
-    DatasetCollectionResponse collection = client.createDatasetCollection("63cd3858d057a6d1", description);
-    System.out.println(collection);
-  }
 }
