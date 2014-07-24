@@ -96,7 +96,14 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   @Override
   public DatasetCollectionResponse createDatasetCollection(String historyId,
       DatasetCollectionRequest collectionDescription) {
-    return createDatasetCollectionRequest(historyId, collectionDescription).getEntity(DatasetCollectionResponse.class);
+    ClientResponse response = createDatasetCollectionRequest(historyId, collectionDescription);
+    
+    if (response.getStatus() == 200) {
+      return response.getEntity(DatasetCollectionResponse.class);
+    } else {
+      throw new RuntimeException("Error creating dataset collection, status=" + response.getStatus() +
+          " returned=" + response.getEntity(String.class));
+    }
   }
   
   public static void main(String[] args) {

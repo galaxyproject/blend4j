@@ -83,11 +83,6 @@ public class HistoriesTest {
       Assert.assertEquals(elementDescription.getName(), elementResponse.getElementIdentifier());
     }
   }
-  
-  private String responseErrorMessage(ClientResponse response) {
-	  return "Response is " + response .getStatus() + ", content="
-		        + response.getEntity(String.class);
-  }
 
   @Test
   public void testShowHistory() {
@@ -131,14 +126,13 @@ public class HistoriesTest {
    * Tests out building a new list dataset collection and failing.
    * @throws InterruptedException
    */
-  @Test
+  @Test(expectedExceptions = RuntimeException.class)
   public void testCreateDatasetCollectionListFail() throws InterruptedException {
     String collectionName = "testCreateDatasetCollectionListFail";
     
     DatasetCollectionRequest collectionDescription = buildDatasetCollectionListRequest(collectionName, true);
     
-    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
-    Assert.assertEquals(responseErrorMessage(response), 500, response.getStatus());
+    historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
   }
   
   /**
@@ -195,14 +189,13 @@ public class HistoriesTest {
    * Tests out building a new paired dataset collection and failing.
    * @throws InterruptedException
    */
-  @Test
+  @Test(expectedExceptions = RuntimeException.class)
   public void testCreateDatasetCollectionPairedFail() throws InterruptedException {
     String collectionName = "testCreateDatasetCollectionPairedFail";
     
     DatasetCollectionRequest collectionDescription = buildDatasetCollectionPairedRequest(collectionName, true);
     
-    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
-    Assert.assertEquals(responseErrorMessage(response), 500, response.getStatus());
+    historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
   }
   
   /**
@@ -220,6 +213,27 @@ public class HistoriesTest {
         historiesClient.showDatasetCollection(collectionHistoryId, responseCreation.getId());
     
     Assert.assertEquals(responseCreation, responseShow);
+  }
+  
+  private void assertPairedResponseObject(ResponseObject responseObject) {
+    Assert.assertTrue(responseObject instanceof DatasetCollectionResponse);
+    DatasetCollectionResponse pairedResponse = (DatasetCollectionResponse)responseObject;
+    
+    Assert.assertEquals("paired", pairedResponse.getCollectionType());
+    Assert.assertNotNull(pairedResponse.getId());
+    
+    List<CollectionResponse> elementsResponsePaired = pairedResponse.getElements();
+    Assert.assertEquals(2, elementsResponsePaired.size());
+    
+    CollectionResponse elementResponsePairedElement0 = elementsResponsePaired.get(0);
+    Assert.assertEquals(0, elementResponsePairedElement0.getElementIndex());
+    Assert.assertNotNull(elementResponsePairedElement0.getId());
+    Assert.assertEquals("forward", elementResponsePairedElement0.getElementIdentifier());
+    
+    CollectionResponse elementResponsePairedElement1 = elementsResponsePaired.get(1);
+    Assert.assertEquals(1, elementResponsePairedElement1.getElementIndex());
+    Assert.assertNotNull(elementResponsePairedElement1.getId());
+    Assert.assertEquals("reverse", elementResponsePairedElement1.getElementIdentifier());
   }
   
   private DatasetCollectionRequest buildDatasetCollectionListPairedRequest(String collectionName, boolean fail) {
@@ -291,35 +305,13 @@ public class HistoriesTest {
    * Tests out building a new list of paired dataset collections and failing.
    * @throws InterruptedException
    */
-  @Test
+  @Test(expectedExceptions = RuntimeException.class)
   public void testCreateDatasetCollectionListPairedFail() throws InterruptedException {
     String collectionName = "testCreateDatasetCollectionListPairedFail";
     
     DatasetCollectionRequest collectionDescription = buildDatasetCollectionListPairedRequest(collectionName,true);
     
-    ClientResponse response = historiesClient.createDatasetCollectionRequest(collectionHistoryId, collectionDescription);
-    Assert.assertEquals(responseErrorMessage(response), 500, response.getStatus());
-  }
-  
-  private void assertPairedResponseObject(ResponseObject responseObject) {
-    Assert.assertTrue(responseObject instanceof DatasetCollectionResponse);
-    DatasetCollectionResponse pairedResponse = (DatasetCollectionResponse)responseObject;
-    
-    Assert.assertEquals("paired", pairedResponse.getCollectionType());
-    Assert.assertNotNull(pairedResponse.getId());
-    
-    List<CollectionResponse> elementsResponsePaired = pairedResponse.getElements();
-    Assert.assertEquals(2, elementsResponsePaired.size());
-    
-    CollectionResponse elementResponsePairedElement0 = elementsResponsePaired.get(0);
-    Assert.assertEquals(0, elementResponsePairedElement0.getElementIndex());
-    Assert.assertNotNull(elementResponsePairedElement0.getId());
-    Assert.assertEquals("forward", elementResponsePairedElement0.getElementIdentifier());
-    
-    CollectionResponse elementResponsePairedElement1 = elementsResponsePaired.get(1);
-    Assert.assertEquals(1, elementResponsePairedElement1.getElementIndex());
-    Assert.assertNotNull(elementResponsePairedElement1.getId());
-    Assert.assertEquals("reverse", elementResponsePairedElement1.getElementIdentifier());
+    historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
   }
   
   /**
