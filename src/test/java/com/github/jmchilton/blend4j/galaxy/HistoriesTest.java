@@ -299,12 +299,31 @@ public class HistoriesTest {
     Assert.assertEquals(responseErrorMessage(response), 500, response.getStatus());
   }
   
+  /**
+   * Tests out the showDatasetCollection method with a list of paired data.
+   */
+  @Test
+  public void testShowDatasetCollectionsListPairedPass() {
+    String collectionName = "testShowDatasetCollectionsListPairedPass";
+    
+    DatasetCollectionRequest collectionDescription = buildDatasetCollectionListPairedRequest(collectionName,false);
+    DatasetCollectionResponse responseCreation = 
+        historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    
+    DatasetCollectionResponse responseShow =
+        historiesClient.showDatasetCollection(collectionHistoryId, responseCreation.getId());
+    
+    Assert.assertEquals(responseCreation, responseShow);
+  }
+  
+  /**
+   * Tests attempting to show a dataset collection by passing a fake collection id.
+   */
   @Test(expectedExceptions = RuntimeException.class)
   public void testShowDatasetCollectionFail() {
     final String historyId = TestHelpers.getTestHistoryId(instance);
-    final String fakeDatasetCollectionId = "fake";
     
-    historiesClient.showDatasetCollection(historyId, fakeDatasetCollectionId);
+    historiesClient.showDatasetCollection(historyId, "fake");
   }
   
   @Test

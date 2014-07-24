@@ -1,5 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy.beans.collection.response;
 
+import java.util.Objects;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
@@ -95,5 +97,27 @@ public class CollectionResponse {
 
   public void setCollectionType(String collectionType) {
     this.collectionType = collectionType;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(collectionType, elementIdentifier, elementIndex, elementType, id, modelClass, responseObject);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof CollectionResponse) {
+      CollectionResponse other = (CollectionResponse)obj;
+      
+      return Objects.equals(collectionType, other.collectionType) &&
+          Objects.equals(elementIdentifier, other.elementIdentifier) &&
+          Objects.equals(elementIndex, other.elementIndex) && 
+          Objects.equals(elementType, other.elementType) &&
+          Objects.equals(id, other.id) &&
+          Objects.equals(modelClass, other.modelClass) &&
+          Objects.equals(responseObject, other.responseObject);
+    }
+    
+    return false;
   }
 }

@@ -1,5 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import java.util.Objects;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -27,5 +29,23 @@ public class GalaxyObject {
   @JsonIgnore
   public String getId() {
     return id;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, url);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    
+    if (obj instanceof GalaxyObject) {
+      GalaxyObject other = (GalaxyObject)obj;
+      
+      return Objects.equals(id, other.id) &&
+          Objects.equals(url, other.url);
+    }
+    
+    return false;
   }
 }

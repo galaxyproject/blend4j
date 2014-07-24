@@ -1,6 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy.beans.collection.response;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -54,5 +55,24 @@ public class DatasetCollectionResponse extends HistoryContents implements Respon
 
   public void setVisible(boolean visible) {
     this.visible = visible;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(collectionType, elements, historyId, visible);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof DatasetCollectionResponse) {
+      DatasetCollectionResponse other = (DatasetCollectionResponse)obj;
+      
+      return Objects.equals(collectionType, other.collectionType) &&
+          Objects.equals(elements, other.elements) && 
+          Objects.equals(historyId, other.historyId) &&
+          Objects.equals(visible, other.visible);
+    }
+    
+    return false;
   }
 }
