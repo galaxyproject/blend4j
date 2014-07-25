@@ -251,46 +251,46 @@ for(final HistoryContents historyDataset : historyClient.showHistoryContents(mat
   }
 }
 
-HistoryDatasetElementRequest file1_forward = new HistoryDatasetElementRequest();
+HistoryDatasetElement file1_forward = new HistoryDatasetElement();
 file1_forward.setId(file1_forewardId);
 file1_forward.setName("forward");
 
-HistoryDatasetElementRequest file1_reverse = new HistoryDatasetElementRequest();
+HistoryDatasetElement file1_reverse = new HistoryDatasetElement();
 file1_reverse.setId(file1_reverseId);
 file1_reverse.setName("reverse");
 
 // Create an object to link together the forward and reverse reads for file1
-CollectionElementRequest file1 = new CollectionElementRequest();
+CollectionElement file1 = new CollectionElement();
 file1.setName("file1");
 file1.setCollectionType("paired");
 file1.addCollectionElement(file1_forward);
 file1.addCollectionElement(file1_reverse);
 
-HistoryDatasetElementRequest file2_forward = new HistoryDatasetElementRequest();
+HistoryDatasetElement file2_forward = new HistoryDatasetElement();
 file2_forward.setId(file2_forewardId);
 file2_forward.setName("forward");
 
-HistoryDatasetElementRequest file2_reverse = new HistoryDatasetElementRequest();
+HistoryDatasetElement file2_reverse = new HistoryDatasetElement();
 file2_reverse.setId(file2_reverseId);
 file2_reverse.setName("reverse");
 
 // Create an object to link together the forward and reverse reads for file2
-CollectionElementRequest file2 = new CollectionElementRequest();
+CollectionElement file2 = new CollectionElement();
 file2.setName("file2");
 file2.setCollectionType("paired");
 file2.addCollectionElement(file2_forward);
 file2.addCollectionElement(file2_reverse);
 
 // Create an object used to create the list of paired reads
-DatasetCollectionRequest collectionRequest = new DatasetCollectionRequest();
-collectionRequest.setCollectionType("list:paired");
-collectionRequest.setName("ListPairedReads");
-collectionRequest.addDatasetElement(file1);
-collectionRequest.addDatasetElement(file2);
+CollectionDescription collectionDescription = new CollectionDescription();
+collectionDescription.setCollectionType("list:paired");
+collectionDescription.setName("ListPairedReads");
+collectionDescription.addDatasetElement(file1);
+collectionDescription.addDatasetElement(file2);
 
 // Builds a dataset collection within Galaxy named 'ListPairedReads'
-DatasetCollectionResponse collectionResponse =
-    historyClient.createDatasetCollection(matchingHistory.getId(), collectionRequest);
+CollectionResponse collectionResponse =
+    historyClient.createDatasetCollection(matchingHistory.getId(), collectionDescription);
 
 // Print information on the newly created dataset collection
 System.out.println("New dataset collection created historyId=" + collectionResponse.getHistoryId() 

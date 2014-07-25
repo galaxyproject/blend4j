@@ -8,9 +8,9 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.request.AbstractElem
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElement;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionElementResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.response.DatasetCollectionResponse;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ResponseObject;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ElementResponse;
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.io.File;
@@ -61,21 +61,21 @@ public class HistoriesTest {
    * @param collectionResponse  The DatasetCollection response from the server.
    * @param collectionDescription  The description of the dataset collection to send to the server.
    */
-  private void assertDatasetCollectionResponseValid(DatasetCollectionResponse collectionResponse, 
+  private void assertDatasetCollectionResponseValid(CollectionResponse collectionResponse, 
     CollectionDescription collectionDescription) {
     
     Assert.assertEquals(collectionDescription.getName(), collectionResponse.getName());
     Assert.assertEquals(collectionDescription.getCollectionType(), collectionResponse.getCollectionType());
     Assert.assertNotNull(collectionResponse.getId());
     
-    List<CollectionResponse> elementsResponse = collectionResponse.getElements();
+    List<CollectionElementResponse> elementsResponse = collectionResponse.getElements();
     List<AbstractElement> elementsDescription = collectionDescription.getDatasetElements();
     
     Assert.assertEquals(elementsDescription.size(), elementsResponse.size());
     
     for (int i = 0; i < elementsDescription.size(); i++) {
       AbstractElement elementDescription = elementsDescription.get(i);
-      CollectionResponse elementResponse = elementsResponse.get(i);
+      CollectionElementResponse elementResponse = elementsResponse.get(i);
       
       Assert.assertEquals(i, elementResponse.getElementIndex());
       Assert.assertNotNull(elementResponse.getId());
@@ -118,7 +118,7 @@ public class HistoriesTest {
 	  
     CollectionDescription collectionDescription = buildDatasetCollectionListRequest(collectionName, false);
     
-    DatasetCollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    CollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     assertDatasetCollectionResponseValid(collection, collectionDescription);
   }
   
@@ -143,10 +143,10 @@ public class HistoriesTest {
     String collectionName = "testShowDatasetCollectionsListPass";
     
     CollectionDescription collectionDescription = buildDatasetCollectionListRequest(collectionName,false);
-    DatasetCollectionResponse responseCreation = 
+    CollectionResponse responseCreation = 
         historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     
-    DatasetCollectionResponse responseShow =
+    CollectionResponse responseShow =
         historiesClient.showDatasetCollection(collectionHistoryId, responseCreation.getId());
     
     Assert.assertEquals(responseCreation, responseShow);
@@ -180,7 +180,7 @@ public class HistoriesTest {
 	  
     CollectionDescription collectionDescription = buildDatasetCollectionPairedRequest(collectionName, false);
     
-    DatasetCollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
+    CollectionResponse collection = historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     assertDatasetCollectionResponseValid(collection, collectionDescription);
   }
   
@@ -206,31 +206,31 @@ public class HistoriesTest {
     String collectionName = "testShowDatasetCollectionsPairedPass";
     
     CollectionDescription collectionDescription = buildDatasetCollectionPairedRequest(collectionName,false);
-    DatasetCollectionResponse responseCreation = 
+    CollectionResponse responseCreation = 
         historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     
-    DatasetCollectionResponse responseShow =
+    CollectionResponse responseShow =
         historiesClient.showDatasetCollection(collectionHistoryId, responseCreation.getId());
     
     Assert.assertEquals(responseCreation, responseShow);
   }
   
-  private void assertPairedResponseObject(ResponseObject responseObject) {
-    Assert.assertTrue(responseObject instanceof DatasetCollectionResponse);
-    DatasetCollectionResponse pairedResponse = (DatasetCollectionResponse)responseObject;
+  private void assertPairedResponseObject(ElementResponse responseObject) {
+    Assert.assertTrue(responseObject instanceof CollectionResponse);
+    CollectionResponse pairedResponse = (CollectionResponse)responseObject;
     
     Assert.assertEquals("paired", pairedResponse.getCollectionType());
     Assert.assertNotNull(pairedResponse.getId());
     
-    List<CollectionResponse> elementsResponsePaired = pairedResponse.getElements();
+    List<CollectionElementResponse> elementsResponsePaired = pairedResponse.getElements();
     Assert.assertEquals(2, elementsResponsePaired.size());
     
-    CollectionResponse elementResponsePairedElement0 = elementsResponsePaired.get(0);
+    CollectionElementResponse elementResponsePairedElement0 = elementsResponsePaired.get(0);
     Assert.assertEquals(0, elementResponsePairedElement0.getElementIndex());
     Assert.assertNotNull(elementResponsePairedElement0.getId());
     Assert.assertEquals("forward", elementResponsePairedElement0.getElementIdentifier());
     
-    CollectionResponse elementResponsePairedElement1 = elementsResponsePaired.get(1);
+    CollectionElementResponse elementResponsePairedElement1 = elementsResponsePaired.get(1);
     Assert.assertEquals(1, elementResponsePairedElement1.getElementIndex());
     Assert.assertNotNull(elementResponsePairedElement1.getId());
     Assert.assertEquals("reverse", elementResponsePairedElement1.getElementIdentifier());
@@ -276,29 +276,29 @@ public class HistoriesTest {
     String collectionName = "testCreateDatasetCollectionListPairedPass";
     
     CollectionDescription collectionDescription = buildDatasetCollectionListPairedRequest(collectionName,false);
-    DatasetCollectionResponse response = 
+    CollectionResponse response = 
         historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     
     Assert.assertEquals(collectionName, response.getName());
     Assert.assertEquals("list:paired", response.getCollectionType());
     Assert.assertNotNull(response.getId());
     
-    List<CollectionResponse> elementsResponse = response.getElements();
+    List<CollectionElementResponse> elementsResponse = response.getElements();
     Assert.assertEquals(2, elementsResponse.size());
     
-    CollectionResponse elementResponse0 = elementsResponse.get(0);
+    CollectionElementResponse elementResponse0 = elementsResponse.get(0);
     Assert.assertEquals(0, elementResponse0.getElementIndex());
     Assert.assertNotNull(elementResponse0.getId());
     Assert.assertEquals("paired1", elementResponse0.getElementIdentifier());
     
-    assertPairedResponseObject(elementResponse0.getResponseObject());
+    assertPairedResponseObject(elementResponse0.getResponseElement());
 
-    CollectionResponse elementResponse1 = elementsResponse.get(1);
+    CollectionElementResponse elementResponse1 = elementsResponse.get(1);
     Assert.assertEquals(1, elementResponse1.getElementIndex());
     Assert.assertNotNull(elementResponse1.getId());
     Assert.assertEquals("paired2", elementResponse1.getElementIdentifier());
     
-    assertPairedResponseObject(elementResponse1.getResponseObject());
+    assertPairedResponseObject(elementResponse1.getResponseElement());
   }
   
   /**
@@ -322,10 +322,10 @@ public class HistoriesTest {
     String collectionName = "testShowDatasetCollectionsListPairedPass";
     
     CollectionDescription collectionDescription = buildDatasetCollectionListPairedRequest(collectionName,false);
-    DatasetCollectionResponse responseCreation = 
+    CollectionResponse responseCreation = 
         historiesClient.createDatasetCollection(collectionHistoryId, collectionDescription);
     
-    DatasetCollectionResponse responseShow =
+    CollectionResponse responseShow =
         historiesClient.showDatasetCollection(collectionHistoryId, responseCreation.getId());
     
     Assert.assertEquals(responseCreation, responseShow);

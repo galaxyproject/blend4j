@@ -25,9 +25,9 @@ import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElement;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionElementResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.response.DatasetCollectionResponse;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ResponseObject;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ElementResponse;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
@@ -314,7 +314,7 @@ public class Examples {
     collectionDescription.addDatasetElement(file2);
     
     // Builds a dataset collection within Galaxy named 'ListPairedReads'
-    DatasetCollectionResponse collectionResponse =
+    CollectionResponse collectionResponse =
         historyClient.createDatasetCollection(matchingHistory.getId(), collectionDescription);
     
     // Print information on the newly created dataset collection
@@ -331,21 +331,21 @@ public class Examples {
    * @param collectionResponse  The collection to print.
    * @param level  The level to print this dataset as (indentation for printing).
    */
-  private static void printDatasetCollectionRecursive(DatasetCollectionResponse collectionResponse, String level) {
-    for (CollectionResponse element : collectionResponse.getElements()) {
+  private static void printDatasetCollectionRecursive(CollectionResponse collectionResponse, String level) {
+    for (CollectionElementResponse element : collectionResponse.getElements()) {
       System.out.println(level + "element " + element.getElementIdentifier() + 
           ", name=" + element.getElementIdentifier() + ", type=" + element.getElementType());
       
-      ResponseObject responseObject = element.getResponseObject();
+      ElementResponse elementResponse = element.getResponseElement();
       
       // Case 1: The element contains a collection of files.
-      if (responseObject instanceof DatasetCollectionResponse) {
-        printDatasetCollectionRecursive((DatasetCollectionResponse)responseObject, level + "\t");
+      if (elementResponse instanceof CollectionResponse) {
+        printDatasetCollectionRecursive((CollectionResponse)elementResponse, level + "\t");
       }
       
       // Case 2: The element contains a single dataset
-      else if (responseObject instanceof Dataset) {
-        Dataset dataset = (Dataset)responseObject;
+      else if (elementResponse instanceof Dataset) {
+        Dataset dataset = (Dataset)elementResponse;
         
         System.out.println(level + "\t" + "dataset " + dataset.getName() + ", type=" 
             + dataset.getDataType() + ", fileSize=" + dataset.getFileSize() +
