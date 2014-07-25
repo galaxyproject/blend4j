@@ -9,7 +9,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.DatasetCollectionRequest;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.DatasetCollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -49,7 +49,7 @@ public interface HistoriesClient {
    * @return  A ClientResponse describing the response.
    */
   ClientResponse createDatasetCollectionRequest(String historyId,
-      DatasetCollectionRequest collectionDescription);
+      CollectionDescription collectionDescription);
   
   /**
    * Creates a new Dataset Collection from the given information.
@@ -58,5 +58,5 @@ public interface HistoriesClient {
    * @return  A DatasetCollection describing the created dataset collection.
    */
   DatasetCollectionResponse createDatasetCollection(String historyId,
-      DatasetCollectionRequest collectionDescription);
+      CollectionDescription collectionDescription);
 }

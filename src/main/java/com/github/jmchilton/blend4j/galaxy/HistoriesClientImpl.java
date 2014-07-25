@@ -11,9 +11,9 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElementRequest;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.DatasetCollectionRequest;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElementRequest;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElement;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.DatasetCollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -88,14 +88,14 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   
   @Override
   public ClientResponse createDatasetCollectionRequest(String historyId,
-      DatasetCollectionRequest collectionDescription) {
+      CollectionDescription collectionDescription) {
     final ClientResponse response = super.create(super.path(historyId).path("contents"), collectionDescription);
     return response;
   }
 
   @Override
   public DatasetCollectionResponse createDatasetCollection(String historyId,
-      DatasetCollectionRequest collectionDescription) {
+      CollectionDescription collectionDescription) {
     ClientResponse response = createDatasetCollectionRequest(historyId, collectionDescription);
     
     if (response.getStatus() == 200) {

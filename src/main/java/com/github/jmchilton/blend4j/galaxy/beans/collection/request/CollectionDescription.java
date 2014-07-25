@@ -6,9 +6,9 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * A description of a Dataset Collection.
+ * A request to create a collection of elements (datasets or other collections) within Galaxy.
  */
-public class DatasetCollectionRequest {
+public class CollectionDescription {
   private String name;
   
   @JsonProperty("type")
@@ -18,8 +18,8 @@ public class DatasetCollectionRequest {
   private String collectionType = "list";
   
   @JsonProperty("element_identifiers")
-  private List<CollectionRequest> datasetElements
-    = new LinkedList<CollectionRequest>();
+  private List<AbstractElement> datasetElements
+    = new LinkedList<AbstractElement>();
   
   /**
    * Gets the name of this dataset collection.
@@ -41,7 +41,7 @@ public class DatasetCollectionRequest {
    * Gets a list of elements within this dataset collection.
    * @return  A list of elements within this dataset collection.
    */
-  public List<CollectionRequest> getDatasetElements() {
+  public List<AbstractElement> getDatasetElements() {
     return datasetElements;
   }
   
@@ -49,7 +49,7 @@ public class DatasetCollectionRequest {
    * Adds an element to this dataset collection.
    * @param datasetElement The dataset element to add.
    */
-  public void addDatasetElement(CollectionRequest datasetElement) {
+  public void addDatasetElement(AbstractElement datasetElement) {
     this.datasetElements.add(datasetElement);
   }
 
