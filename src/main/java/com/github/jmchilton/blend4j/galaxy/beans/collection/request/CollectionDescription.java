@@ -9,6 +9,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * A request to create a collection of elements (datasets or other collections) within Galaxy.
  */
 public class CollectionDescription {
+  
+  @JsonProperty("name")
   private String name;
   
   @JsonProperty("type")
