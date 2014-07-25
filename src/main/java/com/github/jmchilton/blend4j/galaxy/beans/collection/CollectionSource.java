@@ -13,11 +13,6 @@ public enum CollectionSource {
   HDA("hda"),
   
   /**
-   * The dataset source is from a Library.
-   */
-  LIBRARY("lda"),
-  
-  /**
    * The dataset source is a new collection.
    */
   COLLECTION("new_collection");

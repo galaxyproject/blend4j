@@ -1,107 +1,98 @@
 package com.github.jmchilton.blend4j.galaxy.beans.collection.response;
 
+import java.util.List;
 import java.util.Objects;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
-import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 
 /**
- * 
- * Represents a single element from a DatasetCollection response from Galaxy.
+ *  Class for storing response information from Galaxy on a dataset collection within a History.
  */
-public class CollectionResponse {
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class CollectionResponse extends HistoryContents implements ElementResponse {
   
-  @JsonProperty("element_identifier")
-  private String elementIdentifier;
-  
-  @JsonProperty("element_index")
-  private int elementIndex;
-  
-  @JsonProperty("element_type")
-  private String elementType;
-  
-  @JsonProperty("id")
-  private String id;
-  
-  @JsonProperty("model_class")
-  private String modelClass;
+  @JsonProperty("elements")
+  private List<CollectionElementResponse> elements;
   
   @JsonProperty("collection_type")
   private String collectionType;
   
-  @JsonProperty("object")
-  @JsonTypeInfo(
-      use = JsonTypeInfo.Id.NAME,
-      include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
-      property="element_type")
-  @JsonSubTypes({
-    @JsonSubTypes.Type(value = Dataset.class, name="hda"),
-    @JsonSubTypes.Type(value = DatasetCollectionResponse.class, name="dataset_collection")
-  })
-  private ResponseObject responseObject;
-
-  public String getElementIdentifier() {
-    return elementIdentifier;
-  }
-
-  public void setElementIdentifier(String elementIdentifier) {
-    this.elementIdentifier = elementIdentifier;
-  }
-
-  public int getElementIndex() {
-    return elementIndex;
-  }
-
-  public void setElementIndex(int elementIndex) {
-    this.elementIndex = elementIndex;
-  }
-
-  public String getElementType() {
-    return elementType;
-  }
-
-  public void setElementType(String elementType) {
-    this.elementType = elementType;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getModelClass() {
-    return modelClass;
-  }
-
-  public void setModelClass(String modelClass) {
-    this.modelClass = modelClass;
-  }
+  @JsonProperty("history_id")
+  private String historyId;
   
-  public ResponseObject getResponseObject() {
-    return responseObject;
+  @JsonProperty("visible")
+  private boolean visible;
+
+  /**
+   * Gets a list of elements within this collection.
+   * @return  A list of elements within this collection.
+   */
+  public List<CollectionElementResponse> getElements() {
+    return elements;
   }
 
-  public void setResponseObject(ResponseObject response) {
-    this.responseObject = response;
+  /**
+   * Sets the list of elements within this collection.
+   * @param elements  A list of elements within this collection.
+   */
+  public void setElements(List<CollectionElementResponse> elements) {
+    this.elements = elements;
   }
-  
+
+  /**
+   * Gets the type of this collection.
+   * @return  The type fo this collection.
+   */
   public String getCollectionType() {
     return collectionType;
   }
 
+  /**
+   * Sets the type of this collection.
+   * @param collectionType  The type of this collection.
+   */
   public void setCollectionType(String collectionType) {
     this.collectionType = collectionType;
   }
 
+  /**
+   * Gets the id of the history this collection exists within.
+   * @return  The id of the history this collection exists within.
+   */
+  public String getHistoryId() {
+    return historyId;
+  }
+
+  /**
+   * Sets the id of the history this collection exists within.
+   * @param historyId  The id of the history this collection exists within.
+   */
+  public void setHistoryId(String historyId) {
+    this.historyId = historyId;
+  }
+
+  /**
+   * Gets the visible status of this collection.
+   * @return  The visible status of this collection.
+   */
+  public boolean isVisible() {
+    return visible;
+  }
+
+  /**
+   * Sets the visible status of this collection.
+   * @param visible  The visible status of this collection.
+   */
+  public void setVisible(boolean visible) {
+    this.visible = visible;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(collectionType, elementIdentifier, elementIndex, elementType, id, modelClass, responseObject);
+    return Objects.hash(collectionType, elements, historyId, visible);
   }
 
   @Override
@@ -110,12 +101,9 @@ public class CollectionResponse {
       CollectionResponse other = (CollectionResponse)obj;
       
       return Objects.equals(collectionType, other.collectionType) &&
-          Objects.equals(elementIdentifier, other.elementIdentifier) &&
-          Objects.equals(elementIndex, other.elementIndex) && 
-          Objects.equals(elementType, other.elementType) &&
-          Objects.equals(id, other.id) &&
-          Objects.equals(modelClass, other.modelClass) &&
-          Objects.equals(responseObject, other.responseObject);
+          Objects.equals(elements, other.elements) && 
+          Objects.equals(historyId, other.historyId) &&
+          Objects.equals(visible, other.visible);
     }
     
     return false;

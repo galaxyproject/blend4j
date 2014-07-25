@@ -11,10 +11,10 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElementRequest;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.DatasetCollectionRequest;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElementRequest;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.response.DatasetCollectionResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElement;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElement;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
@@ -80,26 +80,26 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   @Override
-  public DatasetCollectionResponse showDatasetCollection(String historyId,
+  public CollectionResponse showDatasetCollection(String historyId,
       String datasetCollectionId) {
     return getWebResourceContents(historyId).path("dataset_collections").
-        path(datasetCollectionId).get(DatasetCollectionResponse.class);
+        path(datasetCollectionId).get(CollectionResponse.class);
   }
   
   @Override
   public ClientResponse createDatasetCollectionRequest(String historyId,
-      DatasetCollectionRequest collectionDescription) {
+      CollectionDescription collectionDescription) {
     final ClientResponse response = super.create(super.path(historyId).path("contents"), collectionDescription);
     return response;
   }
 
   @Override
-  public DatasetCollectionResponse createDatasetCollection(String historyId,
-      DatasetCollectionRequest collectionDescription) {
+  public CollectionResponse createDatasetCollection(String historyId,
+      CollectionDescription collectionDescription) {
     ClientResponse response = createDatasetCollectionRequest(historyId, collectionDescription);
     
     if (response.getStatus() == 200) {
-      return response.getEntity(DatasetCollectionResponse.class);
+      return response.getEntity(CollectionResponse.class);
     } else {
       throw new RuntimeException("Error creating dataset collection, status=" + response.getStatus() +
           " returned=" + response.getEntity(String.class));
