@@ -216,6 +216,87 @@ permissions.getModifyInRoles().add(ownersPrivateRoleId);
 librariesClient.setLibraryPermissions(persistedLibrary.getId(), permissions);
 </pre>
 
+<p>This example demonstrates the creation of a dataset collection containing a list of paired-end fastq files.</p>
+
+<pre class="brush:java">
+GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
+
+// Find history named 'TestHistoryCollection'
+final HistoriesClient historyClient = galaxyInstance.getHistoriesClient();
+History matchingHistory = null;
+for(final History history : historyClient.getHistories()) {
+  if(history.getName().equals("TestHistoryCollection")) {
+    matchingHistory = history;
+  }
+}
+Assert.assertNotNull(matchingHistory);
+
+// Obtain paired fastq file history ids
+String file1_forewardId = null;
+String file1_reverseId = null;
+String file2_forewardId = null;
+String file2_reverseId = null;
+for(final HistoryContents historyDataset : historyClient.showHistoryContents(matchingHistory.getId())) {
+  if(historyDataset.getName().equals("file1_1.fastq")) {
+    file1_forewardId = historyDataset.getId();
+  }
+  if(historyDataset.getName().equals("file1_2.fastq")) {
+    file1_reverseId = historyDataset.getId();
+  }
+  if(historyDataset.getName().equals("file2_1.fastq")) {
+    file2_forewardId = historyDataset.getId();
+  }
+  if(historyDataset.getName().equals("file2_2.fastq")) {
+    file2_reverseId = historyDataset.getId();
+  }
+}
+
+HistoryDatasetElementRequest file1_forward = new HistoryDatasetElementRequest();
+file1_forward.setId(file1_forewardId);
+file1_forward.setName("forward");
+
+HistoryDatasetElementRequest file1_reverse = new HistoryDatasetElementRequest();
+file1_reverse.setId(file1_reverseId);
+file1_reverse.setName("reverse");
+
+// Create an object to link together the forward and reverse reads for file1
+CollectionElementRequest file1 = new CollectionElementRequest();
+file1.setName("file1");
+file1.setCollectionType("paired");
+file1.addCollectionElement(file1_forward);
+file1.addCollectionElement(file1_reverse);
+
+HistoryDatasetElementRequest file2_forward = new HistoryDatasetElementRequest();
+file2_forward.setId(file2_forewardId);
+file2_forward.setName("forward");
+
+HistoryDatasetElementRequest file2_reverse = new HistoryDatasetElementRequest();
+file2_reverse.setId(file2_reverseId);
+file2_reverse.setName("reverse");
+
+// Create an object to link together the forward and reverse reads for file2
+CollectionElementRequest file2 = new CollectionElementRequest();
+file2.setName("file2");
+file2.setCollectionType("paired");
+file2.addCollectionElement(file2_forward);
+file2.addCollectionElement(file2_reverse);
+
+// Create an object used to create the list of paired reads
+DatasetCollectionRequest collectionRequest = new DatasetCollectionRequest();
+collectionRequest.setCollectionType("list:paired");
+collectionRequest.setName("ListPairedReads");
+collectionRequest.addDatasetElement(file1);
+collectionRequest.addDatasetElement(file2);
+
+// Builds a dataset collection within Galaxy named 'ListPairedReads'
+DatasetCollectionResponse collectionResponse =
+    historyClient.createDatasetCollection(matchingHistory.getId(), collectionRequest);
+
+// Print information on the newly created dataset collection
+System.out.println("New dataset collection created historyId=" + collectionResponse.getHistoryId() 
+    + ", collectionId=" + collectionResponse.getId() + ", name=" + collectionResponse.getName());
+</pre>
+
 <p>These examples are taken from <a href="https://github.com/jmchilton/blend4j/blob/master/src/test/java/com/github/jmchilton/blend4j/galaxy/Examples.java">Examples.java</a>. For more examples see these <a href="https://github.com/jmchilton/blend4j/blob/master/src/test/java/com/github/jmchilton/blend4j/galaxy/IntegrationTest.java">integration test cases</a> or the rest of the integration tests <a href="https://github.com/jmchilton/blend4j/blob/master/src/test/java/com/github/jmchilton/blend4j/galaxy">here</a>.</p>
 
 <p>Brad Chapman has put together a higher-level Clojure library - <a href="https://github.com/chapmanb/clj-blend.git">clj-blend</a>, the

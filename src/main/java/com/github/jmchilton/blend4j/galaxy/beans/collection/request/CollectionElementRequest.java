@@ -33,7 +33,7 @@ public class CollectionElementRequest extends CollectionRequest {
   
   /**
    * Adds an element to this dataset collection.
-   * @param datasetElement The dataset element to add.
+   * @param collectionElement The dataset element to add.
    */
   public void addCollectionElement(CollectionRequest collectionElement) {
     this.collectionElements.add(collectionElement);
