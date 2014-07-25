@@ -46,7 +46,7 @@ public class Examples {
       "listHistories",
       "listLibraryContents",
       "levelsOfAbstraction",
-      "createDatasetCollection",
+      "createDatasetCollectionListPaired",
       "createPrivateDataLibrary"
     };
     for(final String exampleMethod : exampleMethods) {
@@ -238,19 +238,19 @@ public class Examples {
   
   /**
    * Example of building a dataset collection within a history of a list of paired fastq reads.
-   * This example assumes the existence of a history 'TestHistoryCollection1' with the files:
+   * This example assumes the existence of a history 'TestHistoryCollection' with the files:
    *  file1_1.fastq, file1_2.fastq, file2_1.fastq, file2_2.fastq.
    * @param url  The url to the Galaxy instance.
    * @param apiKey  The apiKey for the Galaxy instance.
    */
-  public static void createDatasetCollection(final String url, final String apiKey) {
+  public static void createDatasetCollectionListPaired(final String url, final String apiKey) {
     GalaxyInstance galaxyInstance = GalaxyInstanceFactory.get(url, apiKey);
     
-    // Find history named 'TestHistoryCollection1'
+    // Find history named 'TestHistoryCollection'
     final HistoriesClient historyClient = galaxyInstance.getHistoriesClient();
     History matchingHistory = null;
     for(final History history : historyClient.getHistories()) {
-      if(history.getName().equals("TestHistoryCollection1")) {
+      if(history.getName().equals("TestHistoryCollection")) {
         matchingHistory = history;
       }
     }
