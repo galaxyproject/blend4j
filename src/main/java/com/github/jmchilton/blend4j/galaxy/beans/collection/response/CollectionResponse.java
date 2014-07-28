@@ -1,7 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy.beans.collection.response;
 
 import java.util.List;
-import java.util.Objects;
+import com.github.jmchilton.blend4j.util.Objects;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -92,7 +92,7 @@ public class CollectionResponse extends HistoryContents implements ElementRespon
 
   @Override
   public int hashCode() {
-    return Objects.hash(collectionType, elements, historyId, visible);
+    return Objects.hashCode(collectionType, elements, historyId, visible);
   }
 
   @Override
@@ -100,10 +100,10 @@ public class CollectionResponse extends HistoryContents implements ElementRespon
     if (obj instanceof CollectionResponse) {
       CollectionResponse other = (CollectionResponse)obj;
       
-      return Objects.equals(collectionType, other.collectionType) &&
-          Objects.equals(elements, other.elements) && 
-          Objects.equals(historyId, other.historyId) &&
-          Objects.equals(visible, other.visible);
+      return Objects.equal(collectionType, other.collectionType) &&
+          Objects.equal(elements, other.elements) && 
+          Objects.equal(historyId, other.historyId) &&
+          Objects.equal(visible, other.visible);
     }
     
     return false;

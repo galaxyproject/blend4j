@@ -1,6 +1,6 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
-import java.util.Objects;
+import com.github.jmchilton.blend4j.util.Objects;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -75,7 +75,7 @@ public class HistoryContents extends GalaxyObject {
 
   @Override
   public int hashCode() {
-    return Objects.hash(deleted, hid, historyContentType, name, purged, state, type);
+    return Objects.hashCode(deleted, hid, historyContentType, name, purged, state, type);
   }
 
   @Override
@@ -83,13 +83,13 @@ public class HistoryContents extends GalaxyObject {
     if (obj instanceof HistoryContents) {
       HistoryContents other = (HistoryContents)obj;
       
-      return Objects.equals(deleted, other.deleted) &&
-          Objects.equals(hid, other.hid) &&
-          Objects.equals(historyContentType, other.historyContentType) &&
-          Objects.equals(name, other.name) && 
-          Objects.equals(purged, other.purged) &&
-          Objects.equals(state, other.state) &&
-          Objects.equals(type, other.type);
+      return Objects.equal(deleted, other.deleted) &&
+          Objects.equal(hid, other.hid) &&
+          Objects.equal(historyContentType, other.historyContentType) &&
+          Objects.equal(name, other.name) && 
+          Objects.equal(purged, other.purged) &&
+          Objects.equal(state, other.state) &&
+          Objects.equal(type, other.type);
     }
     
     return false;

@@ -1,6 +1,6 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
-import java.util.Objects;
+import com.github.jmchilton.blend4j.util.Objects;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -108,7 +108,7 @@ public class Dataset extends HistoryContents implements HasGalaxyUrl, ElementRes
 
   @Override
   public int hashCode() {
-    return Objects.hash(apiKey, blurb, dataType, downloadUrl,
+    return Objects.hashCode(apiKey, blurb, dataType, downloadUrl,
         fileSize, galaxyUrl, genomeBuild, info, visible);
   }
 
@@ -117,15 +117,15 @@ public class Dataset extends HistoryContents implements HasGalaxyUrl, ElementRes
     if (obj instanceof Dataset) {
       Dataset other = (Dataset)obj;
       
-      return Objects.equals(apiKey, other.apiKey) &&
-          Objects.equals(blurb, other.blurb) &&
-          Objects.equals(dataType, other.dataType) &&
-          Objects.equals(downloadUrl, other.downloadUrl) &&
-          Objects.equals(fileSize, other.fileSize) &&
-          Objects.equals(galaxyUrl, other.galaxyUrl) &&
-          Objects.equals(genomeBuild, other.genomeBuild) &&
-          Objects.equals(info, other.info) && 
-          Objects.equals(visible, other.visible);
+      return Objects.equal(apiKey, other.apiKey) &&
+          Objects.equal(blurb, other.blurb) &&
+          Objects.equal(dataType, other.dataType) &&
+          Objects.equal(downloadUrl, other.downloadUrl) &&
+          Objects.equal(fileSize, other.fileSize) &&
+          Objects.equal(galaxyUrl, other.galaxyUrl) &&
+          Objects.equal(genomeBuild, other.genomeBuild) &&
+          Objects.equal(info, other.info) && 
+          Objects.equal(visible, other.visible);
     }
       
     return false;
