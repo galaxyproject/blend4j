@@ -1,6 +1,6 @@
 package com.github.jmchilton.blend4j.galaxy.beans.collection.response;
 
-import java.util.Objects;
+import com.github.jmchilton.blend4j.util.Objects;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonSubTypes;
@@ -157,7 +157,7 @@ public class CollectionElementResponse {
 
   @Override
   public int hashCode() {
-    return Objects.hash(collectionType, elementIdentifier, elementIndex, elementType, id, modelClass, elementResponse);
+    return Objects.hashCode(collectionType, elementIdentifier, elementIndex, elementType, id, modelClass, elementResponse);
   }
 
   @Override
@@ -165,13 +165,13 @@ public class CollectionElementResponse {
     if (obj instanceof CollectionElementResponse) {
       CollectionElementResponse other = (CollectionElementResponse)obj;
       
-      return Objects.equals(collectionType, other.collectionType) &&
-          Objects.equals(elementIdentifier, other.elementIdentifier) &&
-          Objects.equals(elementIndex, other.elementIndex) && 
-          Objects.equals(elementType, other.elementType) &&
-          Objects.equals(id, other.id) &&
-          Objects.equals(modelClass, other.modelClass) &&
-          Objects.equals(elementResponse, other.elementResponse);
+      return Objects.equal(collectionType, other.collectionType) &&
+          Objects.equal(elementIdentifier, other.elementIdentifier) &&
+          Objects.equal(elementIndex, other.elementIndex) && 
+          Objects.equal(elementType, other.elementType) &&
+          Objects.equal(id, other.id) &&
+          Objects.equal(modelClass, other.modelClass) &&
+          Objects.equal(elementResponse, other.elementResponse);
     }
     
     return false;
