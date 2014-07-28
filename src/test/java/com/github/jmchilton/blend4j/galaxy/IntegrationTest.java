@@ -146,7 +146,7 @@ public class IntegrationTest {
     assert200(setPermResponse);
   }
   
-  @Test
+  //@Test
   public void testInstallRepository() {
     final GalaxyInstance galaxyInstance = TestGalaxyInstance.get();
     final Repository repository = new Repository("iracooke", "proteomics_datatypes");

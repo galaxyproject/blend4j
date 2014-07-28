@@ -20,7 +20,7 @@ public class ToolShedRepositoriesTest extends IntegrationTest {
     reposClient = instance.getRepositoriesClient();
   }
 
-  @Test
+  //@Test
   public void testInstall() {
     RepositoryInstall install = new RepositoryInstall();
     install.setChangsetRevision("a38cd98a6b41");
@@ -30,7 +30,7 @@ public class ToolShedRepositoriesTest extends IntegrationTest {
     assert repositories.size() > 0;
   }
   
-  @Test
+  //@Test
   public void testRepositoryWorkflows() throws InterruptedException {
     RepositoryInstall install = new RepositoryInstall();
     install.setInstallRepositoryDependencies(false);
