@@ -6,3 +6,4 @@ com.github.jmchilton.blend4j.galaxy.beans.collection.request
 com.github.jmchilton.blend4j.galaxy.beans.collection.response
 com.github.jmchilton.blend4j.toolshed
 com.github.jmchilton.blend4j.toolshed.beans
+com.github.jmchilton.blend4j.util
