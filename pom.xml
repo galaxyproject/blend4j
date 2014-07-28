@@ -85,9 +85,15 @@
     <dependency>
       <groupId>com.github.jmchilton.galaxybootstrap</groupId>
       <artifactId>galaxybootstrap</artifactId>
-      <version>0.3.0</version>
+      <version>0.4.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.7</version>
+      <scope>test</scope>
+    </dependency>    
   </dependencies>
   <reporting>
     <plugins>
