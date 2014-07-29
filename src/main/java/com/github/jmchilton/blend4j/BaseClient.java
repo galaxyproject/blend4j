@@ -1,5 +1,7 @@
 package com.github.jmchilton.blend4j;
 
+import com.github.jmchilton.blend4j.exceptions.ResponseException;
+import com.github.jmchilton.blend4j.exceptions.SerializationException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.multipart.BodyPart;
@@ -13,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status.Family;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -24,13 +27,26 @@ public class BaseClient {
                     final String module) {
     this.webResource = baseWebResource.path(module);
   }
-
+  
   protected ClientResponse create(final Object object) {
-    return create(getWebResource(), object);
+    return create(object, true);
+  }
+
+  protected ClientResponse create(final Object object, final boolean checkResponse) {
+    final ClientResponse response = create(getWebResource(), object, checkResponse);
+    return response;
   }
 
   protected ClientResponse create(final WebResource webResource, final Object object) {
-    return webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, object);
+    return create(webResource, object, true);
+  }
+  
+  protected ClientResponse create(final WebResource webResource, final Object object, final boolean checkResponse) {
+    final ClientResponse response = webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, object);
+    if(checkResponse) {
+      this.checkResponse(response);
+    }
+    return response;
   }
 
   protected <T> List<T> get(final WebResource webResource, final TypeReference<List<T>> typeReference) {
@@ -43,14 +59,40 @@ public class BaseClient {
   }
   
   protected ClientResponse getResponse(final WebResource webResource) {
-    return webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+    return getResponse(webResource, true);
+  }
+  
+  protected ClientResponse getResponse(final WebResource webResource, final boolean checkResponse) {
+    final ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+    if(checkResponse) {
+      this.checkResponse(response);
+    }
+    return response;
+  }
+  
+  protected String getJson(final WebResource webResource) {
+    return getJson(webResource, true);
   }
 
-  protected String getJson(final WebResource webResource) {
-    final String json = webResource.accept(MediaType.APPLICATION_JSON).get(String.class);
+  protected String getJson(final WebResource webResource, final boolean checkResponse) {
+    final ClientResponse response = getResponse(webResource, checkResponse);
+    final String json = response.getEntity(String.class);
     return json;
   }
 
+  protected void checkResponse(final ClientResponse response) {
+    final Family family = response.getClientResponseStatus().getFamily();
+    if(family != Family.SUCCESSFUL) {
+      final ResponseException exception = buildResponseException(response);
+      throw exception;
+    }
+  }
+  
+  protected ResponseException buildResponseException(final ClientResponse clientResponse) {
+    final ResponseException exception = new ResponseException(clientResponse);
+    return exception;
+  }
+  
   protected WebResource getWebResource() {
     return webResource;
   }
@@ -104,7 +146,7 @@ public class BaseClient {
     try {
       return mapper.readValue(json, typeReference);
     } catch(IOException e) {
-      throw new RuntimeException(e);
+      throw new SerializationException(e);
     }
   }
   
@@ -112,7 +154,7 @@ public class BaseClient {
     try {
       return mapper.readValue(json, clazz);
     } catch(IOException e) {
-      throw new RuntimeException(e);
+      throw new SerializationException(e);
     }
   }
 
@@ -134,7 +176,7 @@ public class BaseClient {
     try {
       return mapper.writer().writeValueAsString(object);
     } catch(IOException e) {
-      throw new RuntimeException(e);
+      throw new SerializationException(e);
     }
   }
 

@@ -1,7 +1,9 @@
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.BaseClient;
+import com.github.jmchilton.blend4j.exceptions.ResponseException;
 import com.github.jmchilton.blend4j.galaxy.beans.HasGalaxyUrl;
+import com.sun.jersey.api.client.ClientResponse;
 
 class Client extends BaseClient {
   private final GalaxyInstanceImpl galaxyInstance;
@@ -11,6 +13,12 @@ class Client extends BaseClient {
     this.galaxyInstance = galaxyInstance;
   }
 
+  @Override
+  protected ResponseException buildResponseException(final ClientResponse clientResponse) {
+    final ResponseException exception = new GalaxyResponseException(clientResponse);
+    return exception;
+  }
+  
   GalaxyInstance getGalaxyInstance() {
     return galaxyInstance;
   }
