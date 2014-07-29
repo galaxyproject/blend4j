@@ -7,3 +7,4 @@ before_install:
  - chmod 700 "$HOME/.python-eggs"
  - sudo apt-get update -qq
  - sudo apt-get install -qq mercurial libsqlite3-dev python-dev samtools bedtools
+script: travis_wait mvn test -B
