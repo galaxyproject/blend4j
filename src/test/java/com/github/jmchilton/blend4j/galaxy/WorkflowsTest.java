@@ -15,11 +15,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionR
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,12 +26,12 @@ import org.testng.annotations.Test;
 public class WorkflowsTest {
   private static final String TEST_WORKFLOW_NAME = "TestWorkflow1";
   private static final String TEST_WORKFLOW_RANDOMLINES = "TestWorkflowRandomlines";
+  private static final String TEST_WORKFLOW_COLLECTION_LIST = "TestWorkflowCollectionList";
   private GalaxyInstance instance;
   private WorkflowsClient client;
 
   @BeforeMethod
-  public void init() throws URISyntaxException, IOException {
-    //TestGalaxyInstance.bootStrapGalaxy();
+  public void init() {
     instance = TestGalaxyInstance.get();
     client = instance.getWorkflowsClient();
   }
@@ -89,18 +85,17 @@ public class WorkflowsTest {
     return historiesClient.createDatasetCollection(historyId, collectionDescription);
   }
   
-
   /**
-   * Tests execution of a workflow on a list collection of files and passing.
-   * @throws InterruptedException 
+   * Prepares a workflow which takes as input a collection list.
+   * @param inputSource  The type of input source for this workflow.
+   * @return  A WorkflowInputs describing the workflow.
+   * @throws InterruptedException
    */
-  @Test
-  public void testRunWorkflowCollectionListPass() throws InterruptedException {
-    WorkflowsClient workflowsClient = instance.getWorkflowsClient();
-    
+  private WorkflowInputs prepareWorkflowCollectionList(WorkflowInputs.InputSourceType inputSource)
+      throws InterruptedException {
     String historyId = TestHelpers.getTestHistoryId(instance);
     List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
-    String workflowId = ensureHasWorkflow("TestWorkflowCollectionList");
+    String workflowId = ensureHasWorkflow(TEST_WORKFLOW_COLLECTION_LIST);
     
     CollectionResponse collectionResponse = constructFileCollectionList(historyId, ids);
     Assert.assertNotNull(collectionResponse.getId());
@@ -116,7 +111,21 @@ public class WorkflowsTest {
     workflowInputs.setWorkflowId(workflowId);
     workflowInputs.setInput(workflowInputId,
         new WorkflowInputs.WorkflowInput(collectionResponse.getId(),
-            WorkflowInputs.InputSourceType.HDCA));
+            inputSource));
+    
+    return workflowInputs;
+  }
+
+  /**
+   * Tests execution of a workflow on a list collection of files and passing.
+   * @throws InterruptedException 
+   */
+  @Test
+  public void testRunWorkflowCollectionListPass() throws InterruptedException {
+    WorkflowsClient workflowsClient = instance.getWorkflowsClient();
+    
+    WorkflowInputs workflowInputs = 
+        prepareWorkflowCollectionList(WorkflowInputs.InputSourceType.HDCA);
     
     WorkflowOutputs outputs = workflowsClient.runWorkflow(workflowInputs);
     Assert.assertNotNull(outputs);
@@ -125,6 +134,20 @@ public class WorkflowsTest {
     
     String outputId = outputs.getOutputIds().get(0);
     Assert.assertNotNull(outputId);
+  }
+  
+  /**
+   * Tests execution of a workflow on a list collection of files and failing.
+   * @throws InterruptedException 
+   */
+  @Test(expectedExceptions=GalaxyResponseException.class)
+  public void testRunWorkflowCollectionListFail() throws InterruptedException {
+    WorkflowsClient workflowsClient = instance.getWorkflowsClient();
+    
+    WorkflowInputs workflowInputs = 
+        prepareWorkflowCollectionList(WorkflowInputs.InputSourceType.HDA);
+    
+    workflowsClient.runWorkflow(workflowInputs);
   }
   
   @Test
