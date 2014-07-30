@@ -108,7 +108,7 @@ public class WorkflowsTest {
     WorkflowDetails workflowDetails = client.showWorkflow(workflowId);
     Assert.assertNotNull(workflowDetails.getId());
     
-    String workflowInputId = getWorkflowInputId(workflowDetails, "input_label");
+    String workflowInputId = getWorkflowInputId(workflowDetails, "input_list");
     Assert.assertNotNull(workflowInputId);
     
     WorkflowInputs workflowInputs = new WorkflowInputs();
