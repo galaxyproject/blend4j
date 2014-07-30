@@ -1,8 +1,5 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.beans.History;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputDefinition;
@@ -12,14 +9,20 @@ import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.InputSourceType;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.WorkflowInput;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowStepDefinition;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElement;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.sun.jersey.api.client.ClientResponse;
+
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import org.codehaus.jackson.map.ObjectMapper;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -31,7 +34,8 @@ public class WorkflowsTest {
   private WorkflowsClient client;
 
   @BeforeMethod
-  public void init() {
+  public void init() throws URISyntaxException, IOException {
+    //TestGalaxyInstance.bootStrapGalaxy();
     instance = TestGalaxyInstance.get();
     client = instance.getWorkflowsClient();
   }
@@ -61,6 +65,68 @@ public class WorkflowsTest {
     return workflowId;
   }
   
+  /**
+   * Constructs a list collection from the given files within the given history.
+   * @param historyId  The id of the history to build the collection within.
+   * @param inputIds  The ids of the files to add to the collection.
+   * @return  A CollectionResponse object for the constructed collection.
+   */
+  private CollectionResponse constructFileCollectionList(String historyId, List<String> inputIds) {
+    HistoriesClient historiesClient = instance.getHistoriesClient();
+    
+    CollectionDescription collectionDescription = new CollectionDescription();
+    collectionDescription.setCollectionType("list");
+    collectionDescription.setName("collection");
+    
+    for (String inputId : inputIds) {
+      HistoryDatasetElement element = new HistoryDatasetElement();
+      element.setId(inputId);
+      element.setName(inputId);
+      
+      collectionDescription.addDatasetElement(element);
+    }
+    
+    return historiesClient.createDatasetCollection(historyId, collectionDescription);
+  }
+  
+
+  /**
+   * Tests execution of a workflow on a list collection of files and passing.
+   * @throws InterruptedException 
+   */
+  @Test
+  public void testRunWorkflowCollectionListPass() throws InterruptedException {
+    WorkflowsClient workflowsClient = instance.getWorkflowsClient();
+    
+    String historyId = TestHelpers.getTestHistoryId(instance);
+    List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
+    String workflowId = ensureHasWorkflow("TestWorkflowCollectionList");
+    
+    CollectionResponse collectionResponse = constructFileCollectionList(historyId, ids);
+    Assert.assertNotNull(collectionResponse.getId());
+    
+    WorkflowDetails workflowDetails = client.showWorkflow(workflowId);
+    Assert.assertNotNull(workflowDetails.getId());
+    
+    String workflowInputId = getWorkflowInputId(workflowDetails, "input_label");
+    Assert.assertNotNull(workflowInputId);
+    
+    WorkflowInputs workflowInputs = new WorkflowInputs();
+    workflowInputs.setDestination(new WorkflowInputs.ExistingHistory(historyId));
+    workflowInputs.setWorkflowId(workflowId);
+    workflowInputs.setInput(workflowId, 
+        new WorkflowInputs.WorkflowInput(collectionResponse.getId(),
+            WorkflowInputs.InputSourceType.HDCA));
+    
+    WorkflowOutputs outputs = workflowsClient.runWorkflow(workflowInputs);
+    Assert.assertNotNull(outputs);
+    Assert.assertNotNull(outputs.getOutputIds());
+    Assert.assertEquals(1, outputs.getOutputIds().size());
+    
+    String outputId = outputs.getOutputIds().get(0); 
+    Assert.assertNotNull(outputId);
+  }
+  
   @Test
   public void testExportWorkflow() {
     ensureHasTestWorkflow1();
@@ -76,6 +142,25 @@ public class WorkflowsTest {
     final String workflowJson = client.exportWorkflow(testWorkflowId);
     final Workflow importedWorkflow = client.importWorkflow(workflowJson);
   }
+  
+  /**
+   * Given a WorkflowDetails object, and a label for an input to a workflow, finds the id for this input.
+   * @param workflowDetails  The WorkflowDetails object.
+   * @param inputLabel  The label for the input to search for.
+   * @return  The corresponding id for the passed label.
+   */
+  private String getWorkflowInputId(WorkflowDetails workflowDetails, String inputLabel) {
+    String workflowInputId = null;
+
+    for(final Map.Entry<String, WorkflowInputDefinition> inputEntry : workflowDetails.getInputs().entrySet()) {
+      final String label = inputEntry.getValue().getLabel();
+      if(label.equals(inputLabel)) {
+        workflowInputId = inputEntry.getKey();
+      }
+    }
+
+    return workflowInputId;
+  }
 
   @Test
   public void testRunWorkflow() throws IOException, InterruptedException {
@@ -88,17 +173,8 @@ public class WorkflowsTest {
  
     final String testWorkflowId = getTestWorkflowId();
     final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
-    String workflowInput1Id = null;
-    String workflowInput2Id = null;
-    for(final Map.Entry<String, WorkflowInputDefinition> inputEntry : workflowDetails.getInputs().entrySet()) {
-      final String label = inputEntry.getValue().getLabel();
-      if(label.equals("WorkflowInput1")) {
-        workflowInput1Id = inputEntry.getKey();
-      }
-      if(label.equals("WorkflowInput2")) {
-        workflowInput2Id = inputEntry.getKey();
-      }
-    }
+    String workflowInput1Id = getWorkflowInputId(workflowDetails, "WorkflowInput1");
+    String workflowInput2Id = getWorkflowInputId(workflowDetails, "WorkflowInput2");
 
     final WorkflowInputs inputs = new WorkflowInputs();
     inputs.setDestination(new ExistingHistory(historyId));
