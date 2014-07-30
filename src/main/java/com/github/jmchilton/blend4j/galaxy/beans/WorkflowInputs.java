@@ -171,7 +171,7 @@ public class WorkflowInputs {
      * History dataset association
      */
     HDA("hda"),
-
+    
     /**
      * History dataset collection association
      */

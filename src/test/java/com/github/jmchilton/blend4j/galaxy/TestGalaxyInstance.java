@@ -80,27 +80,27 @@ public class TestGalaxyInstance {
    * @throws IOException 
    */
   private static void buildTestTools(GalaxyProperties galaxyProperties, String galaxyRootPath) throws URISyntaxException, IOException {
-		File collectionExampleToolSource = new File(TestGalaxyInstance.class.getResource(
-				"collection_list.xml").toURI());
-		File testToolConfigSource = new File(TestGalaxyInstance.class.getResource(
-				"tool_conf_test.xml").toURI());
-		
-		File galaxyRootFile = new File(galaxyRootPath);
+    File collectionExampleToolSource = new File(TestGalaxyInstance.class.getResource(
+        "collection_list.xml").toURI());
+    File testToolConfigSource = new File(TestGalaxyInstance.class.getResource(
+        "tool_conf_test.xml").toURI());
 
-		// copy over necessary files for testing custom tools
-		File collectionExampleToolDirectory = new File(galaxyRootPath,
-				"tools/collection");
-		collectionExampleToolDirectory.mkdirs();
-		File collectionExampleToolDestination = 
-				new File(collectionExampleToolDirectory,"collection_list.xml");
-		copyFile(collectionExampleToolSource, collectionExampleToolDestination);
-		
-		File testToolConfigDestination = new File(galaxyRootFile, "tool_conf_test.xml");
-		copyFile(testToolConfigSource, testToolConfigDestination);
-		
-		// set configuration file in Galaxy for custom tools
-		galaxyProperties.setAppProperty("tool_config_file",
-				"tool_conf.xml,shed_tool_conf.xml,tool_conf_test.xml");
+    File galaxyRootFile = new File(galaxyRootPath);
+
+    // copy over necessary files for testing custom tools
+    File collectionExampleToolDirectory = new File(galaxyRootPath,
+        "tools/collection");
+    collectionExampleToolDirectory.mkdirs();
+    File collectionExampleToolDestination = 
+        new File(collectionExampleToolDirectory,"collection_list.xml");
+    copyFile(collectionExampleToolSource, collectionExampleToolDestination);
+
+    File testToolConfigDestination = new File(galaxyRootFile, "tool_conf_test.xml");
+    copyFile(testToolConfigSource, testToolConfigDestination);
+
+    // set configuration file in Galaxy for custom tools
+    galaxyProperties.setAppProperty("tool_config_file",
+        "tool_conf.xml,shed_tool_conf.xml,tool_conf_test.xml");
   }
 
   @AfterSuite
