@@ -114,7 +114,7 @@ public class WorkflowsTest {
     WorkflowInputs workflowInputs = new WorkflowInputs();
     workflowInputs.setDestination(new WorkflowInputs.ExistingHistory(historyId));
     workflowInputs.setWorkflowId(workflowId);
-    workflowInputs.setInput(workflowId, 
+    workflowInputs.setInput(workflowInputId,
         new WorkflowInputs.WorkflowInput(collectionResponse.getId(),
             WorkflowInputs.InputSourceType.HDCA));
     
@@ -123,7 +123,7 @@ public class WorkflowsTest {
     Assert.assertNotNull(outputs.getOutputIds());
     Assert.assertEquals(1, outputs.getOutputIds().size());
     
-    String outputId = outputs.getOutputIds().get(0); 
+    String outputId = outputs.getOutputIds().get(0);
     Assert.assertNotNull(outputId);
   }
   
