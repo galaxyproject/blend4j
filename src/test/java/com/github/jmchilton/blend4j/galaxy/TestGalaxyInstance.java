@@ -7,7 +7,14 @@ import com.github.jmchilton.galaxybootstrap.DownloadProperties;
 import com.github.jmchilton.galaxybootstrap.GalaxyData;
 import com.github.jmchilton.galaxybootstrap.GalaxyProperties;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.channels.FileChannel;
 import java.util.Properties;
+
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
@@ -18,7 +25,7 @@ public class TestGalaxyInstance {
   private static String testUrl = null;
   
   @BeforeSuite
-  public static void bootStrapGalaxy() {
+  public static void bootStrapGalaxy() throws URISyntaxException, IOException {
     if(getTestApiKey() == null) {
       DownloadProperties downloadProperties = DownloadProperties.forGalaxyCentral();
       if(Boolean.getBoolean(System.getProperty("galaxy.bootstrap.github", "false"))){
@@ -42,12 +49,58 @@ public class TestGalaxyInstance {
       galaxyProperties.setAppProperty("tool_dependency_dir", "tool_dependencies");
       final int port = galaxyProperties.getPort();
       
+      buildTestTools(galaxyProperties, bootStrapper.getPath());
+      
       testApiKey = adminUser.getApiKey();
       testUrl = String.format("http://localhost:%d/", port);
       
       galaxyDaemon = bootStrapper.run(galaxyProperties, galaxyData);
       galaxyDaemon.waitForUp();
     }
+  }
+
+  private static void copyFile(File source, File dest) throws IOException {
+    FileChannel sourceChannel = null;
+    FileChannel destChannel = null;
+    try {
+      sourceChannel = new FileInputStream(source).getChannel();
+      destChannel = new FileOutputStream(dest).getChannel();
+      destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+    }finally{
+      sourceChannel.close();
+      destChannel.close();
+    }
+  }
+  
+  /**
+   * Copies over necessary files for extra tools in Galaxy for testing.
+   * @param galaxyProperties  The GalaxyProperties object.
+   * @param galaxyRootPath  The root path of the Galaxy directory.
+   * @throws URISyntaxException 
+   * @throws IOException 
+   */
+  private static void buildTestTools(GalaxyProperties galaxyProperties, String galaxyRootPath) throws URISyntaxException, IOException {
+    File collectionExampleToolSource = new File(TestGalaxyInstance.class.getResource(
+        "collection_list.xml").toURI());
+    File testToolConfigSource = new File(TestGalaxyInstance.class.getResource(
+        "tool_conf_test.xml").toURI());
+
+    File galaxyRootFile = new File(galaxyRootPath);
+
+    // copy over necessary files for testing custom tools
+    File collectionExampleToolDirectory = new File(galaxyRootPath,
+        "tools/collection");
+    collectionExampleToolDirectory.mkdirs();
+    File collectionExampleToolDestination = 
+        new File(collectionExampleToolDirectory,"collection_list.xml");
+    copyFile(collectionExampleToolSource, collectionExampleToolDestination);
+
+    File testToolConfigDestination = new File(galaxyRootFile, "tool_conf_test.xml");
+    copyFile(testToolConfigSource, testToolConfigDestination);
+
+    // set configuration file in Galaxy for custom tools
+    galaxyProperties.setAppProperty("tool_config_file",
+        "tool_conf.xml,shed_tool_conf.xml,tool_conf_test.xml");
   }
 
   @AfterSuite

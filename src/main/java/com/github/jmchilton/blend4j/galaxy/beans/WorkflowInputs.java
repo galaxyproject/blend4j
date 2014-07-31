@@ -156,17 +156,17 @@ public class WorkflowInputs {
    * Defines the different Workflow Input source types.
    */
   public enum InputSourceType {
-	
-	/**
-	 * Library dataset dataset association
-	 */
+
+    /**
+     * Library dataset dataset association
+     */
     LDDA("ldda"),
-    
+
     /**
      * Library dataset
      */
     LD("ld"),
-    
+
     /**
      * History dataset association
      */
@@ -176,7 +176,7 @@ public class WorkflowInputs {
      * History dataset collection association
      */
     HDCA("hdca");
-    
+
     private final String rawValue;
 
     private InputSourceType(final String rawValue) {
