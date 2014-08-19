@@ -1,5 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
@@ -59,4 +61,13 @@ public interface HistoriesClient {
    */
   CollectionResponse createDatasetCollection(String historyId,
       CollectionDescription collectionDescription);
+
+  /**
+   * Downloads the dataset within the given history to the passed file.
+   * @param historyId  The id of the history containing the dataset.
+   * @param datasetId  The id of the dataset to download.
+   * @param destinationFile  The location to store the downloaded dataset.
+   * @throws IOException  If there was an issue writing to the destination file.
+   */
+  void downloadDataset(String historyId, String datasetId, File destinationFile) throws IOException;
 }
