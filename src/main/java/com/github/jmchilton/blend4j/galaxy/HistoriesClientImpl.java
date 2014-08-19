@@ -1,5 +1,8 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import org.codehaus.jackson.type.TypeReference;
@@ -104,5 +107,15 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
       throw new RuntimeException("Error creating dataset collection, status=" + response.getStatus() +
           " returned=" + response.getEntity(String.class));
     }
+  }
+
+  @Override
+  public void downloadDataset(String historyId, String datasetId,
+      File destinationFile) throws IOException {
+    File downloadedFile = super.getWebResourceContents(historyId)
+        .path(datasetId).path("display").get(File.class);
+    downloadedFile.renameTo(destinationFile);
+    FileWriter fr = new FileWriter(downloadedFile);
+    fr.close();
   }
 }

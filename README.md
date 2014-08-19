@@ -22,7 +22,7 @@ blend4j in larger open source projects include [Molgenis integration][molgensis]
 [tests]: https://github.com/jmchilton/blend4j/tree/master/src/test/java/com/github/jmchilton/blend4j/galaxy
 [molgensis]: https://github.com/molgenis/molgenis/commit/57d229a8d36fa9dae1155685e85187399863057f
 [transmart]: https://github.com/transmart
-[trait]: https://github.com/jmchilton/blend4j
+[trait]: https://github.com/CTMM-TraIT/trait_workflow_runner
 [apetkau]: https://github.com/apetkau
 [freekdb]: https://github.com/freekdb
 [dennishendriksen]: https://github.com/dennishendriksen
