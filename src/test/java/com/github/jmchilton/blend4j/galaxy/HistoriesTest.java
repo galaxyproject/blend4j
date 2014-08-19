@@ -386,15 +386,20 @@ public class HistoriesTest {
   
   /**
    * Tests out downloading a dataset and succeeding.
-   * @throws IOException 
+   * 
+   * @throws Exception
    */
   @Test
-  public void testDownloadDatasetSuccess() throws IOException {   
+  public void testDownloadDatasetSuccess() throws Exception {
     File destinationFile = File.createTempFile("output", "dat");
     destinationFile.deleteOnExit();
-    
-    historiesClient.downloadDataset(downloadHistoryId, downloadDatasetId, destinationFile);
-    Assert.assertEquals("files should have equal length", downloadFile.length(), destinationFile.length());
+
+    historiesClient.downloadDataset(downloadHistoryId, downloadDatasetId,
+        destinationFile);
+    Assert.assertEquals("files should have equal length",
+        downloadFile.length(), destinationFile.length());
+    Assert.assertTrue("files should have same content",
+        TestHelpers.compareFileContents(downloadFile, destinationFile));
   }
   
   /**
