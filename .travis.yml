@@ -2,9 +2,11 @@ language: java
 jdk:
   - oraclejdk7
   - openjdk6
+before_script:
+  - psql -c 'create database galaxy;' -U postgres
+# postgresql://postgres@localhost/galaxy
 before_install:
  - mkdir "$HOME/.python-eggs"
  - chmod 700 "$HOME/.python-eggs"
- - sudo apt-get update -qq
  - sudo apt-get install -qq mercurial libsqlite3-dev python-dev samtools bedtools
 script: travis_wait mvn test -B
