@@ -18,7 +18,7 @@ public class ToolShedInstanceFactory {
   }
   
   public static ToolShedInstance getMainToolShedInstance(final String apiKey) {
-    return get("http://toolshed.g2.bx.psu.edu/", apiKey);
+    return get("https://toolshed.g2.bx.psu.edu/", apiKey);
   }
 
 }

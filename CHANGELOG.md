@@ -5,6 +5,7 @@
  - Dataset collection support by @apetkau. Among other things the [histories client][historiesclient]
  can now [create][historiescollectioncreate] and [return][historiescollectionshow] information about collections and the [workflows client][workflowsclient] can [specify][workflowscollectioninput] dataset collections as inputs.
  - Documentation overhaul - [API documentation][apidocs] now available online.
+ - Update tool shed client defaults to reflect the fact main tool shed is now being served over HTTPS.
  - Allow authentication with a [username and password][011changesetbasicauth]
  instead of an API key. In this case an API key will be generated automatically before the first API call and used for subsequent communication.
  - Introduce unified [exception handling][011changesetexceptionhandling].
