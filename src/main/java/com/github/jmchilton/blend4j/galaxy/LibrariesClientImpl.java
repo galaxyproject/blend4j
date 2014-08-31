@@ -7,12 +7,15 @@ import org.codehaus.jackson.type.TypeReference;
 import com.github.jmchilton.blend4j.galaxy.beans.DirectoryLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FileLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
+import com.github.jmchilton.blend4j.galaxy.beans.GalaxyObject;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryFolder;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
+import com.github.jmchilton.blend4j.galaxy.beans.LibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.UrlLibraryUpload;
 import com.sun.jersey.api.client.ClientResponse;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +62,10 @@ class LibrariesClientImpl extends Client implements LibrariesClient {
 
   public ClientResponse uploadFilesystemPathsRequest(final String libraryId, final FilesystemPathsLibraryUpload upload) {
     return super.create(getWebResourceContents(libraryId), upload);
+  }
+  
+  public GalaxyObject uploadFilesystemPaths(final String libraryId, final FilesystemPathsLibraryUpload upload) {
+    return readJson(uploadFilesystemPathsRequest(libraryId, upload).getEntity(String.class), new TypeReference<List<GalaxyObject>>() {}).get(0);
   }
 
   public LibraryContent getRootFolder(final String libraryId) {

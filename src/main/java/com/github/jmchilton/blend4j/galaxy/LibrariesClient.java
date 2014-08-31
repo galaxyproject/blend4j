@@ -2,9 +2,12 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import java.util.List;
 
+import org.codehaus.jackson.type.TypeReference;
+
 import com.github.jmchilton.blend4j.galaxy.beans.DirectoryLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FileLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
+import com.github.jmchilton.blend4j.galaxy.beans.GalaxyObject;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryFolder;
@@ -28,6 +31,8 @@ public interface LibrariesClient {
   ClientResponse uploadServerDirectoryRequest(String libraryId, DirectoryLibraryUpload upload);
 
   ClientResponse uploadFilesystemPathsRequest(String libraryId, FilesystemPathsLibraryUpload upload);
+  
+  GalaxyObject uploadFilesystemPaths(final String libraryId, final FilesystemPathsLibraryUpload upload);
 
   ClientResponse uploadFile(String libraryId, FileLibraryUpload upload);
 
