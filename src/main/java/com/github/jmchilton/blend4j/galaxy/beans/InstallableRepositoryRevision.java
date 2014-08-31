@@ -9,7 +9,7 @@ public class InstallableRepositoryRevision {
   protected String name;
   protected String owner;
   @JsonProperty(value="tool_shed_url")
-  protected String toolShedUrl = "http://toolshed.g2.bx.psu.edu/";
+  protected String toolShedUrl = "https://toolshed.g2.bx.psu.edu/";
 
   public InstallableRepositoryRevision() {
   }
