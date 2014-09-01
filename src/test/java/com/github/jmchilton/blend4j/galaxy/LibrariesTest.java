@@ -4,11 +4,16 @@ import com.github.jmchilton.blend4j.galaxy.beans.FileLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
+import com.github.jmchilton.blend4j.galaxy.beans.LibraryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryFolder;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryUpload;
 import com.sun.jersey.api.client.ClientResponse;
+
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
+
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class LibrariesTest {
@@ -62,5 +67,45 @@ public class LibrariesTest {
     upload.setFile(testFile);
     final ClientResponse uploadResponse = client.uploadFile(testLibrary.getId(), upload);
     IntegrationTest.assert200(uploadResponse);
+  }
+  
+  /**
+   * Tests to make sure we can successfully get a LibraryDataset object.
+   */
+  @Test
+  public void testShowDatasetSuccess() {
+    final File testFile = TestHelpers.getTestFile("Hello World\n");
+    String fileName = testFile.getName();
+    String libraryFilePathName = "/" + fileName;
+    
+    final LibrariesClient client = IntegrationTest.getLibrariesClient();
+    final Library testLibrary = IntegrationTest.createTestLibrary(client, "test-show-dataset-success" + UUID.randomUUID().toString());
+    final LibraryContent rootFolder = client.getRootFolder(testLibrary.getId());
+    final FileLibraryUpload upload = new FileLibraryUpload();
+    upload.setName(fileName);
+    upload.setFolderId(rootFolder.getId());
+    upload.setFileType("tabular");
+    upload.setFile(testFile);
+    client.uploadFile(testLibrary.getId(), upload);
+    
+    String datasetId = null;
+    List<LibraryContent> libraryContents = client.getLibraryContents(testLibrary.getId());
+    for (LibraryContent content : libraryContents) {
+      if (libraryFilePathName.equals(content.getName())) {
+        datasetId = content.getId();
+      }
+    }
+
+    if (datasetId == null) {
+      Assert.fail("Could not find dataset within library " + testLibrary.getId() +
+          " corresponding to file " + fileName);
+    } else {
+      LibraryDataset libraryDataset = client.showDataset(testLibrary.getId(), datasetId);
+      Assert.assertNotNull(libraryDataset);
+      Assert.assertEquals(datasetId, libraryDataset.getId());
+      Assert.assertEquals(fileName, libraryDataset.getName());
+      Assert.assertEquals("tabular", libraryDataset.getDataType());
+      Assert.assertNotNull(libraryDataset.getState());
+    }
   }
 }

@@ -10,9 +10,9 @@ import com.github.jmchilton.blend4j.galaxy.beans.FilesystemPathsLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.GalaxyObject;
 import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
+import com.github.jmchilton.blend4j.galaxy.beans.LibraryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryFolder;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryPermissions;
-import com.github.jmchilton.blend4j.galaxy.beans.LibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.UrlLibraryUpload;
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -103,5 +103,15 @@ class LibrariesClientImpl extends Client implements LibrariesClient {
     entityMap.put("folder_id", upload.getFolderId());
     entityMap.put("create_type", upload.getCreateType());
     return super.multipartPost(getWebResourceContents(libraryId), entityMap, prepareUpload(upload.getFile()));
+  }
+  
+  @Override
+  public ClientResponse showDatasetRequest(String libraryId, String datasetId) {
+    return getResponse(getWebResourceContents(libraryId).path(datasetId));
+  }
+
+  @Override
+  public LibraryDataset showDataset(String libraryId, String datasetId) {
+    return read(showDatasetRequest(libraryId, datasetId), LibraryDataset.class);
   }
 }
