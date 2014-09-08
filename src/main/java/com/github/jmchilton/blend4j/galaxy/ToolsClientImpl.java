@@ -33,6 +33,8 @@ class ToolsClientImpl extends Client implements ToolsClient {
   }
   
   public ToolDetails showTool(final String toolId) {
+	// request that Galaxy provide additional details about tools, including the labels of
+	// input parameters.
 	return super.getWebResource(toolId).queryParam("io_details", "True").get(ToolDetails.class);
   }
 
