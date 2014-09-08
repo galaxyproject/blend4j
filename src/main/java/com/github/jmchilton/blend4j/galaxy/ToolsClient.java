@@ -1,9 +1,11 @@
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
 import com.sun.jersey.api.client.ClientResponse;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +30,8 @@ public interface ToolsClient {
   ClientResponse uploadRequest(FileUploadRequest request);
   
   ToolExecution upload(FileUploadRequest request);
+  
+  ToolDetails showTool(String toolId);
   
   public static class UploadFile {
     private final File file;

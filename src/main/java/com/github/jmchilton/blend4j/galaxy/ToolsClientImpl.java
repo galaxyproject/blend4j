@@ -1,12 +1,14 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.beans.History;
-import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
-import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
-import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolDetails;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
+import com.sun.jersey.api.client.ClientResponse;
 
 class ToolsClientImpl extends Client implements ToolsClient {
   ToolsClientImpl(GalaxyInstanceImpl galaxyInstance) {
@@ -28,6 +30,10 @@ class ToolsClientImpl extends Client implements ToolsClient {
     request.setFileType(fileType);
     request.setDbKey(dbKey);
     return uploadRequest(request);
+  }
+  
+  public ToolDetails showTool(final String toolId) {
+	return super.getWebResource(toolId).queryParam("io_details", "True").get(ToolDetails.class);
   }
 
   public ToolExecution upload(final FileUploadRequest request) {
