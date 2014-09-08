@@ -31,6 +31,13 @@ public interface ToolsClient {
   
   ToolExecution upload(FileUploadRequest request);
   
+  /**
+   * Load details about a specific Galaxy tool by ID.
+   * 
+   * @param toolId Galaxy tool ID (usually in the form of a URI, unlike other 
+   * 		Galaxy IDs).
+   * @return An instance of {@link ToolDetails} for the specified ID.
+   */
   ToolDetails showTool(String toolId);
   
   public static class UploadFile {
