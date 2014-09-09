@@ -10,7 +10,6 @@ import com.github.jmchilton.blend4j.galaxy.ToolsClient.FileUploadRequest;
 import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.Tool;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolDetails;
-import com.github.jmchilton.blend4j.galaxy.beans.ToolDetails.ToolDetailsConditionalInputs;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolDetails.ToolDetailsGenomeBuildInputs;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolDetails.ToolDetailsInputs;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
@@ -23,8 +22,6 @@ public class ToolsTest {
   
   private static final String UPLOADER_TOOL_ID = "upload1";
   
-  private static final String MEME_FIMO_TOOL_ID = "meme_fimo";
-
   @BeforeMethod
   public void init() {
     instance = TestGalaxyInstance.get();

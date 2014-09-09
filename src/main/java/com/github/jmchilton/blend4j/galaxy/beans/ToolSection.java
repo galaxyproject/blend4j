@@ -14,13 +14,24 @@ import com.github.jmchilton.blend4j.galaxy.ToolsClient;
  * @author Franklin Bristow <franklin.bristow@phac-aspc.gc.ca>
  *
  */
-@JsonIgnoreProperties("model_class")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ToolSection extends GalaxyObject {
 	private String version;
 
 	private String name;
 	
+	private String description;
+	
 	private List<Tool> elems;
+	
+	@JsonProperty("description")
+	protected void setDescription(final String description) {
+		this.description = description;
+	}
+	
+	public String getDescription() {
+		return this.description;
+	}
 	
 	@JsonProperty("elems")
 	protected void setElems(final List<Tool> elems) {
