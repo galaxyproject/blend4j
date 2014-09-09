@@ -2,9 +2,14 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.type.TypeReference;
+
 import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.Tool;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolSection;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
@@ -32,10 +37,20 @@ class ToolsClientImpl extends Client implements ToolsClient {
     return uploadRequest(request);
   }
   
+  /**
+   * {@inheritDoc}
+   */
   public ToolDetails showTool(final String toolId) {
 	// request that Galaxy provide additional details about tools, including the labels of
 	// input parameters.
 	return super.getWebResource(toolId).queryParam("io_details", "True").get(ToolDetails.class);
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public List<ToolSection> getTools() {
+	return get(new TypeReference<List<ToolSection>>() {});
   }
 
   public ToolExecution upload(final FileUploadRequest request) {

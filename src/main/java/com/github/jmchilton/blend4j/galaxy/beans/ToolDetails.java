@@ -17,15 +17,9 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ToolDetails extends GalaxyObject {
-
-	private String description;
-
-	private String name;
+public class ToolDetails extends Tool {
 
 	private List<Map<String, String>> outputs;
-
-	private String version;
 
 	private List<ToolDetailsInputs> inputs;
 
@@ -38,24 +32,6 @@ public class ToolDetails extends GalaxyObject {
 		return this.inputs;
 	}
 
-	@JsonProperty("version")
-	protected void setVersion(final String version) {
-		this.version = version;
-	}
-
-	public String getVersion() {
-		return this.version;
-	}
-
-	@JsonProperty("name")
-	protected void setName(final String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
 	@JsonProperty("outputs")
 	protected void setOutputs(final List<Map<String, String>> outputs) {
 		this.outputs = outputs;
@@ -63,15 +39,6 @@ public class ToolDetails extends GalaxyObject {
 
 	public List<Map<String, String>> getOutputs() {
 		return this.outputs;
-	}
-
-	@JsonProperty("description")
-	protected void setDescription(final String description) {
-		this.description = description;
-	}
-
-	public String getDescription() {
-		return this.description;
 	}
 
 	/**
@@ -89,7 +56,11 @@ public class ToolDetails extends GalaxyObject {
 			@JsonSubTypes.Type(value = ToolDetailsDataInputs.class, name = "data"),
 			@JsonSubTypes.Type(value = ToolDetailsConditionalInputs.class, name = "conditional"),
 			@JsonSubTypes.Type(value = ToolDetailsSelectInputs.class, name = "select"),
-			@JsonSubTypes.Type(value = ToolDetailsTextInputs.class, name = "text") })
+			@JsonSubTypes.Type(value = ToolDetailsTextInputs.class, name = "text"),
+			@JsonSubTypes.Type(value = ToolDetailsHiddenInputs.class, name = "hidden"),
+			@JsonSubTypes.Type(value = ToolDetailsDatasetInputs.class, name = "upload_dataset"),
+			@JsonSubTypes.Type(value = ToolDetailsGenomeBuildInputs.class, name = "genomebuild"),
+			@JsonSubTypes.Type(value = ToolDetailsBooleanInputs.class, name = "boolean")})
 	public static class ToolDetailsInputs {
 		private String name;
 		private String help;
@@ -122,6 +93,12 @@ public class ToolDetails extends GalaxyObject {
 			return this.name;
 		}
 	}
+	
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	@JsonTypeName("boolean")
+	public static class ToolDetailsBooleanInputs extends ToolDetailsInputs {
+		
+	}
 
 	/**
 	 * Data inputs to a tool have no additional properties that I am interested
@@ -133,6 +110,51 @@ public class ToolDetails extends GalaxyObject {
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	@JsonTypeName("data")
 	public static class ToolDetailsDataInputs extends ToolDetailsInputs {
+	}
+	
+	/**
+	 * Data inputs to a tool where the 
+	 * 
+	 * @author Franklin Bristow <franklin.bristow@phac-aspc.gc.ca>
+	 *
+	 */
+	@JsonTypeName("genomebuild")
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public static class ToolDetailsGenomeBuildInputs extends ToolDetailsSelectInputs {
+		
+	}
+
+	/**
+	 * Data inputs to a tool where the uploaded value is a dataset collection.
+	 * 
+	 * @author Franklin Bristow <franklin.bristow@phac-aspc.gc.ca>
+	 *
+	 */
+	@JsonTypeName("upload_dataset")
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public static class ToolDetailsDatasetInputs extends ToolDetailsInputs {
+	}
+
+	/**
+	 * Inputs that are hidden from the user on the web page, but may affect tool
+	 * execution nevertheless.
+	 * 
+	 * @author Franklin Bristow <franklin.bristow@phac-aspc.gc.ca>
+	 *
+	 */
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	@JsonTypeName("hidden")
+	public static class ToolDetailsHiddenInputs extends ToolDetailsInputs {
+		private String value;
+
+		@JsonProperty("value")
+		protected void setValue(final String value) {
+			this.value = value;
+		}
+
+		public String getValue() {
+			return this.value;
+		}
 	}
 
 	/**
