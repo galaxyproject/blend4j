@@ -10,7 +10,8 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ElementResp
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Dataset extends HistoryContents implements HasGalaxyUrl, ElementResponse {
-  private String dataType;
+  private String dataType = null;
+  private String fileExt = null;
   private String downloadUrl;
   private Integer fileSize;
   private String genomeBuild;
@@ -47,13 +48,44 @@ public class Dataset extends HistoryContents implements HasGalaxyUrl, ElementRes
     this.visible = visible;
   }
 
+  /**
+ * @deprecated  As of 1.2 release, replaced by {@link #getDataTypeExt()}.
+ */
+  @Deprecated
   public String getDataType() {
+    return getDataTypeExt();
+  }
+
+  public String getDataTypeExt() {
+    // Hacked up due to backard incompatible changes made to the
+    // Galaxy API as of the October 2014 release of Galaxy.
+    // https://bitbucket.org/galaxy/galaxy-central/commits/9d152ed
+    if(this.fileExt != null) {
+      return this.fileExt;
+    } else {
+      return dataType;
+    }
+  }
+
+  /**
+   * This returns the Python module and class of the data type corresponding
+   * to this object. (Starting from the October 2014 version of Galaxy.)
+   *
+   */
+  public String getDataTypeClass() {
     return dataType;
   }
 
   @JsonProperty("data_type")
   public void setDataType(String dataType) {
+    // Meanaing of this property changed with October 2014 release (see note
+    // above).
     this.dataType = dataType;
+  }
+
+  @JsonProperty("file_ext")
+  public void setFileExt(final String fileExt) {
+    this.fileExt = fileExt;
   }
 
   public String getDownloadUrl() {
