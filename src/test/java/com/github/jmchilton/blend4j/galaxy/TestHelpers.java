@@ -1,6 +1,5 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
@@ -8,8 +7,10 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
 import com.google.common.collect.Lists;
-import com.sun.jersey.api.client.ClientResponse;
+
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -110,4 +111,36 @@ class TestHelpers {
     return populateTestDatasets(instance, historyId, Arrays.asList(getTestFile(contents))).get(0);
   }
 
+  /**
+   * Compares the given files by there contents.
+   * 
+   * @param file1
+   *          The first file.
+   * @param file2
+   *          The second file.
+   * @return True if the files contain the same data, false otherwise.
+   * @throws Exception
+   *           If some error occured.
+   */
+  static boolean compareFileContents(File file1, File file2) throws Exception {
+    byte[] bytes1 = smallFileToByteArray(file1);
+    byte[] bytes2 = smallFileToByteArray(file2);
+
+    return Arrays.equals(bytes1, bytes2);
+  }
+
+  private static byte[] smallFileToByteArray(File file) throws Exception {
+    final int MAX_SIZE = 4096;
+
+    if (file.length() > MAX_SIZE) {
+      throw new Exception("Not going to read files larger than " + MAX_SIZE);
+    } else {
+      byte[] fileData = new byte[(int) file.length()];
+      DataInputStream dis = new DataInputStream(new FileInputStream(file));
+      dis.readFully(fileData);
+      dis.close();
+
+      return fileData;
+    }
+  }
 }
