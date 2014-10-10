@@ -14,6 +14,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ElementResp
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.Assert;
@@ -25,12 +26,20 @@ public class HistoriesTest {
   private ToolsClient toolsClient;
   private HistoriesClient historiesClient;
   
+  private File downloadFile;
+  private OutputDataset downloadOutputDataset;
+  private String downloadHistoryId;
+  private String downloadDatasetId;
+  
   private File collectionFile1;
   private File collectionFile2;
   private OutputDataset collectionDataset1;
   private OutputDataset collectionDataset2;
   
   private String collectionHistoryId;
+  
+  private static final String invalidDatasetId = "invalid";
+  private static final String invalidHistoryId = "invalid";
 
   @BeforeMethod
   public void init() throws InterruptedException {
@@ -53,6 +62,14 @@ public class HistoriesTest {
     Assert.assertNotNull(collectionDataset2);
     Assert.assertEquals(collectionDataset1.getName(), collectionFile1.getName());
     Assert.assertEquals(collectionDataset2.getName(), collectionFile2.getName());
+    
+    // Galaxy adds an extra newline to a file on upload
+    // add newline here so tests pass when comparing files.
+    downloadFile = TestHelpers.getTestFile("hello_with_newline\n");
+    downloadOutputDataset = TestHelpers.testUpload(instance, collectionHistoryId, downloadFile);
+    downloadHistoryId = collectionHistoryId;
+    downloadDatasetId = downloadOutputDataset.getId();
+    
     TestHelpers.waitForHistory(historiesClient, collectionHistoryId);
   }
   
@@ -367,4 +384,45 @@ public class HistoriesTest {
     final HistoryContentsProvenance prov = historiesClient.showProvenance(historyId, contents.getId());    
   }
   
+  /**
+   * Tests out downloading a dataset and succeeding.
+   * 
+   * @throws Exception
+   */
+  @Test
+  public void testDownloadDatasetSuccess() throws Exception {
+    File destinationFile = File.createTempFile("output", "dat");
+    destinationFile.deleteOnExit();
+
+    historiesClient.downloadDataset(downloadHistoryId, downloadDatasetId,
+        destinationFile);
+    Assert.assertEquals("files should have equal length",
+        downloadFile.length(), destinationFile.length());
+    Assert.assertTrue("files should have same content",
+        TestHelpers.compareFileContents(downloadFile, destinationFile));
+  }
+  
+  /**
+   * Tests out downloading a dataset with an invalid history id.
+   * @throws IOException 
+   */
+  @Test(expectedExceptions=RuntimeException.class)
+  public void testDownloadDatasetFailDatasetId() throws IOException {    
+    File destinationFile = File.createTempFile("output", "dat");
+    destinationFile.deleteOnExit();
+    
+    historiesClient.downloadDataset(invalidHistoryId, downloadDatasetId, destinationFile);
+  }
+  
+  /**
+   * Tests out downloading a dataset with an invalid dataset id.
+   * @throws IOException 
+   */
+  @Test(expectedExceptions=RuntimeException.class)
+  public void testDownloadDatasetFailHistoryId() throws IOException {    
+    File destinationFile = File.createTempFile("output", "dat");
+    destinationFile.deleteOnExit();
+    
+    historiesClient.downloadDataset(downloadHistoryId, invalidDatasetId, destinationFile);
+  }
 }
