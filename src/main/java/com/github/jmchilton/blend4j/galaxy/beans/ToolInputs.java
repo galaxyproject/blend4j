@@ -8,9 +8,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class ToolInputs {
   private String toolId;
   private String historyId;
-  private Map<String, String> inputs;
+  private Map<String, Object> inputs;
 
-  public ToolInputs(String toolId, Map<String, String> inputs) {
+  public ToolInputs(String toolId, Map<String, Object> inputs) {
     this.toolId = toolId;
     this.inputs = inputs;
   }
@@ -25,7 +25,7 @@ public class ToolInputs {
   }
 
   @JsonProperty("inputs")
-  public Map<String, String> getInputs() {
+  public Map<String, Object> getInputs() {
     return inputs;
   }
 

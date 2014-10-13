@@ -54,11 +54,16 @@ class TestHelpers {
    * @return  The history id of the newly created history.
    */
   static String createTestHistory(final GalaxyInstance instance, String historyName) {
+    final History newHistory = createTestHistoryObject(instance, historyName);
+    final String historyId = newHistory.getId();
+    return historyId;
+  }
+  
+  static History createTestHistoryObject(final GalaxyInstance instance, String historyName) {
     final History testHistory = new History();
     testHistory.setName(historyName);
     final History newHistory = instance.getHistoriesClient().create(testHistory);
-    final String historyId = newHistory.getId();
-    return historyId;
+    return newHistory;
   }
   
   static void waitForHistory(final HistoriesClient client, final String historyId) throws InterruptedException {
