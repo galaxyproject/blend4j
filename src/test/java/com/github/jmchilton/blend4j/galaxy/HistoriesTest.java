@@ -372,7 +372,7 @@ public class HistoriesTest {
   }
   
   @Test
-  public void testProvenance() {
+  public void testProvenance() throws InterruptedException {
     final String historyId = TestHelpers.getTestHistoryId(instance);
     final HistoryContents contents = getTestHistoryDataset(historyId);
     final HistoryContentsProvenance prov = historiesClient.showProvenance(historyId, contents.getId());
