@@ -1,22 +1,21 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.AbstractElement;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
+import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionElementResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ElementResponse;
 import com.sun.jersey.api.client.ClientResponse;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
 import org.junit.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -373,15 +372,32 @@ public class HistoriesTest {
   }
   
   @Test
-  public void testProvenance() {
+  public void testProvenance() throws InterruptedException {
     final String historyId = TestHelpers.getTestHistoryId(instance);
+    final HistoryContents contents = getTestHistoryDataset(historyId);
+    final HistoryContentsProvenance prov = historiesClient.showProvenance(historyId, contents.getId());
+    // TODO: Test some stuff about prov - for now it is verifying serialization
+    // etc... though.
+  }
+
+  @Test
+  public void testShowDataset() throws InterruptedException {
+    final String historyId = TestHelpers.getTestHistoryId(instance);
+    final HistoryContents contents = getTestHistoryDataset(historyId);
+    final Dataset dataset = historiesClient.showDataset(historyId, contents.getId());
+    assert dataset.getDataType().equals("txt") : dataset.getDataType();
+    assert dataset.getDataTypeExt().equals("txt") : dataset.getDataTypeExt();
+  }
+
+  private HistoryContents getTestHistoryDataset(final String historyId) throws InterruptedException {
     final File testFile = TestHelpers.getTestFile();
     final ToolsClient.FileUploadRequest request = new ToolsClient.FileUploadRequest(historyId, testFile);
     final ClientResponse clientResponse = toolsClient.uploadRequest(request);
     
     final List<HistoryContents> contentsList = historiesClient.showHistoryContents(historyId);
     final HistoryContents contents = contentsList.get(0);
-    final HistoryContentsProvenance prov = historiesClient.showProvenance(historyId, contents.getId());    
+    TestHelpers.waitForHistory(historiesClient, historyId);
+    return contents;
   }
   
   /**
