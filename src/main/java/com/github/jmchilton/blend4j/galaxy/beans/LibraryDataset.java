@@ -11,7 +11,10 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class LibraryDataset extends GalaxyObject {
 
   @JsonProperty("data_type")
-  private String dataType;
+  private String dataType = null;
+
+  @JsonProperty("file_ext")
+  private String fileExt = null;
 
   @JsonProperty("date_uploaded")
   private String dateUploaded;
@@ -77,12 +80,41 @@ public class LibraryDataset extends GalaxyObject {
   @JsonProperty("uuid")
   private String uuid;
 
+  /**
+   * @deprecated  As of 1.2 release, replaced by {@link #getDataTypeExt()}.
+   */
+  @Deprecated
   public String getDataType() {
-    return dataType;
+    return getDataTypeExt();
   }
 
+  public String getDataTypeExt() {
+    // Hacked up due to backard incompatible changes made to the
+    // Galaxy API as of the October 2014 release of Galaxy.
+    // https://bitbucket.org/galaxy/galaxy-central/commits/9d152ed
+    if(this.fileExt != null) {
+      return this.fileExt;
+    } else {
+      return dataType;
+    }
+  }
+
+  /**
+   * This returns the Python module and class of the data type corresponding
+   * to this object. (Starting from the October 2014 version of Galaxy.)
+   *
+   */
+  public String getDataTypeClass() {
+    return dataType;
+  }
+  
   public void setDataType(String dataType) {
     this.dataType = dataType;
+  }
+
+  @JsonProperty("file_ext")
+  public void setFileExt(final String fileExt) {
+    this.fileExt = fileExt;
   }
 
   public String getDateUploaded() {

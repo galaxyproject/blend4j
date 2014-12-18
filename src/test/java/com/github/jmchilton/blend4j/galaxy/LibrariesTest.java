@@ -105,6 +105,8 @@ public class LibrariesTest {
       Assert.assertEquals(datasetId, libraryDataset.getId());
       Assert.assertEquals(fileName, libraryDataset.getName());
       Assert.assertEquals("tabular", libraryDataset.getDataType());
+      Assert.assertEquals("tabular", libraryDataset.getDataTypeExt());
+      Assert.assertNotNull(libraryDataset.getDataTypeClass());
       Assert.assertNotNull(libraryDataset.getState());
     }
   }
