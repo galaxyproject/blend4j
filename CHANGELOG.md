@@ -1,5 +1,19 @@
 # blend4j changelog
 
+## [0.1.2][012release] (December 18, 2014)
+
+- Add ability to get information about a [library dataset][getlibrarydataset].
+- Update to [galaxy-bootstrap 0.5.0][gxbootstrap050] to account for recent Galaxy configuration changes.
+- Various bug fixes for recent API changes in Galaxy. [1][012bugfix1], [2][012bugfix2], [3][012bugfix3]
+
+[012release]: http://mvnrepository.com/artifact/com.github.jmchilton.blend4j/blend4j/0.1.2
+[getlibrarydataset]: https://github.com/jmchilton/blend4j/commit/e0bd2be2fc93530aa89744701dc96f0591d3894c
+[gxbootstrap050]: https://github.com/jmchilton/blend4j/commit/a9a87c3c0b93a2add1572932f39583106cb8c60c
+[012bugfix1]: https://github.com/jmchilton/blend4j/commit/f9a5a4bd32424f039ee90c9c1735bc5f90a38973
+[012bugfix2]: https://github.com/jmchilton/blend4j/commit/47de71cee239fa4feb975120828429fabac9b500
+[012bugfix3]: https://github.com/jmchilton/blend4j/commit/48ff545c1303a5b84b862afae98e6f7f49145d99
+
+
 ## [0.1.1][011release] (August 27, 2014)
 
  - Dataset collection support by @apetkau. Among other things the [histories client][historiesclient]
