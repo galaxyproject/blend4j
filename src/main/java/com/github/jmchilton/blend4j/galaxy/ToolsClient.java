@@ -1,15 +1,18 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.beans.History;
-import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
-import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
-import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolDetails;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolSection;
+import com.sun.jersey.api.client.ClientResponse;
 
 public interface ToolsClient {
   ToolExecution create(History history, ToolInputs inputs);
@@ -28,6 +31,25 @@ public interface ToolsClient {
   ClientResponse uploadRequest(FileUploadRequest request);
   
   ToolExecution upload(FileUploadRequest request);
+  
+  /**
+   * Load details about a specific Galaxy tool by ID.
+   * 
+   * @param toolId Galaxy tool ID (usually in the form of a URI, unlike other 
+   * 		Galaxy IDs).
+   * @return An instance of {@link ToolDetails} for the specified ID.
+   */
+  ToolDetails showTool(String toolId);
+  
+  /**
+   * Loads a collection of all tools in the Galaxy instance, sorted by
+   * section as in the tools panel. For more details about individual
+   * tools, load {@link ToolDetails} with 
+   * {@link ToolsClient#showTool(String)}.
+   * 
+   * @return a collection of all tools in the Galaxy instance.
+   */
+  List<ToolSection> getTools();
   
   public static class UploadFile {
     private final File file;
