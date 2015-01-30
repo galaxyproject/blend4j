@@ -1,12 +1,18 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.beans.History;
-import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
-import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
-import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.codehaus.jackson.type.TypeReference;
+
+import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.Tool;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolSection;
+import com.sun.jersey.api.client.ClientResponse;
 
 class ToolsClientImpl extends Client implements ToolsClient {
   ToolsClientImpl(GalaxyInstanceImpl galaxyInstance) {
@@ -52,5 +58,16 @@ class ToolsClientImpl extends Client implements ToolsClient {
     requestParameters.put("type", "upload_dataset");
     return multipartPost(getWebResource(), requestParameters, prepareUploads(request.getFileObjects()));
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public Tool showTool(final String toolId) {
+    return super.getWebResource(toolId).get(Tool.class);
+  }
 
+  
+  public List<ToolSection> getTools() {
+	return get(new TypeReference<List<ToolSection>>() {});
+  }
 }

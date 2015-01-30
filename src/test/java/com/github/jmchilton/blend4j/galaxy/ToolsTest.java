@@ -1,14 +1,17 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.ToolsClient.FileUploadRequest;
-import com.github.jmchilton.blend4j.galaxy.beans.History;
-import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
-import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
-import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.util.List;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import com.github.jmchilton.blend4j.galaxy.ToolsClient.FileUploadRequest;
+import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
+import com.github.jmchilton.blend4j.galaxy.beans.Tool;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolSection;
+import com.sun.jersey.api.client.ClientResponse;
 
 public class ToolsTest {
   private GalaxyInstance instance;
@@ -49,5 +52,26 @@ public class ToolsTest {
     final FileUploadRequest request = new FileUploadRequest(historyId, testFile);
     return request;
   }
-
+  
+  @Test
+  public void testGetTools() {
+	final List<ToolSection> tools = client.getTools();
+	assert tools != null;
+	assert ! tools.isEmpty();
+	
+	for (final ToolSection tool : tools) {
+		assert tool.getId() != null;
+	}
+  }
+  
+  @Test
+  public void testGetToolDetails() {
+	  final List<ToolSection> tools = client.getTools();
+	  // pick an arbitrary tool to get details about.
+	  final Tool toolDetails = client.showTool(tools.iterator().next().getElems().iterator().next().getId());
+	  
+	  assert toolDetails != null;
+	  assert toolDetails.getName() != null;
+	  assert toolDetails.getVersion() != null;
+  }
 }

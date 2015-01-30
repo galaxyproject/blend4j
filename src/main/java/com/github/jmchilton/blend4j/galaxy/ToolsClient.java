@@ -1,15 +1,18 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import com.github.jmchilton.blend4j.galaxy.beans.History;
-import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
-import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
-import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.github.jmchilton.blend4j.galaxy.beans.History;
+import com.github.jmchilton.blend4j.galaxy.beans.Tool;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.ToolSection;
+import com.sun.jersey.api.client.ClientResponse;
 
 public interface ToolsClient {
   ToolExecution create(History history, ToolInputs inputs);
@@ -28,6 +31,21 @@ public interface ToolsClient {
   ClientResponse uploadRequest(FileUploadRequest request);
   
   ToolExecution upload(FileUploadRequest request);
+  
+  /**
+   * Show details about the specified tool.
+   * 
+   * @param toolId the tool to look up.
+   * @return details about the tool.
+   */
+  Tool showTool(final String toolId);
+  
+  /**
+   * Get a list of all tools installed in Galaxy.
+   * 
+   * @return the list of tools installed in Galaxy.
+   */
+  List<ToolSection> getTools();
   
   public static class UploadFile {
     private final File file;
