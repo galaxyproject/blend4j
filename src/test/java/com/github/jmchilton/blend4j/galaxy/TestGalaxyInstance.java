@@ -128,7 +128,7 @@ public class TestGalaxyInstance {
 
   static String getProperty(final String key, final String defaultValue) {
     String value = defaultValue;
-    if(System.getProperties().contains(key)) {
+    if(System.getProperties().getProperty(key) != null) {
       value = System.getProperties().getProperty(key);
     } else if(properties.containsKey(key)) {
       value = properties.getProperty(key);
