@@ -117,6 +117,6 @@ class LibrariesClientImpl extends Client implements LibrariesClient {
 
   @Override
   public ClientResponse deleteLibraryRequest(String libraryId) {
-    return deleteResponse(getWebResource(libraryId), new HashMap<String, Boolean>());
+    return deleteResponse(getWebResource(libraryId), "");
   }
 }

@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Defines the response from a delete request to Galaxy.
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class DeleteResponse extends GalaxyObject {
+public class HistoryDeleteResponse extends GalaxyObject {
   @JsonProperty("deleted")
   private boolean deleted;
   

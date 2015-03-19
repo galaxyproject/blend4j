@@ -4,7 +4,7 @@ import static org.testng.AssertJUnit.*;
 
 import com.github.jmchilton.blend4j.exceptions.ResponseException;
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.DeleteResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDeleteResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
@@ -494,7 +494,7 @@ public class HistoriesTest {
     History createdHistory = historiesClient.create(new History("New History"));
     assert historiesClient.showHistory(createdHistory.getId()) != null : "History not properly created";
     
-    DeleteResponse deleteResponse = historiesClient.deleteHistory(createdHistory.getId(), false);
+    HistoryDeleteResponse deleteResponse = historiesClient.deleteHistory(createdHistory.getId(), false);
     assert createdHistory.getId().equals(deleteResponse.getId()) : "Invalid id from delete response";
     assert deleteResponse.getDeleted() : "Invalid deleted status from response";
     assert !deleteResponse.getPurged() : "Invalid purged status from response";
@@ -515,7 +515,7 @@ public class HistoriesTest {
     History createdHistory = historiesClient.create(new History("New History"));
     assert historiesClient.showHistory(createdHistory.getId()) != null : "History not properly created";
     
-    DeleteResponse deleteResponse = historiesClient.deleteHistory(createdHistory.getId(), true);
+    HistoryDeleteResponse deleteResponse = historiesClient.deleteHistory(createdHistory.getId(), true);
     assert createdHistory.getId().equals(deleteResponse.getId()) : "Invalid id from delete response";
     assert deleteResponse.getDeleted() : "Invalid deleted status from response";
     assert deleteResponse.getPurged() : "Invalid purged status from response";

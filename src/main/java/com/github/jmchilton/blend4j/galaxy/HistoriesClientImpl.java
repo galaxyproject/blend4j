@@ -10,7 +10,7 @@ import java.util.Map;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.DeleteResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDeleteResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
@@ -128,11 +128,11 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     if (purge) {
       deleteStatus.put("purge", true);
     }
-  	return deleteResponse(getWebResource(historyId), deleteStatus);
+  	return deleteResponse(getWebResource(historyId), write(deleteStatus));
   }
   
   @Override
-  public DeleteResponse deleteHistory(String historyId, boolean purge) {
-    return deleteHistoryRequest(historyId, purge).getEntity(DeleteResponse.class);
+  public HistoryDeleteResponse deleteHistory(String historyId, boolean purge) {
+    return deleteHistoryRequest(historyId, purge).getEntity(HistoryDeleteResponse.class);
   }
 }

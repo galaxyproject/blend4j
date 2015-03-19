@@ -61,24 +61,24 @@ public class BaseClient {
   /**
    * Gets the response for a DELETE request.
    * @param webResource The {@link WebResource} to send the request to.
-   * @param object A list of key/value parameters for the delete request.
+   * @param body The body of the delete request.
    * @return The {@link ClientResponse} for this request.
    * @throws ResponseException If the response was not successful.
    */
-  protected ClientResponse deleteResponse(final WebResource webResource, Map<String,Boolean> params) {
-    return deleteResponse(webResource, true, params);
+  protected ClientResponse deleteResponse(final WebResource webResource, String body) {
+    return deleteResponse(webResource, true, body);
   }
   
   /**
    * Gets the response for a DELETE request.
    * @param webResource The {@link WebResource} to send the request to.
    * @param checkResponse True if an exception should be thrown on failure, false otherwise.
-   * @param params A list of key/value parameters for the delete request.
+   * @param body The body of the delete request.
    * @return The {@link ClientResponse} for this request.
    * @throws ResponseException If the response was not successful.
    */
-  protected ClientResponse deleteResponse(final WebResource webResource, final boolean checkResponse, Map<String,Boolean> params) {
-    final ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).delete(ClientResponse.class, write(params));
+  protected ClientResponse deleteResponse(final WebResource webResource, final boolean checkResponse, String body) {
+    final ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).delete(ClientResponse.class, body);
     if(checkResponse) {
       this.checkResponse(response);
     }

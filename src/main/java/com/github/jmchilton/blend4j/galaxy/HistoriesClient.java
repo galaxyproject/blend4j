@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.DeleteResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDeleteResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
@@ -49,9 +49,9 @@ public interface HistoriesClient {
    * Deletes the given History from Galaxy.
    * @param historyId  The id of the History to delete.
    * @param purge True if this History should also be purged, otherwise set to false.
-   * @return A {@link DeleteResponse} for this request.
+   * @return A {@link HistoryDeleteResponse} for this request.
    */
-  DeleteResponse deleteHistory(String historyId, boolean purge);
+  HistoryDeleteResponse deleteHistory(String historyId, boolean purge);
   
   /**
    * Gets a Dataset collection for the given historyId and datasetCollectionId.
