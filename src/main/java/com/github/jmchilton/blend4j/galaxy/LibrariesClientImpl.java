@@ -114,4 +114,9 @@ class LibrariesClientImpl extends Client implements LibrariesClient {
   public LibraryDataset showDataset(String libraryId, String datasetId) {
     return read(showDatasetRequest(libraryId, datasetId), LibraryDataset.class);
   }
+
+  @Override
+  public ClientResponse deleteLibraryRequest(String libraryId) {
+    return deleteResponse(getWebResource(libraryId), new HashMap<String, Boolean>());
+  }
 }
