@@ -508,6 +508,27 @@ public class HistoriesTest {
   }
   
   /**
+   * Tests out successfully purging a history.
+   */
+  @Test
+  public void testPurgeHistorySuccess() {
+    History createdHistory = historiesClient.create(new History("New History"));
+    assert historiesClient.showHistory(createdHistory.getId()) != null : "History not properly created";
+    
+    DeleteResponse deleteResponse = historiesClient.deleteHistory(createdHistory.getId(), true);
+    assert createdHistory.getId().equals(deleteResponse.getId()) : "Invalid id from delete response";
+    assert deleteResponse.getDeleted() : "Invalid deleted status from response";
+    assert deleteResponse.getPurged() : "Invalid purged status from response";
+    
+    try {
+      historiesClient.showHistory(createdHistory.getId());
+      fail("History not properly deleted");
+    } catch (UniformInterfaceException e) {
+      assert 400 == e.getResponse().getStatus() : "Invalid status code for deleted history";
+    }
+  }
+  
+  /**
    * Tests out failing to delete a non-existent history.
    */
   @Test

@@ -3,7 +3,9 @@ package com.github.jmchilton.blend4j.galaxy;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.type.TypeReference;
 
@@ -122,11 +124,15 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
 
   @Override
   public ClientResponse deleteHistoryRequest(String historyId, boolean purge) {
-  	return deleteResponse(getWebResource(historyId));
+    Map<String,Boolean> deleteStatus = new HashMap<String,Boolean>();
+    if (purge) {
+      deleteStatus.put("purge", true);
+    }
+  	return deleteResponse(getWebResource(historyId), deleteStatus);
   }
   
   @Override
   public DeleteResponse deleteHistory(String historyId, boolean purge) {
-    return deleteResponse(getWebResource(historyId)).getEntity(DeleteResponse.class);
+    return deleteHistoryRequest(historyId, purge).getEntity(DeleteResponse.class);
   }
 }
