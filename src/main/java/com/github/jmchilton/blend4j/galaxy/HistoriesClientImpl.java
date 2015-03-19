@@ -3,9 +3,7 @@ package com.github.jmchilton.blend4j.galaxy;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.codehaus.jackson.type.TypeReference;
 
@@ -17,9 +15,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -123,16 +119,12 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   @Override
-  public ClientResponse deleteHistoryResponse(String historyId, boolean purge) {
-    Map<String,Boolean> deleteStatus = new HashMap<String,Boolean>();
-    if (purge) {
-      deleteStatus.put("purge", true);
-    }
-  	return deleteResponse(getWebResource(historyId), write(deleteStatus));
+  public ClientResponse deleteHistoryResponse(String historyId) {
+  	return deleteResponse(getWebResource(historyId));
   }
   
   @Override
-  public HistoryDeleteResponse deleteHistory(String historyId, boolean purge) {
-    return deleteHistoryResponse(historyId, purge).getEntity(HistoryDeleteResponse.class);
+  public HistoryDeleteResponse deleteHistory(String historyId) {
+    return deleteHistoryResponse(historyId).getEntity(HistoryDeleteResponse.class);
   }
 }

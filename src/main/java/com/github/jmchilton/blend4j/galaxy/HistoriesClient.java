@@ -38,20 +38,18 @@ public interface HistoriesClient {
   HistoryExport exportHistory(String historyId);
   
   /**
-   * Deletes the given History from Galaxy.
+   * Deletes the given History from Galaxy (this will not purge).
    * @param historyId  The id of the History to delete.
-   * @param purge True if this History should also be purged, otherwise set to false.
    * @return A {@link ClientResponse} for this request.
    */
-  ClientResponse deleteHistoryResponse(String historyId, boolean purge);
+  ClientResponse deleteHistoryResponse(String historyId);
   
   /**
-   * Deletes the given History from Galaxy.
+   * Deletes the given History from Galaxy (this will not purge).
    * @param historyId  The id of the History to delete.
-   * @param purge True if this History should also be purged, otherwise set to false.
    * @return A {@link HistoryDeleteResponse} for this request.
    */
-  HistoryDeleteResponse deleteHistory(String historyId, boolean purge);
+  HistoryDeleteResponse deleteHistory(String historyId);
   
   /**
    * Gets a Dataset collection for the given historyId and datasetCollectionId.

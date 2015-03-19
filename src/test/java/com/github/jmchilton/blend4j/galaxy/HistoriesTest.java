@@ -458,7 +458,7 @@ public class HistoriesTest {
     History createdHistory = historiesClient.create(new History("New History"));
     assert historiesClient.showHistory(createdHistory.getId()) != null : "History not properly created";
     
-    ClientResponse deleteResponse = historiesClient.deleteHistoryResponse(createdHistory.getId(), false);
+    ClientResponse deleteResponse = historiesClient.deleteHistoryResponse(createdHistory.getId());
     assert ClientResponse.Status.OK.equals(deleteResponse.getClientResponseStatus()) : "Invalid status code for deleted history";
     
     try {
@@ -479,7 +479,7 @@ public class HistoriesTest {
     assert !ClientResponse.Status.OK.equals(historiesClient.showHistoryRequest(historyId)) : "History with " + historyId + " already exists";
     
     try {
-      historiesClient.deleteHistoryResponse(historyId, false);
+      historiesClient.deleteHistoryResponse(historyId);
       fail("Deleting invalid history did not throw an exception");
     } catch (ResponseException e) {
       assert 400 == e.getStatusCode() : "Invalid status code";      
@@ -494,31 +494,10 @@ public class HistoriesTest {
     History createdHistory = historiesClient.create(new History("New History"));
     assert historiesClient.showHistory(createdHistory.getId()) != null : "History not properly created";
     
-    HistoryDeleteResponse deleteResponse = historiesClient.deleteHistory(createdHistory.getId(), false);
+    HistoryDeleteResponse deleteResponse = historiesClient.deleteHistory(createdHistory.getId());
     assert createdHistory.getId().equals(deleteResponse.getId()) : "Invalid id from delete response";
     assert deleteResponse.getDeleted() : "Invalid deleted status from response";
     assert !deleteResponse.getPurged() : "Invalid purged status from response";
-    
-    try {
-      historiesClient.showHistory(createdHistory.getId());
-      fail("History not properly deleted");
-    } catch (UniformInterfaceException e) {
-      assert 400 == e.getResponse().getStatus() : "Invalid status code for deleted history";
-    }
-  }
-  
-  /**
-   * Tests out successfully purging a history.
-   */
-  @Test
-  public void testPurgeHistorySuccess() {
-    History createdHistory = historiesClient.create(new History("New History"));
-    assert historiesClient.showHistory(createdHistory.getId()) != null : "History not properly created";
-    
-    HistoryDeleteResponse deleteResponse = historiesClient.deleteHistory(createdHistory.getId(), true);
-    assert createdHistory.getId().equals(deleteResponse.getId()) : "Invalid id from delete response";
-    assert deleteResponse.getDeleted() : "Invalid deleted status from response";
-    assert deleteResponse.getPurged() : "Invalid purged status from response";
     
     try {
       historiesClient.showHistory(createdHistory.getId());
@@ -538,7 +517,7 @@ public class HistoriesTest {
     assert !ClientResponse.Status.OK.equals(historiesClient.showHistoryRequest(historyId)) : "History with " + historyId + " already exists";
     
     try {
-      historiesClient.deleteHistory(historyId, false);
+      historiesClient.deleteHistory(historyId);
       fail("Deleting invalid history did not throw an exception");
     } catch (ResponseException e) {
       assert 400 == e.getStatusCode() : "Invalid status code";      
