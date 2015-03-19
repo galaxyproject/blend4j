@@ -22,4 +22,11 @@ public interface WorkflowsClient {
   ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
 
   WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
+  
+  /**
+   * Deletes the workflow with the given id.  This action is irreversible.
+   * @param id The id of the workflow to delete.
+   * @return A {@link ClientResponse} for this request.
+   */
+  ClientResponse deleteWorkflowResponse(String id);
 }

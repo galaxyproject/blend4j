@@ -10,11 +10,13 @@ import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -57,5 +59,10 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 
   public Workflow importWorkflow(String json) {
     return importWorkflowResponse(json).getEntity(Workflow.class);
+  }
+
+  @Override
+  public ClientResponse deleteWorkflowResponse(String id) {
+    return deleteResponse(getWebResource(id), "");
   }
 }
