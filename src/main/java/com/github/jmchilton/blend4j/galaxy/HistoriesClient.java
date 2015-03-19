@@ -43,7 +43,7 @@ public interface HistoriesClient {
    * @param purge True if this History should also be purged, otherwise set to false.
    * @return A {@link ClientResponse} for this request.
    */
-  ClientResponse deleteHistoryRequest(String historyId, boolean purge);
+  ClientResponse deleteHistoryResponse(String historyId, boolean purge);
   
   /**
    * Deletes the given History from Galaxy.

@@ -454,11 +454,11 @@ public class HistoriesTest {
    * Tests out successfully deleting a history and getting back a ClientRresponse.
    */
   @Test
-  public void testDeleteHistoryRequestSuccess() {
+  public void testDeleteHistoryResponseSuccess() {
     History createdHistory = historiesClient.create(new History("New History"));
     assert historiesClient.showHistory(createdHistory.getId()) != null : "History not properly created";
     
-    ClientResponse deleteResponse = historiesClient.deleteHistoryRequest(createdHistory.getId(), false);
+    ClientResponse deleteResponse = historiesClient.deleteHistoryResponse(createdHistory.getId(), false);
     assert ClientResponse.Status.OK.equals(deleteResponse.getClientResponseStatus()) : "Invalid status code for deleted history";
     
     try {
@@ -473,13 +473,13 @@ public class HistoriesTest {
    * Tests out failing to delete a non-existent history.
    */
   @Test
-  public void testDeleteHistoryRequestFail() {
+  public void testDeleteHistoryResponseFail() {
     String historyId = "invalid";
     
     assert !ClientResponse.Status.OK.equals(historiesClient.showHistoryRequest(historyId)) : "History with " + historyId + " already exists";
     
     try {
-      historiesClient.deleteHistoryRequest(historyId, false);
+      historiesClient.deleteHistoryResponse(historyId, false);
       fail("Deleting invalid history did not throw an exception");
     } catch (ResponseException e) {
       assert 400 == e.getStatusCode() : "Invalid status code";      

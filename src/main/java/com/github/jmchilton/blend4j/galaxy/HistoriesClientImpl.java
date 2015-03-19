@@ -123,7 +123,7 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   @Override
-  public ClientResponse deleteHistoryRequest(String historyId, boolean purge) {
+  public ClientResponse deleteHistoryResponse(String historyId, boolean purge) {
     Map<String,Boolean> deleteStatus = new HashMap<String,Boolean>();
     if (purge) {
       deleteStatus.put("purge", true);
@@ -133,6 +133,6 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   
   @Override
   public HistoryDeleteResponse deleteHistory(String historyId, boolean purge) {
-    return deleteHistoryRequest(historyId, purge).getEntity(HistoryDeleteResponse.class);
+    return deleteHistoryResponse(historyId, purge).getEntity(HistoryDeleteResponse.class);
   }
 }
