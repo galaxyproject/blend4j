@@ -37,6 +37,14 @@ public interface HistoriesClient {
   HistoryExport exportHistory(String historyId);
   
   /**
+   * Deletes the given History from Galaxy.
+   * @param historyId  The id of the History to delete.
+   * @param purge True if this History should also be purged, otherwise set to false.
+   * @return A {@link ClientResponse} for this request.
+   */
+  ClientResponse deleteHistoryRequest(String historyId, boolean purge);
+  
+  /**
    * Gets a Dataset collection for the given historyId and datasetCollectionId.
    * @param historyId  The ID of the history to search for dataset collections.
    * @param datasetCollectionId  The id of the dataset collection to search for.

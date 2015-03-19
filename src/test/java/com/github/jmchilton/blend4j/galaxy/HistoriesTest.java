@@ -1,6 +1,10 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import static org.testng.AssertJUnit.*;
+
+import com.github.jmchilton.blend4j.exceptions.ResponseException;
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
+import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
@@ -13,9 +17,12 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionE
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ElementResponse;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 import org.junit.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -440,5 +447,41 @@ public class HistoriesTest {
     destinationFile.deleteOnExit();
     
     historiesClient.downloadDataset(downloadHistoryId, invalidDatasetId, destinationFile);
+  }
+  
+  /**
+   * Tests out successfully deleting a history.
+   */
+  @Test
+  public void testDeleteHistorySuccess() {
+    History createdHistory = historiesClient.create(new History("New History"));
+    assert historiesClient.showHistory(createdHistory.getId()) != null : "History not properly created";
+    
+    ClientResponse deleteResponse = historiesClient.deleteHistoryRequest(createdHistory.getId(), false);
+    assert ClientResponse.Status.OK.equals(deleteResponse.getClientResponseStatus()) : "Invalid status code for deleted history";
+    
+    try {
+      historiesClient.showHistory(createdHistory.getId());
+      fail("History not properly deleted");
+    } catch (UniformInterfaceException e) {
+      assert 400 == e.getResponse().getStatus() : "Invalid status code for deleted history";
+    }
+  }
+  
+  /**
+   * Tests out failing to delete a non-existent history.
+   */
+  @Test
+  public void testDeleteHistoryFail() {
+    String historyId = "invalid";
+    
+    assert !ClientResponse.Status.OK.equals(historiesClient.showHistoryRequest(historyId)) : "History with " + historyId + " already exists";
+    
+    try {
+      historiesClient.deleteHistoryRequest(historyId, false);
+      fail("Deleting invalid history did not throw an exception");
+    } catch (ResponseException e) {
+      assert 400 == e.getStatusCode() : "Invalid status code";      
+    }
   }
 }

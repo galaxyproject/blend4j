@@ -118,4 +118,9 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     FileWriter fr = new FileWriter(downloadedFile);
     fr.close();
   }
+
+  @Override
+  public ClientResponse deleteHistoryRequest(String historyId, boolean purge) {
+  	return deleteResponse(getWebResource(historyId));
+  }
 }
