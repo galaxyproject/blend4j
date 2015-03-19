@@ -38,15 +38,25 @@ public interface HistoriesClient {
   HistoryExport exportHistory(String historyId);
   
   /**
-   * Deletes the given History from Galaxy (this will not purge).
-   * @param historyId  The id of the History to delete.
-   * @return A {@link ClientResponse} for this request.
+   * Deletes the given History from Galaxy (this will not purge). This will
+   * return a {@link ClientResponse} object providing access to the status code
+   * and the non-serialized body of the response.
+   * 
+   * @param historyId
+   *          The id of the History to delete.
+   * @return A {@link ClientResponse} for this request. The status code provided
+   *         by {@link ClientResponse#getClientResponseStatus()} should be
+   *         verified for success.
    */
   ClientResponse deleteHistoryRequest(String historyId);
-  
+
   /**
-   * Deletes the given History from Galaxy (this will not purge).
-   * @param historyId  The id of the History to delete.
+   * Deletes the given History from Galaxy (this will not purge). This will
+   * return a {@link HistoryDeleteResponse} object for the delete request with
+   * information provided by Galaxy.
+   * 
+   * @param historyId
+   *          The id of the History to delete.
    * @return A {@link HistoryDeleteResponse} for this request.
    */
   HistoryDeleteResponse deleteHistory(String historyId);

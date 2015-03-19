@@ -66,9 +66,15 @@ public interface LibrariesClient {
   LibraryDataset showDataset(String libraryId, String datasetId);
   
   /**
-   * Deletes the given library from Galaxy.
-   * @param libraryId The id of the library to delete.
-   * @return A {@link ClientResponse} for the deleted library.
+   * Deletes the given library from Galaxy (this is irreversible). This will return a
+   * {@link ClientResponse} object providing access to the status code and the
+   * non-serialized body of the response.
+   * 
+   * @param libraryId
+   *          The id of the library to delete.
+   * @return A {@link ClientResponse} for the deleted library. The status code
+   *         provided by {@link ClientResponse#getClientResponseStatus()} should
+   *         be verified for success.
    */
   ClientResponse deleteLibraryRequest(String libraryId);
 }
