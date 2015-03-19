@@ -28,5 +28,5 @@ public interface WorkflowsClient {
    * @param id The id of the workflow to delete.
    * @return A {@link ClientResponse} for this request.
    */
-  ClientResponse deleteWorkflowResponse(String id);
+  ClientResponse deleteWorkflowRequest(String id);
 }

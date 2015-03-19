@@ -52,7 +52,7 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
   }
 
   @Override
-  public ClientResponse deleteWorkflowResponse(String id) {
+  public ClientResponse deleteWorkflowRequest(String id) {
     return deleteResponse(getWebResource(id));
   }
 }

@@ -119,12 +119,12 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   @Override
-  public ClientResponse deleteHistoryResponse(String historyId) {
+  public ClientResponse deleteHistoryRequest(String historyId) {
   	return deleteResponse(getWebResource(historyId));
   }
   
   @Override
   public HistoryDeleteResponse deleteHistory(String historyId) {
-    return deleteHistoryResponse(historyId).getEntity(HistoryDeleteResponse.class);
+    return deleteHistoryRequest(historyId).getEntity(HistoryDeleteResponse.class);
   }
 }

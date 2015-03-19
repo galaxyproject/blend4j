@@ -70,5 +70,5 @@ public interface LibrariesClient {
    * @param libraryId The id of the library to delete.
    * @return A {@link ClientResponse} for the deleted library.
    */
-  ClientResponse deleteLibraryResponse(String libraryId);
+  ClientResponse deleteLibraryRequest(String libraryId);
 }

@@ -270,7 +270,7 @@ public class WorkflowsTest {
     WorkflowDetails workflowDetails = client.showWorkflow(workflow.getId());
     assert !workflowDetails.isDeleted() : "Workflow is deleted";
     
-    client.deleteWorkflowResponse(workflow.getId());
+    client.deleteWorkflowRequest(workflow.getId());
     
     workflowDetails = client.showWorkflow(workflow.getId());
     assert workflowDetails.isDeleted() : "Workflow is not deleted";
@@ -291,7 +291,7 @@ public class WorkflowsTest {
     }
     
     try {
-      client.deleteWorkflowResponse(workflow.getId());
+      client.deleteWorkflowRequest(workflow.getId());
     } catch (UniformInterfaceException e) {
       assert 400 == e.getResponse().getStatus() : "Invalid status code";
     }

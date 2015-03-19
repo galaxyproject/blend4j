@@ -42,7 +42,7 @@ public interface HistoriesClient {
    * @param historyId  The id of the History to delete.
    * @return A {@link ClientResponse} for this request.
    */
-  ClientResponse deleteHistoryResponse(String historyId);
+  ClientResponse deleteHistoryRequest(String historyId);
   
   /**
    * Deletes the given History from Galaxy (this will not purge).

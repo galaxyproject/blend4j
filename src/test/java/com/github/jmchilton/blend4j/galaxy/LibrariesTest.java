@@ -120,7 +120,7 @@ public class LibrariesTest {
     assert testLibrary != null : "Library could not be created";
     assert client.getLibraryContents(testLibrary.getId()) != null : "Invalid library contents";
     
-    ClientResponse clientResponse = client.deleteLibraryResponse(testLibrary.getId());
+    ClientResponse clientResponse = client.deleteLibraryRequest(testLibrary.getId());
     assert 200 == clientResponse.getStatus() : "Invalid status code";
   }
   
@@ -132,7 +132,7 @@ public class LibrariesTest {
     LibrariesClient client = IntegrationTest.getLibrariesClient();
     
     try {
-      client.deleteLibraryResponse("invalid");
+      client.deleteLibraryRequest("invalid");
     } catch (GalaxyResponseException e) {
       assert 400 == e.getStatusCode() : "Invalid status code";
     }
