@@ -8,6 +8,7 @@ import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
+import com.github.jmchilton.blend4j.galaxy.beans.DeleteResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
@@ -122,5 +123,10 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   @Override
   public ClientResponse deleteHistoryRequest(String historyId, boolean purge) {
   	return deleteResponse(getWebResource(historyId));
+  }
+  
+  @Override
+  public DeleteResponse deleteHistory(String historyId, boolean purge) {
+    return deleteResponse(getWebResource(historyId)).getEntity(DeleteResponse.class);
   }
 }
