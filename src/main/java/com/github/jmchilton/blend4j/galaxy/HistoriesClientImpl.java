@@ -8,15 +8,14 @@ import java.util.List;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDeleteResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
-import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElement;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -117,5 +116,15 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     downloadedFile.renameTo(destinationFile);
     FileWriter fr = new FileWriter(downloadedFile);
     fr.close();
+  }
+
+  @Override
+  public ClientResponse deleteHistoryRequest(String historyId) {
+  	return deleteResponse(getWebResource(historyId));
+  }
+  
+  @Override
+  public HistoryDeleteResponse deleteHistory(String historyId) {
+    return deleteHistoryRequest(historyId).getEntity(HistoryDeleteResponse.class);
   }
 }

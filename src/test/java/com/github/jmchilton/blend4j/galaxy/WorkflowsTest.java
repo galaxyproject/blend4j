@@ -1,5 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import static org.testng.AssertJUnit.*;
+
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputDefinition;
@@ -14,10 +16,13 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatas
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -29,11 +34,15 @@ public class WorkflowsTest {
   private static final String TEST_WORKFLOW_COLLECTION_LIST = "TestWorkflowCollectionList";
   private GalaxyInstance instance;
   private WorkflowsClient client;
+  
+  private String testWorkflow1Contents;
 
   @BeforeMethod
-  public void init() {
+  public void init() throws IOException {
     instance = TestGalaxyInstance.get();
     client = instance.getWorkflowsClient();
+    
+    testWorkflow1Contents = Resources.asCharSource(getClass().getResource(TEST_WORKFLOW_NAME + ".ga"), Charsets.UTF_8).read();
   }
   
   private String ensureHasTestWorkflow1() {
@@ -252,7 +261,41 @@ public class WorkflowsTest {
     // TODO: Verify outputs...
   }
   
-
+  /**
+   * Tests successfully deleting a workflow.
+   */
+  @Test
+  public void deleteWorkflowRequestSuccess() {
+    Workflow workflow = client.importWorkflow(testWorkflow1Contents);
+    WorkflowDetails workflowDetails = client.showWorkflow(workflow.getId());
+    assert !workflowDetails.isDeleted() : "Workflow is deleted";
+    
+    client.deleteWorkflowRequest(workflow.getId());
+    
+    workflowDetails = client.showWorkflow(workflow.getId());
+    assert workflowDetails.isDeleted() : "Workflow is not deleted";
+  }
+  
+  /**
+   * Tests failing to deleting an invalid workflow.
+   */
+  @Test
+  public void deleteWorkflowRequestFail() {
+    Workflow workflow = client.importWorkflow(testWorkflow1Contents);
+    
+    try {
+      client.showWorkflow("invalid");
+      fail("The invalid workflow above exists");
+    } catch (UniformInterfaceException e) {
+      assert 400 == e.getResponse().getStatus() : "Invalid status code";
+    }
+    
+    try {
+      client.deleteWorkflowRequest(workflow.getId());
+    } catch (UniformInterfaceException e) {
+      assert 400 == e.getResponse().getStatus() : "Invalid status code";
+    }
+  }
   
   private WorkflowInputs prepParameterTest() throws InterruptedException {
     final String historyId = TestHelpers.getTestHistoryId(instance);

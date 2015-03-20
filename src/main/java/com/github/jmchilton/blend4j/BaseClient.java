@@ -58,6 +58,31 @@ public class BaseClient {
     return get(getWebResource(), typeReference);
   }
   
+  /**
+   * Gets the response for a DELETE request.
+   * @param webResource The {@link WebResource} to send the request to.
+   * @return The {@link ClientResponse} for this request.
+   * @throws ResponseException If the response was not successful.
+   */
+  protected ClientResponse deleteResponse(final WebResource webResource) {
+    return deleteResponse(webResource, true);
+  }
+  
+  /**
+   * Gets the response for a DELETE request.
+   * @param webResource The {@link WebResource} to send the request to.
+   * @param checkResponse True if an exception should be thrown on failure, false otherwise.
+   * @return The {@link ClientResponse} for this request.
+   * @throws ResponseException If the response was not successful.
+   */
+  protected ClientResponse deleteResponse(final WebResource webResource, final boolean checkResponse) {
+    final ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).delete(ClientResponse.class);
+    if(checkResponse) {
+      this.checkResponse(response);
+    }
+    return response;
+  }
+  
   protected ClientResponse getResponse(final WebResource webResource) {
     return getResponse(webResource, true);
   }

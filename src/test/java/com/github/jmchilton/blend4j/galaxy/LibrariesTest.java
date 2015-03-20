@@ -6,7 +6,6 @@ import com.github.jmchilton.blend4j.galaxy.beans.Library;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryFolder;
-import com.github.jmchilton.blend4j.galaxy.beans.LibraryUpload;
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.io.File;
@@ -108,6 +107,34 @@ public class LibrariesTest {
       Assert.assertEquals("tabular", libraryDataset.getDataTypeExt());
       Assert.assertNotNull(libraryDataset.getDataTypeClass());
       Assert.assertNotNull(libraryDataset.getState());
+    }
+  }
+  
+  /**
+   * Tests deleting a library successfully.
+   */
+  @Test
+  public void testDeleteLibrarySuccess() {
+    LibrariesClient client = IntegrationTest.getLibrariesClient();
+    Library testLibrary = IntegrationTest.createTestLibrary(client, "test-delete-library" + UUID.randomUUID().toString());
+    assert testLibrary != null : "Library could not be created";
+    assert client.getLibraryContents(testLibrary.getId()) != null : "Invalid library contents";
+    
+    ClientResponse clientResponse = client.deleteLibraryRequest(testLibrary.getId());
+    assert 200 == clientResponse.getStatus() : "Invalid status code";
+  }
+  
+  /**
+   * Tests deleting a library and failing.
+   */
+  @Test
+  public void testDeleteLibraryFail() {
+    LibrariesClient client = IntegrationTest.getLibrariesClient();
+    
+    try {
+      client.deleteLibraryRequest("invalid");
+    } catch (GalaxyResponseException e) {
+      assert 400 == e.getStatusCode() : "Invalid status code";
     }
   }
 }

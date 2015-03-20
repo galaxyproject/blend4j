@@ -22,4 +22,17 @@ public interface WorkflowsClient {
   ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
 
   WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
+  
+  /**
+   * Deletes the workflow with the given id (this is irreversible). This will
+   * return a {@link ClientResponse} object providing access to the status code
+   * and the non-serialized body of the response.
+   * 
+   * @param id
+   *          The id of the workflow to delete.
+   * @return A {@link ClientResponse} for this request. The status code provided
+   *         by {@link ClientResponse#getClientResponseStatus()} should be
+   *         verified for success.
+   */
+  ClientResponse deleteWorkflowRequest(String id);
 }
