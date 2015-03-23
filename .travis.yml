@@ -3,6 +3,7 @@ jdk:
   - oraclejdk7
   - openjdk6
 before_install:
+ - createdb -U postgres galaxy-travis
  - mkdir "$HOME/.python-eggs"
  - chmod 700 "$HOME/.python-eggs"
  - sudo apt-get update -qq
