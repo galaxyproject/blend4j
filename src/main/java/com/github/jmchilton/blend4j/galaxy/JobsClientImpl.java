@@ -36,4 +36,12 @@ public class JobsClientImpl extends Client implements JobsClient {
 		return super.show(id, JobDetails.class);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Job> getJobsForHistory(String historyId) {
+		return get(getWebResource().queryParam("history_id", historyId), new TypeReference<List<Job>>() {
+		});
+	}
+
 }

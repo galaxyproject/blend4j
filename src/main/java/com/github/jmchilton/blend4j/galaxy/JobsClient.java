@@ -21,11 +21,21 @@ public interface JobsClient {
 	 * @return a collection of all jobs executed by Galaxy.
 	 */
 	public List<Job> getJobs();
-	
+
+	/**
+	 * Get all jobs executed by Galaxy for a specific history.
+	 * 
+	 * @param historyId
+	 *            the history id to load jobs for.
+	 * @return the collection of jobs corresponding to the history.
+	 */
+	public List<Job> getJobsForHistory(final String historyId);
+
 	/**
 	 * Show the details of a specific job execution.
 	 * 
-	 * @param id the job id
+	 * @param id
+	 *            the job id
 	 * @return the details of a job.
 	 */
 	public JobDetails showJob(final String id);
