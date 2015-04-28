@@ -26,4 +26,11 @@ public interface GalaxyInstance {
   String getGalaxyUrl();
   
   String getApiKey();
+  
+  /**
+   * Get a client for interacting with Galaxy's Jobs API.
+   * 
+   * @return a jobs client for interacting with the Jobs API for this instance.
+   */
+  JobsClient getJobsClient();
 }
