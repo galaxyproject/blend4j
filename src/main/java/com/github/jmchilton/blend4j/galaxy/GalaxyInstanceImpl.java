@@ -57,5 +57,10 @@ class GalaxyInstanceImpl implements GalaxyInstance {
     return webResourceFactory.getApiKey();
   }
 
-
+  /**
+   * {@inheritDoc}
+   */
+  public JobsClient getJobsClient() {
+	  return new JobsClientImpl(this);
+  }
 }
