@@ -111,8 +111,12 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   @Override
   public void downloadDataset(String historyId, String datasetId,
       File destinationFile) throws IOException {
+	Dataset dataset = showDataset(historyId, datasetId);
+	String fileExt = dataset.getDataTypeExt();
+	
     File downloadedFile = super.getWebResourceContents(historyId)
-        .path(datasetId).path("display").get(File.class);
+        .path(datasetId).path("display").queryParam("to_ext", fileExt)
+        .get(File.class);
     downloadedFile.renameTo(destinationFile);
     FileWriter fr = new FileWriter(downloadedFile);
     fr.close();
