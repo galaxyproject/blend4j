@@ -6,5 +6,8 @@ before_install:
  - mkdir "$HOME/.python-eggs"
  - chmod 700 "$HOME/.python-eggs"
  - sudo apt-get update -qq
- - sudo apt-get install -qq mercurial libsqlite3-dev python-dev samtools bedtools
+ - sudo apt-get install -qq mercurial libsqlite3-dev python-dev python-virtualenv samtools bedtools
+after_failure:
+ - echo "Tests failed, dumping all logs."
+ - cat /tmp/**/bootstrap-log/*
 script: travis_wait mvn test -B
