@@ -18,7 +18,9 @@ public class JobDetails extends Job {
     private Map<String, JobInputOutput> inputs;
 
     private Map<String, JobInputOutput> outputs;
-	
+
+    private Map<String, Object> params;
+
 	public Integer getExitCode() {
 		return exitCode;
 	}
@@ -49,5 +51,13 @@ public class JobDetails extends Job {
 
     public void setOutputs(Map<String, JobInputOutput> outputs) {
         this.outputs = outputs;
+    }
+
+    public Map<String, Object> getParams() {
+        return params;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
     }
 }
