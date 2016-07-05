@@ -1,5 +1,8 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class WorkflowInputDefinition {
   private String value;
   private String label;
