@@ -1,12 +1,16 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import com.github.jmchilton.blend4j.galaxy.beans.FileLibraryUpload;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
+import com.github.jmchilton.blend4j.galaxy.beans.Library;
+import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent;
 import com.github.jmchilton.blend4j.galaxy.beans.OutputDataset;
 import com.github.jmchilton.blend4j.galaxy.beans.ToolExecution;
 import com.google.common.collect.Lists;
+import com.sun.jersey.api.client.ClientResponse;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -15,6 +19,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 class TestHelpers {
 
@@ -41,6 +46,19 @@ class TestHelpers {
     final ToolsClient.FileUploadRequest request = new ToolsClient.FileUploadRequest(historyId, testFile);
     final ToolExecution execution = galaxyInstance.getToolsClient().upload(request);
     return execution.getOutputs().get(0);
+  }
+  
+  static ClientResponse testUploadToLibrary(final GalaxyInstance galaxyInstance) {
+	final File testFile = TestHelpers.getTestFile();
+	final LibrariesClient client = IntegrationTest.getLibrariesClient();
+	final Library testLibrary = IntegrationTest.createTestLibrary(client, "test-filesystem-paths" + UUID.randomUUID().toString());
+	final LibraryContent rootFolder = client.getRootFolder(testLibrary.getId());
+	final FileLibraryUpload upload = new FileLibraryUpload();
+	upload.setName("MOOCOWFILE");
+	upload.setFolderId(rootFolder.getId());
+	upload.setFileType("tabular");
+	upload.setFile(testFile);
+	return client.uploadFile(testLibrary.getId(), upload);
   }
   
   static String getTestHistoryId(final GalaxyInstance instance) {
