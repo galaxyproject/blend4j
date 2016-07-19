@@ -47,7 +47,7 @@ public class HistoriesTest {
   
   private static final String invalidDatasetId = "invalid";
   private static final String invalidHistoryId = "invalid";
-
+  
   @BeforeMethod
   public void init() throws InterruptedException {
     instance = TestGalaxyInstance.get();
@@ -427,18 +427,6 @@ public class HistoriesTest {
   }
   
   /**
-   * Tests out downloading a dataset with an invalid history id.
-   * @throws IOException 
-   */
-  @Test(expectedExceptions=RuntimeException.class)
-  public void testDownloadDatasetFailDatasetId() throws IOException {    
-    File destinationFile = File.createTempFile("output", "dat");
-    destinationFile.deleteOnExit();
-    
-    historiesClient.downloadDataset(invalidHistoryId, downloadDatasetId, destinationFile);
-  }
-  
-  /**
    * Tests out downloading a dataset with an invalid dataset id.
    * @throws IOException 
    */
@@ -456,14 +444,16 @@ public class HistoriesTest {
   @Test
   public void testDeleteHistoryRequestSuccess() {
     History createdHistory = historiesClient.create(new History("New History"));
-    assert historiesClient.showHistory(createdHistory.getId()) != null : "History not properly created";
+    History history = historiesClient.showHistory(createdHistory.getId());
+    assert history != null : "History not properly created";
+    assert !history.isDeleted() : "History is marked as deleted";
     
     ClientResponse deleteResponse = historiesClient.deleteHistoryRequest(createdHistory.getId());
     assert ClientResponse.Status.OK.equals(deleteResponse.getClientResponseStatus()) : "Invalid status code for deleted history";
     
     try {
-      historiesClient.showHistory(createdHistory.getId());
-      fail("History not properly deleted");
+      History deletedHistory = historiesClient.showHistory(createdHistory.getId());
+      assert deletedHistory.isDeleted() : "History is not deleted";
     } catch (UniformInterfaceException e) {
       assert 400 == e.getResponse().getStatus() : "Invalid status code for deleted history";
     }
@@ -492,7 +482,9 @@ public class HistoriesTest {
   @Test
   public void testDeleteHistorySuccess() {
     History createdHistory = historiesClient.create(new History("New History"));
-    assert historiesClient.showHistory(createdHistory.getId()) != null : "History not properly created";
+    History history = historiesClient.showHistory(createdHistory.getId());
+    assert history != null : "History not properly created";
+    assert !history.isDeleted() : "History is marked as deleted";
     
     HistoryDeleteResponse deleteResponse = historiesClient.deleteHistory(createdHistory.getId());
     assert createdHistory.getId().equals(deleteResponse.getId()) : "Invalid id from delete response";
@@ -500,8 +492,8 @@ public class HistoriesTest {
     assert !deleteResponse.getPurged() : "Invalid purged status from response";
     
     try {
-      historiesClient.showHistory(createdHistory.getId());
-      fail("History not properly deleted");
+      History deletedHistory = historiesClient.showHistory(createdHistory.getId());
+      assert deletedHistory.isDeleted() : "History is not deleted";
     } catch (UniformInterfaceException e) {
       assert 400 == e.getResponse().getStatus() : "Invalid status code for deleted history";
     }
