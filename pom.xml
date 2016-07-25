@@ -85,7 +85,7 @@
     <dependency>
       <groupId>com.github.jmchilton.galaxybootstrap</groupId>
       <artifactId>galaxybootstrap</artifactId>
-      <version>0.6.0</version>
+      <version>0.6.1-SNAPSHOT-50db3a199f9f55d76842328fd46427f0738a4a42</version>
       <scope>test</scope>
     </dependency>
     <dependency>
