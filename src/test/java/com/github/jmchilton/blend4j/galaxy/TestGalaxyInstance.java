@@ -27,9 +27,9 @@ public class TestGalaxyInstance {
   @BeforeSuite
   public static void bootStrapGalaxy() throws URISyntaxException, IOException {
     if(getTestApiKey() == null) {
-      DownloadProperties downloadProperties = DownloadProperties.forGalaxyCentral();
+      DownloadProperties downloadProperties = DownloadProperties.forLatestRelease();
       if(Boolean.getBoolean(System.getProperty("galaxy.bootstrap.github", "false"))){
-        downloadProperties = DownloadProperties.wgetGithubCentral();
+        downloadProperties = DownloadProperties.wgetGithubMaster();
       }
       final BootStrapper bootStrapper = new BootStrapper(downloadProperties);
       bootStrapper.setupGalaxy();
@@ -100,7 +100,7 @@ public class TestGalaxyInstance {
 
     // set configuration file in Galaxy for custom tools
     galaxyProperties.setAppProperty("tool_config_file",
-        "tool_conf.xml,shed_tool_conf.xml,tool_conf_test.xml");
+        "config/tool_conf.xml.sample,config/shed_tool_conf.xml.sample,tool_conf_test.xml");
   }
 
   @AfterSuite
