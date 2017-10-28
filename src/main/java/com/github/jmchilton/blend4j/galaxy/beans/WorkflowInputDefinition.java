@@ -1,8 +1,13 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class WorkflowInputDefinition {
   private String value;
   private String label;
+  @JsonProperty("uuid")
+  private String uuid;
 
   public void setValue(final String value) {
     this.value = value;
@@ -18,5 +23,13 @@ public class WorkflowInputDefinition {
 
   public String getLabel() {
     return label;
+  }
+
+  public void setUuid(final String uuid) {
+    this.uuid = uuid;
+  }
+
+  public String getUuid() {
+    return uuid;
   }
 }
