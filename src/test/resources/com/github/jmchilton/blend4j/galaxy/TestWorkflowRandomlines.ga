@@ -24,7 +24,8 @@
             "tool_id": null, 
             "tool_state": "{\"name\": \"Input Dataset\"}", 
             "tool_version": null, 
-            "type": "data_input", 
+            "type": "data_input",
+            "uuid": "33b12960-5cb4-40b2-ad22-b32467c1ca52",
             "user_outputs": []
         }, 
         "1": {
@@ -53,7 +54,8 @@
             "tool_id": "random_lines1", 
             "tool_state": "{\"input\": \"null\", \"seed_source\": \"{\\\"__current_case__\\\": 0, \\\"seed_source_selector\\\": \\\"no_seed\\\"}\", \"__rerun_remap_job_id__\": null, \"num_lines\": \"\\\"5\\\"\", \"__page__\": 0}", 
             "tool_version": "2.0.1", 
-            "type": "tool", 
+            "type": "tool",
+            "uuid": "09d18c95-4361-4eec-8c09-19d3c4b9cfb3",
             "user_outputs": []
         }, 
         "2": {
@@ -82,8 +84,10 @@
             "tool_id": "random_lines1", 
             "tool_state": "{\"input\": \"null\", \"seed_source\": \"{\\\"__current_case__\\\": 0, \\\"seed_source_selector\\\": \\\"no_seed\\\"}\", \"__rerun_remap_job_id__\": null, \"num_lines\": \"\\\"2\\\"\", \"__page__\": 0}", 
             "tool_version": "2.0.1", 
-            "type": "tool", 
+            "type": "tool",
+            "uuid": "0a55f2f4-09e3-41e4-aa56-7aabe50b7246",
             "user_outputs": []
         }
-    }
+    },
+    "uuid": "bec8e849-ab54-4f6a-a693-f3ed9de0f817"
 }
