@@ -23,12 +23,21 @@ public class TabularToolDataTable extends GalaxyObject {
     }
 
     @JsonProperty("columns")
-    protected void setName(final String name) {
-        this.name = name;
+    protected void setColumns(final List<String> columns) {
+        this.columns = columns;
     }
 
-    public String getName() {
-        return this.name;
+    public List<String> getColumns() {
+        return this.columns;
+    }
+
+    @JsonProperty("fields")
+    protected void setFields(final List<String> fields) {
+        this.fields = fields;
+    }
+
+    public List<String> getFields() {
+        return this.fields;
     }
 
 }
