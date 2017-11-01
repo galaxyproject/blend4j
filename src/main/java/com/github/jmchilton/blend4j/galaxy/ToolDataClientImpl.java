@@ -19,7 +19,7 @@ public class ToolDataClientImpl extends Client implements ToolDataClient {
         return null;
     }
 
-    public Map showDataTable(String dataTableId) {
+    public TabularToolDataTable showDataTable(final String dataTableId) {
         return null;
     }
 }
