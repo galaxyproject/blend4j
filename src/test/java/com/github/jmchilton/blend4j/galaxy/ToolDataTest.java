@@ -23,7 +23,7 @@ public class ToolDataTest {
         assert ! toolDataTables.isEmpty();
 
         for (final TabularToolDataTable toolDataTable : toolDataTables) {
-            assert toolDataTable.getId() != null;
+            assert toolDataTable.getName() != null;
         }
     }
 }
