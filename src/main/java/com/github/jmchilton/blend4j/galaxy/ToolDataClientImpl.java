@@ -2,7 +2,9 @@ package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.TabularToolDataTable;
 import com.sun.jersey.api.client.ClientResponse;
+import org.codehaus.jackson.type.TypeReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ToolDataClientImpl extends Client implements ToolDataClient {
@@ -15,7 +17,7 @@ public class ToolDataClientImpl extends Client implements ToolDataClient {
     }
 
     public List<TabularToolDataTable> getDataTables() {
-        return null;
+        return get(new TypeReference<List<TabularToolDataTable>>() {});
     }
 
     public TabularToolDataTable showDataTable(final String dataTableId) {
