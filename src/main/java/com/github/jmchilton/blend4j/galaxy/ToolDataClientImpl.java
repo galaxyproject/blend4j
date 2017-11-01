@@ -4,7 +4,6 @@ import com.github.jmchilton.blend4j.galaxy.beans.TabularToolDataTable;
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.util.List;
-import java.util.Map;
 
 public class ToolDataClientImpl extends Client implements ToolDataClient {
     ToolDataClientImpl(GalaxyInstanceImpl galaxyInstance) {
