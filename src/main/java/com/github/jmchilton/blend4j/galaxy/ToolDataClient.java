@@ -1,13 +1,25 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import com.github.jmchilton.blend4j.galaxy.beans.TabularToolDataTable;
+import com.sun.jersey.api.client.ClientResponse;
+
 import java.util.List;
-import java.util.Map;
 
 public interface ToolDataClient {
+    ClientResponse showDataTableRequest(String dataTableId);
 
-    public List getDataTables();
+    /**
+     * Get a list of all Tool Data Tables stored in Galaxy.
+     *
+     * @return the list of Tool Data Tables installed in Galaxy.
+     */
+    public List<TabularToolDataTable> getDataTables();
 
-    public Map showDataTable(String dataTableId);
-
-    public Map reloadDataTable(String dataTableId);
+    /**
+     * Show details about the specified tool.
+     *
+     * @param dataTableId the Tool Data Table to look up.
+     * @return details about the Tool Data Table.
+     */
+    public TabularToolDataTable showDataTable(final String dataTableId);
 }
