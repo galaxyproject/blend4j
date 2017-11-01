@@ -21,6 +21,6 @@ public class ToolDataClientImpl extends Client implements ToolDataClient {
     }
 
     public TabularToolDataTable showDataTable(final String dataTableId) {
-        return null;
+        return super.getWebResource(dataTableId).get(TabularToolDataTable.class);
     }
 }
