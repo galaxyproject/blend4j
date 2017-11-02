@@ -17,13 +17,14 @@ public class ToolDataTest {
     }
 
     @Test
-    public void testGetToolData() {
+    public void testGetDataTables() {
         final List<TabularToolDataTable> toolDataTables = client.getDataTables();
         assert toolDataTables != null;
         assert ! toolDataTables.isEmpty();
 
         for (final TabularToolDataTable toolDataTable : toolDataTables) {
             assert toolDataTable.getName() != null;
+            System.out.println(toolDataTable.getName());
         }
     }
 }
