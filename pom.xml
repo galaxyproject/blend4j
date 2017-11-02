@@ -90,7 +90,7 @@
     <dependency>
       <groupId>com.github.jmchilton.galaxybootstrap</groupId>
       <artifactId>galaxybootstrap</artifactId>
-      <version>0.7.0-SNAPSHOT-dff7dde138108f814b01db7be701d429e21c3f43</version>
+      <version>0.7.0-SNAPSHOT-ffc97d55aafedc2262696dc908ad7bbb07f6e77</version>
       <scope>test</scope>
     </dependency>
     <dependency>
