@@ -3,15 +3,15 @@ package com.github.jmchilton.blend4j.galaxy.beans;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TabularToolDataTable extends GalaxyObject {
     private String name;
 
-    private List<String> columns;
+    private ArrayList<String> columns;
 
-    private List<String> fields;
+    private ArrayList<ArrayList<String>> fields;
 
     @JsonProperty("name")
     protected void setName(final String name) {
@@ -23,20 +23,20 @@ public class TabularToolDataTable extends GalaxyObject {
     }
 
     @JsonProperty("columns")
-    protected void setColumns(final List<String> columns) {
+    protected void setColumns(final ArrayList<String> columns) {
         this.columns = columns;
     }
 
-    public List<String> getColumns() {
+    public ArrayList<String> getColumns() {
         return this.columns;
     }
 
     @JsonProperty("fields")
-    protected void setFields(final List<String> fields) {
+    protected void setFields(final ArrayList<ArrayList<String>> fields) {
         this.fields = fields;
     }
 
-    public List<String> getFields() {
+    public ArrayList<ArrayList<String>> getFields() {
         return this.fields;
     }
 

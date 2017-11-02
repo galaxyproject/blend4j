@@ -115,7 +115,7 @@ public class TestGalaxyInstance {
   static GalaxyInstance get() {
     final String galaxyInstanceUrl = getTestInstanceUrl();
     final String galaxyApiKey = getTestApiKey();
-    return GalaxyInstanceFactory.get(galaxyInstanceUrl, galaxyApiKey);
+    return GalaxyInstanceFactory.get(galaxyInstanceUrl, galaxyApiKey, true);
   }
 
   static String getTestApiKey() {
