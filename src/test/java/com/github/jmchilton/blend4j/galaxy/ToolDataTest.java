@@ -1,6 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy;
 
 import com.github.jmchilton.blend4j.galaxy.beans.TabularToolDataTable;
+import com.sun.jersey.api.client.ClientResponse;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -29,15 +30,29 @@ public class ToolDataTest {
     }
 
     @Test
-    public void testShowDataTables() {
+    public void testShowDataTable() {
         final List<TabularToolDataTable> toolDataTables = client.getDataTables();
         assert toolDataTables != null;
         assert ! toolDataTables.isEmpty();
 
         for (final TabularToolDataTable toolDataTable : toolDataTables) {
             assert toolDataTable.getName() != null;
-            TabularToolDataTable dataTable = client.showDataTable("igv_broad_genomes");
+            TabularToolDataTable dataTable = client.showDataTable(toolDataTable.getName());
+            assert dataTable != null;
+        }
 
+    }
+
+    @Test
+    public void testShowDataTableRequest() {
+        final List<TabularToolDataTable> toolDataTables = client.getDataTables();
+        assert toolDataTables != null;
+        assert ! toolDataTables.isEmpty();
+
+        for (final TabularToolDataTable toolDataTable : toolDataTables) {
+            assert toolDataTable.getName() != null;
+            ClientResponse clientResponse = client.showDataTableRequest(toolDataTable.getName());
+            assert clientResponse != null;
         }
 
     }
