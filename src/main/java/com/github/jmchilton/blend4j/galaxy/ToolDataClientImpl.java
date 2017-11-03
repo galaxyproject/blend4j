@@ -13,7 +13,7 @@ public class ToolDataClientImpl extends Client implements ToolDataClient {
     }
 
     public ClientResponse showDataTableRequest(String dataTableId) {
-        return null;
+        return super.show(dataTableId, ClientResponse.class);
     }
 
     public List<TabularToolDataTable> getDataTables() {
