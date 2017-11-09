@@ -1,5 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.github.jmchilton.blend4j.galaxy.beans.TabularToolDataTable;
 import com.sun.jersey.api.client.ClientResponse;
 import org.testng.annotations.BeforeMethod;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToolDataTest {
+    private static final Logger logger = LoggerFactory.getLogger(ToolDataTest.class);
+
     private GalaxyInstance instance;
     private ToolDataClient client;
 
@@ -58,15 +62,35 @@ public class ToolDataTest {
     }
 
     @Test
+    public void testDeleteDataTableRequest() {
+        TabularToolDataTable toolDataTable = client.showDataTable("igv_broad_genomes");
+        assert toolDataTable != null;
+        List<String> values = new ArrayList<String>();
+        values.add("hg38");
+        // ClientResponse clientResponse = client.deleteDataTableRequest(toolDataTable.getName(), values);
+        // assert clientResponse != null;
+        // logger.debug(clientResponse.toString());
+    }
+
+    @Test
+    public void testReloadDataTableRequest() {
+        TabularToolDataTable toolDataTable = client.showDataTable("igv_broad_genomes");
+        assert toolDataTable != null;
+        ClientResponse clientResponse = client.reloadDataTableRequest(toolDataTable.getName());
+        assert clientResponse != null;
+        logger.debug(clientResponse.toString());
+    }
+
+    @Test
     public void testTableContents() {
         final TabularToolDataTable igvBroadGenomes = client.showDataTable("igv_broad_genomes");
         assert igvBroadGenomes != null;
 
-        final ArrayList<String> headers = igvBroadGenomes.getColumns();
-        System.out.println(headers.get(0) + "\t" + headers.get(2));
-        System.out.println("----------");
-        for (final ArrayList<String> row : igvBroadGenomes.getFields()) {
-            System.out.println(row.get(0) + "\t" + row.get(2));
+        final List<String> headers = igvBroadGenomes.getColumns();
+        logger.debug(headers.get(0) + "\t" + headers.get(2));
+        logger.debug("----------");
+        for (final List<String> row : igvBroadGenomes.getFields()) {
+            logger.debug(row.get(0) + "\t" + row.get(2));
         }
 
     }

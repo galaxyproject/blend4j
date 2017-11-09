@@ -4,14 +4,15 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TabularToolDataTable extends GalaxyObject {
     private String name;
 
-    private ArrayList<String> columns;
+    private List<String> columns;
 
-    private ArrayList<ArrayList<String>> fields;
+    private List<List<String>> fields;
 
     @JsonProperty("name")
     protected void setName(final String name) {
@@ -23,20 +24,20 @@ public class TabularToolDataTable extends GalaxyObject {
     }
 
     @JsonProperty("columns")
-    protected void setColumns(final ArrayList<String> columns) {
+    protected void setColumns(final List<String> columns) {
         this.columns = columns;
     }
 
-    public ArrayList<String> getColumns() {
+    public List<String> getColumns() {
         return this.columns;
     }
 
     @JsonProperty("fields")
-    protected void setFields(final ArrayList<ArrayList<String>> fields) {
+    protected void setFields(final List<List<String>> fields) {
         this.fields = fields;
     }
 
-    public ArrayList<ArrayList<String>> getFields() {
+    public List<List<String>> getFields() {
         return this.fields;
     }
 
