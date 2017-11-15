@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ToolDataTest {
@@ -57,6 +58,7 @@ public class ToolDataTest {
             assert toolDataTable.getName() != null;
             ClientResponse clientResponse = client.showDataTableRequest(toolDataTable.getName());
             assert clientResponse != null;
+            assert 200 == clientResponse.getStatus();
         }
 
     }
@@ -65,11 +67,11 @@ public class ToolDataTest {
     public void testDeleteDataTableRequest() {
         TabularToolDataTable toolDataTable = client.showDataTable("igv_broad_genomes");
         assert toolDataTable != null;
-        List<String> values = new ArrayList<String>();
-        values.add("hg38");
-        // ClientResponse clientResponse = client.deleteDataTableRequest(toolDataTable.getName(), values);
-        // assert clientResponse != null;
-        // logger.debug(clientResponse.toString());
+        List<String> values = new ArrayList<String>(Arrays.asList("Human hg38", "http://s3.amazonaws.com/igv.broadinstitute.org/genomes/hg38.genome", "hg38"));
+        ClientResponse clientResponse = client.deleteDataTableRequest(toolDataTable.getName(), values);
+        assert clientResponse != null;
+        assert 200 == clientResponse.getStatus();
+        logger.debug(clientResponse.toString());
     }
 
     @Test
@@ -78,6 +80,7 @@ public class ToolDataTest {
         assert toolDataTable != null;
         ClientResponse clientResponse = client.reloadDataTableRequest(toolDataTable.getName());
         assert clientResponse != null;
+        assert 200 == clientResponse.getStatus();
         logger.debug(clientResponse.toString());
     }
 

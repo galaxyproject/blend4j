@@ -4,9 +4,12 @@ import com.github.jmchilton.blend4j.galaxy.beans.TabularToolDataTable;
 import com.sun.jersey.api.client.ClientResponse;
 import org.codehaus.jackson.type.TypeReference;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ToolDataClientImpl extends Client implements ToolDataClient {
+
     ToolDataClientImpl(GalaxyInstanceImpl galaxyInstance) {
         super(galaxyInstance, "tool_data");
     }
@@ -16,7 +19,9 @@ public class ToolDataClientImpl extends Client implements ToolDataClient {
     }
 
     public ClientResponse deleteDataTableRequest(final String dataTableId, final List<String> values) {
-        return deleteResponse(getWebResource(dataTableId));
+        Map requestEntity = new HashMap();
+        requestEntity.put("values", String.join("\t", values));
+        return deleteResponse(getWebResource(dataTableId), requestEntity);
     }
 
     public List<TabularToolDataTable> getDataTables() {
