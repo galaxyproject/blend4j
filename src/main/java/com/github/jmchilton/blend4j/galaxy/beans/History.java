@@ -5,6 +5,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class History extends GalaxyObject {
   private String name;
+  boolean deleted;
 
   public History() {
   }
@@ -19,5 +20,13 @@ public class History extends GalaxyObject {
 
   public void setName(String name) {
     this.name = name;
+  }
+  
+  public boolean isDeleted() {
+	return deleted;
+  }
+  
+  public void setDeleted(boolean deleted) {
+	this.deleted = deleted;
   }
 }
