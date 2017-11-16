@@ -60,7 +60,6 @@ public class TabularToolDataTable extends GalaxyObject {
         List<List<String>> rows = getFields();
         List<String> fields = new ArrayList<String>();
         for (List<String> row : rows) {
-            System.out.println(row.get(valueIndex));
             if (row.get(valueIndex).equals(value)) {
                 fields = row;
             }
@@ -74,7 +73,6 @@ public class TabularToolDataTable extends GalaxyObject {
         List<List<String>> rows = getFields();
         Map<String, String> fields = new HashMap<String, String>();
         for (List<String> row : rows) {
-            System.out.println(row.get(valueIndex));
             if (row.get(valueIndex).equals(value)) {
                 for (int i = 0; i < columns.size(); i++) {
                     fields.put(columns.get(i), row.get(i));
