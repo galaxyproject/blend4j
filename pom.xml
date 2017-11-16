@@ -75,6 +75,11 @@
       <version>3.0.0</version>
       <optional>true</optional><!-- needed only for annotations -->
     </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>16.0.1</version>
+    </dependency>
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.testng</groupId>
@@ -85,7 +90,7 @@
     <dependency>
       <groupId>com.github.jmchilton.galaxybootstrap</groupId>
       <artifactId>galaxybootstrap</artifactId>
-      <version>0.6.1-SNAPSHOT-50db3a199f9f55d76842328fd46427f0738a4a42</version>
+      <version>0.7.0-SNAPSHOT-ffc97d55aafedc2262696dc908ad7bbb07f6e776</version>
       <scope>test</scope>
     </dependency>
     <dependency>
