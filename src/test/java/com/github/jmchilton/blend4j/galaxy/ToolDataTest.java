@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class ToolDataTest {
     private static final Logger logger = LoggerFactory.getLogger(ToolDataTest.class);
@@ -85,17 +86,37 @@ public class ToolDataTest {
     }
 
     @Test
-    public void testTableContents() {
+    public void testGetFieldsForValue() {
         final TabularToolDataTable igvBroadGenomes = client.showDataTable("igv_broad_genomes");
         assert igvBroadGenomes != null;
-
-        final List<String> headers = igvBroadGenomes.getColumns();
-        logger.debug(headers.get(0) + "\t" + headers.get(2));
-        logger.debug("----------");
-        for (final List<String> row : igvBroadGenomes.getFields()) {
-            logger.debug(row.get(0) + "\t" + row.get(2));
-        }
-
+        final List<String> fieldsList = igvBroadGenomes.getFieldsListForValue("hg38");
+        assert fieldsList != null;
+        final Map<String, String> fieldsMap = igvBroadGenomes.getFieldsMapForValue("hg38");
+        assert fieldsMap != null;
+        assert fieldsMap.get("value").equals("hg38");
     }
 
+    @Test
+    public void testGetValues() {
+        final TabularToolDataTable igvBroadGenomes = client.showDataTable("igv_broad_genomes");
+        assert igvBroadGenomes != null;
+        List<String> values = igvBroadGenomes.getValues();
+        assert values.size() == 156;
+    }
+
+    @Test
+    public void testGetFieldsForColumn() {
+        final TabularToolDataTable igvBroadGenomes = client.showDataTable("igv_broad_genomes");
+        assert igvBroadGenomes != null;
+        List<String> values = igvBroadGenomes.getFieldsForColumn("name");
+        assert values.size() == 156;
+    }
+
+    @Test
+    public void testGetField() {
+        final TabularToolDataTable igvBroadGenomes = client.showDataTable("igv_broad_genomes");
+        assert igvBroadGenomes != null;
+        String field = igvBroadGenomes.getField("hg38", "name");
+        assert field.equals("Human hg38");
+    }
 }
