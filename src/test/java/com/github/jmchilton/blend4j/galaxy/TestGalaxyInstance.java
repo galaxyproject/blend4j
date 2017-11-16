@@ -95,7 +95,7 @@ public class TestGalaxyInstance {
         new File(collectionExampleToolDirectory,"collection_list.xml");
     copyFile(collectionExampleToolSource, collectionExampleToolDestination);
 
-    File testToolConfigDestination = new File(galaxyRootFile, "config/tool_conf_test.xml");
+    File testToolConfigDestination = new File(galaxyRootFile, "tool_conf_test.xml");
     copyFile(testToolConfigSource, testToolConfigDestination);
 
     // set configuration file in Galaxy for custom tools
