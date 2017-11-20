@@ -1,5 +1,12 @@
 # blend4j changelog
 
+## 0.2.0 (unreleased)
+
+- Update to [galaxy-bootstrap 0.7.0-SNAPSHOT][gxbootstrap070].
+- Added support for accessing Galaxy Tool Data tables.
+
+[gxbootstrap070]: https://github.com/jmchilton/galaxy-bootstrap/tree/648cb499b0f2d7e17d7d6457cf92fa5f608d352a
+
 ## [0.1.2][012release] (December 18, 2014)
 
 - Add ability to get information about a [library dataset][getlibrarydataset].
