@@ -1,12 +1,19 @@
 language: java
 jdk:
-  - oraclejdk7
+  - oraclejdk8
+  - openjdk7
   - openjdk6
 before_install:
- - mkdir "$HOME/.python-eggs"
- - chmod 700 "$HOME/.python-eggs"
  - sudo apt-get update -qq
- - sudo apt-get install -qq mercurial libsqlite3-dev python-dev python-virtualenv samtools bedtools
+ - sudo apt-get install -qq mercurial libsqlite3-dev python-dev python-virtualenv samtools bedtools openjdk-6-jdk
+install:
+  - echo "Downloading Maven 3.0";
+  - wget https://archive.apache.org/dist/maven/binaries/apache-maven-3.0-bin.zip || travis_terminate 1
+  - unzip -qq apache-maven-3.0-bin.zip || travis_terminate 1
+  - export M2_HOME=$PWD/apache-maven-3.0
+  - export PATH=$M2_HOME/bin:$PATH
+  - mvn -version
+  - mvn clean package install -DskipTests -Dgpg.skip
 after_failure:
  - echo "Tests failed, dumping all logs."
  - cat /tmp/**/bootstrap-log/*
