@@ -14,6 +14,7 @@ install:
   - export PATH=$M2_HOME/bin:$PATH
   - mvn -version
   - mvn clean package install -DskipTests -Dgpg.skip
+  - ./install-dependencies.sh
 after_failure:
  - echo "Tests failed, dumping all logs."
  - cat /tmp/**/bootstrap-log/*
