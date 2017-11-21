@@ -19,8 +19,17 @@ public class ToolDataClientImpl extends Client implements ToolDataClient {
     }
 
     public ClientResponse deleteDataTableRequest(final String dataTableId, final List<String> values) {
-        Map requestEntity = new HashMap();
-        requestEntity.put("values", String.join("\t", values));
+        Map<String,String> requestEntity = new HashMap<String,String>();
+        
+        String joinedValues = null;
+        if (values != null && values.size() > 0) {
+	        joinedValues = values.get(0);
+	        for (int i = 1; i < values.size(); i++) {
+	        	joinedValues += "\t" + values.get(i);
+	        }
+        }
+        
+        requestEntity.put("values", joinedValues);
         return deleteResponse(getWebResource(dataTableId), requestEntity);
     }
 
