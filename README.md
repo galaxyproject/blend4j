@@ -33,7 +33,7 @@ blend4j can be built with [Apache Maven][b1].
 
         % git clone git://github.com/jmchilton/blend4j.git
         % cd blend4j
-	% ./install-dependencies.sh  # install pre-release of galaxybootstrap library for testing
+        % ./install-dependencies.sh  # install pre-release of galaxybootstrap library for testing
         % mvn compile
 
 # Testing
