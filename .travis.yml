@@ -13,8 +13,8 @@ install:
   - export M2_HOME=$PWD/apache-maven-3.0
   - export PATH=$M2_HOME/bin:$PATH
   - mvn -version
-  - mvn clean package install -DskipTests -Dgpg.skip
   - ./install-dependencies.sh
+  - mvn clean package install -DskipTests -Dgpg.skip
 after_failure:
  - echo "Tests failed, dumping all logs."
  - cat /tmp/**/bootstrap-log/*

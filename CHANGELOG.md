@@ -3,9 +3,9 @@
 ## 0.2.0 (unreleased)
 
 - Update to [galaxy-bootstrap 0.7.0-SNAPSHOT][gxbootstrap070].
-- Added support for accessing Galaxy Tool Data tables.
+- Added support for accessing Galaxy Tool Data tables.  Thanks to Dan Fornika - <https://github.com/apetkau/blend4j/pull/9>.
 
-[gxbootstrap070]: https://github.com/jmchilton/galaxy-bootstrap/tree/648cb499b0f2d7e17d7d6457cf92fa5f608d352a
+[gxbootstrap070]: https://github.com/jmchilton/galaxy-bootstrap/tree/d0f4f36be64942179a0af4bd35cab89c5973fcd9
 
 ## [0.1.2][012release] (December 18, 2014)
 
