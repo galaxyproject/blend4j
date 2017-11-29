@@ -32,27 +32,29 @@
   <properties>
     <!-- github server corresponds to entry in ~/.m2/settings.xml -->
     <github.global.server>github</github.global.server>
+
+    <jersey.version>1.19.1</jersey.version>
   </properties>
   <dependencies>
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-client</artifactId>
-      <version>1.17.1</version>
+      <version>${jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-json</artifactId>
-      <version>1.17.1</version>
+      <version>${jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-core</artifactId>
-      <version>1.17.1</version>
+      <version>${jersey.version}</version>
     </dependency>
     <dependency>
         <groupId>com.sun.jersey.contribs</groupId>
         <artifactId>jersey-multipart</artifactId>
-        <version>1.17.1</version>
+        <version>${jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>

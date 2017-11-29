@@ -1,17 +1,11 @@
 language: java
 jdk:
   - oraclejdk8
-  - openjdk7
-  - openjdk6
+  - openjdk8
 before_install:
  - sudo apt-get update -qq
- - sudo apt-get install -qq mercurial libsqlite3-dev python-dev python-virtualenv samtools bedtools openjdk-6-jdk
+ - sudo apt-get install -qq mercurial libsqlite3-dev python-dev python-virtualenv samtools bedtools
 install:
-  - echo "Downloading Maven 3.0";
-  - wget https://archive.apache.org/dist/maven/binaries/apache-maven-3.0-bin.zip || travis_terminate 1
-  - unzip -qq apache-maven-3.0-bin.zip || travis_terminate 1
-  - export M2_HOME=$PWD/apache-maven-3.0
-  - export PATH=$M2_HOME/bin:$PATH
   - mvn -version
   - ./install-dependencies.sh
   - mvn clean package install -DskipTests -Dgpg.skip
