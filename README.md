@@ -17,6 +17,8 @@ blend4j in larger open source projects include [Molgenis integration][molgensis]
 [TraIT Workflow Runner][trait] for use with
 [tranSMART][transmart] by [Freek de Bruijn][freekdb].
 
+blend4j requires Java 8+ to function.
+
 [api]: http://jmchilton.github.io/blend4j/apidocs/
 [tutorial]: https://github.com/apetkau/blend4j-tutorials
 [tests]: https://github.com/jmchilton/blend4j/tree/master/src/test/java/com/github/jmchilton/blend4j/galaxy
@@ -33,6 +35,7 @@ blend4j can be built with [Apache Maven][b1].
 
         % git clone git://github.com/jmchilton/blend4j.git
         % cd blend4j
+        % ./install-dependencies.sh  # install pre-release of galaxybootstrap library for testing
         % mvn compile
 
 # Testing

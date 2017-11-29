@@ -196,6 +196,8 @@ public class WorkflowsTest {
 
   @Test
   public void testRunWorkflow() throws IOException, InterruptedException {
+	ensureHasTestWorkflow1();
+	  
     // Find history
     final String historyId = TestHelpers.getTestHistoryId(instance);
     final List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
@@ -222,6 +224,8 @@ public class WorkflowsTest {
 
   @Test
   public void testWorkflowToolParameter() throws InterruptedException {
+	ensureHasTestWorkflow1();
+	
     final WorkflowInputs inputs = prepParameterTest();
     inputs.setToolParameter("random_lines1", "num_lines", 5);
     final WorkflowOutputs output = client.runWorkflow(inputs);
@@ -230,6 +234,8 @@ public class WorkflowsTest {
 
   @Test
   public void testWorkflowStepParameter() throws InterruptedException {
+	ensureHasTestWorkflow1();
+	
     final WorkflowInputs inputs = prepParameterTest();
 
     final WorkflowDetails workflowDetails = client.showWorkflow(inputs.getWorkflowId());

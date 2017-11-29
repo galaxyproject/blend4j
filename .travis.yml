@@ -1,12 +1,14 @@
 language: java
 jdk:
-  - oraclejdk7
-  - openjdk6
+  - oraclejdk8
+  - openjdk8
 before_install:
- - mkdir "$HOME/.python-eggs"
- - chmod 700 "$HOME/.python-eggs"
  - sudo apt-get update -qq
  - sudo apt-get install -qq mercurial libsqlite3-dev python-dev python-virtualenv samtools bedtools
+install:
+  - mvn -version
+  - ./install-dependencies.sh
+  - mvn clean package install -DskipTests -Dgpg.skip
 after_failure:
  - echo "Tests failed, dumping all logs."
  - cat /tmp/**/bootstrap-log/*

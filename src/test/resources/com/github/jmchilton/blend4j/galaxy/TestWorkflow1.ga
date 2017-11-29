@@ -24,7 +24,8 @@
             "tool_id": null, 
             "tool_state": "{\"name\": \"WorkflowInput1\"}", 
             "tool_version": null, 
-            "type": "data_input", 
+            "type": "data_input",
+            "uuid": "3232b621-1c0e-4449-a0b5-1067bf798d56",
             "user_outputs": []
         }, 
         "1": {
@@ -47,7 +48,8 @@
             "tool_id": null, 
             "tool_state": "{\"name\": \"WorkflowInput2\"}", 
             "tool_version": null, 
-            "type": "data_input", 
+            "type": "data_input",
+            "uuid": "ea7a0edd-37ba-4fc6-8e23-496e33e36868",
             "user_outputs": []
         }, 
         "2": {
@@ -80,8 +82,10 @@
             "tool_id": "cat1", 
             "tool_state": "{\"__page__\": 0, \"__rerun_remap_job_id__\": null, \"input1\": \"null\", \"chromInfo\": \"\\\"/home/john/workspace/galaxy-central/tool-data/shared/ucsc/chrom/?.len\\\"\", \"queries\": \"[{\\\"input2\\\": null, \\\"__index__\\\": 0}]\"}", 
             "tool_version": "1.0.0", 
-            "type": "tool", 
+            "type": "tool",
+            "uuid": "6fa1b23b-51af-4b4f-9135-35cf151c5a3c",
             "user_outputs": []
         }
-    }
+    },
+    "uuid": "27d4c823-4dd9-4495-9ff4-a3df6b554535"
 }
