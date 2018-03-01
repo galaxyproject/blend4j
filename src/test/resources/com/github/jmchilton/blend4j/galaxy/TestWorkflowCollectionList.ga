@@ -24,7 +24,8 @@
             "tool_id": null, 
             "tool_state": "{\"collection_type\": \"list\", \"name\": \"input_list\"}", 
             "tool_version": null, 
-            "type": "data_collection_input", 
+            "type": "data_collection_input",
+            "uuid": "73bb50c5-10fa-4f6c-8b12-aafed369689a",
             "user_outputs": []
         }, 
         "1": {
@@ -53,8 +54,10 @@
             "tool_id": "collection_list", 
             "tool_state": "{\"__page__\": 0, \"__rerun_remap_job_id__\": null, \"in\": \"null\"}", 
             "tool_version": "0.1.0", 
-            "type": "tool", 
+            "type": "tool",
+            "uuid": "28b555a6-eb27-491a-8515-7ec9c447f147",
             "user_outputs": []
         }
-    }
+    },
+    "uuid": "c5675c83-2bbe-44bd-9935-5f41812a66f0"
 }

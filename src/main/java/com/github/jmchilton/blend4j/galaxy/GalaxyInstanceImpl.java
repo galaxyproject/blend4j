@@ -36,6 +36,10 @@ class GalaxyInstanceImpl implements GalaxyInstance {
   public ToolsClient getToolsClient() {
     return new ToolsClientImpl(this);
   }
+
+  public ToolDataClient getToolDataClient() {
+    return new ToolDataClientImpl(this);
+  }
   
   public ConfigurationClient getConfigurationClient() {
     return new ConfigurationClientImpl(this);

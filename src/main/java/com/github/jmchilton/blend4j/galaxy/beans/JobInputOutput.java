@@ -5,7 +5,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class JobInputOutput extends GalaxyObject {
   public static enum Source {
-    library(), hda();
+    library(), hda(), ldda();
 
     private Source() {
 
