@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jmchilton/blend4j.png?branch=master)](https://travis-ci.org/jmchilton/blend4j)
+[![Build Status](https://travis-ci.org/galaxyproject/blend4j.png?branch=master)](https://travis-ci.org/jmchilton/blend4j)
 
 # About
 
