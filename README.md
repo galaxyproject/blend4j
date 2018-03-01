@@ -39,7 +39,7 @@ blend4j can be built with [Apache Maven][b1].
 
 # Testing
 
-[![Build Status](https://travis-ci.org/jmchilton/blend4j.png?branch=master)](https://travis-ci.org/jmchilton/blend4j)
+[![Build Status](https://travis-ci.org/galaxyproject/blend4j.png?branch=master)](https://travis-ci.org/jmchilton/blend4j)
 
 blend4j can be tested with [Apache Maven][b1].
 
