@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/galaxyproject/blend4j.png?branch=master)](https://travis-ci.org/jmchilton/blend4j)
+[![Build Status](https://travis-ci.org/galaxyproject/blend4j.png?branch=master)](https://travis-ci.org/galaxyproject/blend4j)
 
 # About
 
@@ -19,9 +19,9 @@ blend4j in larger open source projects include [Molgenis integration][molgensis]
 
 blend4j requires Java 8+ to function.
 
-[api]: http://jmchilton.github.io/blend4j/apidocs/
+[api]: http://galaxyproject.github.io/blend4j/apidocs/
 [tutorial]: https://github.com/apetkau/blend4j-tutorials
-[tests]: https://github.com/jmchilton/blend4j/tree/master/src/test/java/com/github/jmchilton/blend4j/galaxy
+[tests]: https://github.com/galaxyproject/blend4j/tree/master/src/test/java/com/github/galaxyproject/blend4j/galaxy
 [molgensis]: https://github.com/molgenis/molgenis/commit/57d229a8d36fa9dae1155685e85187399863057f
 [transmart]: https://github.com/transmart
 [trait]: https://github.com/CTMM-TraIT/trait_workflow_runner
@@ -33,13 +33,13 @@ blend4j requires Java 8+ to function.
 
 blend4j can be built with [Apache Maven][b1].
 
-        % git clone git://github.com/jmchilton/blend4j.git
+        % git clone git://github.com/galaxyproject/blend4j.git
         % cd blend4j
         % mvn compile
 
 # Testing
 
-[![Build Status](https://travis-ci.org/galaxyproject/blend4j.png?branch=master)](https://travis-ci.org/jmchilton/blend4j)
+[![Build Status](https://travis-ci.org/galaxyproject/blend4j.png?branch=master)](https://travis-ci.org/galaxyproject/blend4j)
 
 blend4j can be tested with [Apache Maven][b1].
 
@@ -65,7 +65,7 @@ adding the following to the dependencies section of the project's pom.xml file.
 
 ```xml
      <dependency>
-       <groupId>com.github.jmchilton.blend4j</groupId>
+       <groupId>org.galaxyproject.blend4j</groupId>
        <artifactId>blend4j</artifactId>
        <version>0.1.0</version>
      </dependency>
@@ -77,8 +77,8 @@ See [mvnrepository][d1] for more details.
 
 The latest blend4j jars can be downloaded from the [Maven Central Repository][d0].
 
-[d0]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.jmchilton.blend4j%22
-[d1]: http://mvnrepository.com/artifact/com.github.jmchilton.blend4j/blend4j/
+[d0]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.galaxyproject.blend4j%22
+[d1]: http://mvnrepository.com/artifact/org.galaxyproject.blend4j/blend4j/
 
 # License
 
