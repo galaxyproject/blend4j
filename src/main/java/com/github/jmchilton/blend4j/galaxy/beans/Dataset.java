@@ -13,7 +13,7 @@ public class Dataset extends HistoryContents implements HasGalaxyUrl, ElementRes
   private String dataType = null;
   private String fileExt = null;
   private String downloadUrl;
-  private Integer fileSize;
+  private Long fileSize;
   private String genomeBuild;
   private boolean visible;
   private String galaxyUrl;
@@ -114,12 +114,12 @@ public class Dataset extends HistoryContents implements HasGalaxyUrl, ElementRes
     this.genomeBuild = genomeBuild;
   }
 
-  public Integer getFileSize() {
+  public Long getFileSize() {
     return fileSize;
   }
 
   @JsonProperty("file_size")
-  public void setFileSize(Integer fileSize) {
+  public void setFileSize(Long fileSize) {
     this.fileSize = fileSize;
   }
   
