@@ -7,7 +7,6 @@ before_install:
  - sudo apt-get install -qq mercurial libsqlite3-dev python-dev python-virtualenv samtools bedtools
 install:
   - mvn -version
-  - ./install-dependencies.sh
   - mvn clean package install -DskipTests -Dgpg.skip
 after_failure:
  - echo "Tests failed, dumping all logs."
