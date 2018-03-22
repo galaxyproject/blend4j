@@ -125,6 +125,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.9.1</version>
         <configuration>
+          <additionalJOption>-Xdoclint:none</additionalJOption>
           <docfilessubdirs>true</docfilessubdirs>
           <!-- (1) CSS file location -->
            <!-- (2) SyntaxHighlighter Javascript files -->
@@ -251,6 +252,9 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <additionalJOption>-Xdoclint:none</additionalJOption>
+          </configuration>
           <executions>
             <execution>
               <id>attach-javadocs</id>
