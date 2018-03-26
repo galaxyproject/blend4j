@@ -67,7 +67,7 @@ adding the following to the dependencies section of the project's pom.xml file.
      <dependency>
        <groupId>com.github.jmchilton.blend4j</groupId>
        <artifactId>blend4j</artifactId>
-       <version>0.1.0</version>
+       <version>0.2.0</version>
      </dependency>
 ```
 
