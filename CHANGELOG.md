@@ -1,12 +1,13 @@
 # blend4j changelog
 
-## 0.2.0 (unreleased)
+## [0.2.0][020release] (March 26, 2018)
 
 - Update to [galaxy-bootstrap 0.7.0][gxbootstrap070].
 - Added support for accessing Galaxy Tool Data tables.  Thanks to Dan Fornika - <https://github.com/apetkau/blend4j/pull/9>.
 - blend4j now requires Java 1.8+ to run.
 
-[gxbootstrap070]: https://github.com/jmchilton/galaxy-bootstrap/tree/80bc62c10eacbd694a8503d216ce1e32df908c31
+[gxbootstrap070]: http://mvnrepository.com/artifact/com.github.jmchilton.galaxybootstrap/galaxybootstrap/0.7.0
+[020release]: http://mvnrepository.com/artifact/com.github.jmchilton.blend4j/blend4j/0.2.0
 
 ## [0.1.2][012release] (December 18, 2014)
 
