@@ -2,7 +2,7 @@
 
 # About
 
-blend4j is a partial reimplemenation of the Python library [bioblend][1]
+blend4j is a partial reimplementation of the Python library [bioblend][1]
 for the JVM. bioblend for Python is a library for scripting interactions
 with Galaxy, CloudMan, and BioCloudCentral.
 
