@@ -6,7 +6,10 @@ import java.util.Map;
 public class WorkflowDetails extends Workflow {
   private Map<String, WorkflowInputDefinition> inputs;
   private Map<String, WorkflowStepDefinition> steps;
+  // Added for AMP
   private Map<ToolInputs, Tool> toolinputs;
+  
+  
 	/*
 	 * tags annotation model_class to be added
 	 */

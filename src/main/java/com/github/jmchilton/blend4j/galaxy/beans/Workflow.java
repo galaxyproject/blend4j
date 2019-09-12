@@ -2,12 +2,12 @@ package com.github.jmchilton.blend4j.galaxy.beans;
 
 public class Workflow extends GalaxyObject {
   private String name;
-  private boolean deleted;
-  private boolean published;
-  private String owner;
-  private String id;
-  private String annotation;
-  private String model_class;
+private boolean deleted;
+private boolean published;
+private String owner;
+private String id;
+private String annotation;
+private String model_class;
 
   public String getName() {
     return name;
