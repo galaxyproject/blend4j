@@ -1,38 +1,18 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class WorkflowDetails extends Workflow {
-  private boolean deleted;
-  private boolean published;
-  private String owner;
   private Map<String, WorkflowInputDefinition> inputs;
   private Map<String, WorkflowStepDefinition> steps;
-
-  public boolean isDeleted() {
-    return deleted;
-  }
-
-  public void setDeleted(boolean deleted) {
-    this.deleted = deleted;
-  }
-
-  public boolean isPublished() {
-    return published;
-  }
-
-  public void setPublished(boolean published) {
-    this.published = published;
-  }
-
-  public String getOwner() {
-    return owner;
-  }
-
-  public void setOwner(String owner) {
-    this.owner = owner;
-  }
-
+  // Added for AMP
+  private Map<ToolInputs, Tool> toolinputs;
+  
+  
+	/*
+	 * tags annotation model_class to be added
+	 */
   public Map<String, WorkflowStepDefinition> getSteps() {
     return steps;
   }
