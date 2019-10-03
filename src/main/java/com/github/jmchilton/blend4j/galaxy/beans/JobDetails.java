@@ -7,25 +7,30 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * AMPPD extension
+ * Bean for fields included in an job (an execution of a tool, which could correspond to a step in a workflow invocation), with inputs/outputs details.
+ */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class JobDetails extends Job {
+	
 	@JsonProperty("command_line")
 	private String commandLine;
 	
-	@JsonProperty("exit_code")
-	private Integer exitCode;
+//	@JsonProperty("exit_code")
+//	private Integer exitCode;
 
     private Map<String, JobInputOutput> inputs;
 
     private Map<String, JobInputOutput> outputs;
 	
-	public Integer getExitCode() {
-		return exitCode;
-	}
-
-	public void setExitCode(final Integer exitCode) {
-		this.exitCode = exitCode;
-	}
+//	public Integer getExitCode() {
+//		return exitCode;
+//	}
+//
+//	public void setExitCode(final Integer exitCode) {
+//		this.exitCode = exitCode;
+//	}
 
 	public String getCommandLine() {
 		return this.commandLine;

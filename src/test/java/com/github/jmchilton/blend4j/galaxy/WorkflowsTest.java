@@ -1,7 +1,23 @@
 package com.github.jmchilton.blend4j.galaxy;
 
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.fail;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.github.jmchilton.blend4j.galaxy.beans.Invocation;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationBriefs;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationDetails;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationStep;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationStepDetails;
+import com.github.jmchilton.blend4j.galaxy.beans.Job;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputDefinition;
@@ -16,20 +32,13 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatas
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
+/**
+ * AMPPD extension
+ * Workflow/Invocation related tests.
+ */
 public class WorkflowsTest {
 	private static final String TEST_WORKFLOW_NAME_AMP = "Galaxy-Workflow-amp_workflow";
 	private static final String TEST_WORKFLOW_NAME = "TestWorkflow1";
@@ -207,44 +216,6 @@ public class WorkflowsTest {
 	}
 
 	@Test
-	public void testRunWorkflow() throws IOException, InterruptedException {
-		ensureHasTestWorkflow1();
-
-		// Find history
-		final String historyId = TestHelpers.getTestHistoryId(instance);
-		final List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
-
-		final String input1Id = ids.get(0);
-		final String input2Id = ids.get(1);
-
-		final String testWorkflowId = getTestWorkflowId();
-		final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
-		String workflowInput1Id = getWorkflowInputId(workflowDetails, "WorkflowInput1");
-		String workflowInput2Id = getWorkflowInputId(workflowDetails, "WorkflowInput2");
-
-		final WorkflowInputs inputs = new WorkflowInputs();
-		inputs.setDestination(new ExistingHistory(historyId));
-		inputs.setWorkflowId(testWorkflowId);
-		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
-		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
-		final WorkflowOutputs output = client.runWorkflow(inputs);
-		System.out.println("Running workflow in history " + output.getHistoryId());
-		for (final String outputId : output.getOutputIds()) {
-			System.out.println("  Workflow Output ID " + outputId);
-		}
-	}
-
-	@Test
-	public void testWorkflowToolParameter() throws InterruptedException {
-		ensureHasTestWorkflow1();
-
-		final WorkflowInputs inputs = prepParameterTest();
-		inputs.setToolParameter("random_lines1", "num_lines", 5);
-		final WorkflowOutputs output = client.runWorkflow(inputs);
-		// TODO: Verify outputs...
-	}
-
-	@Test
 	public void testWorkflowStepParameter() throws InterruptedException {
 		ensureHasTestWorkflow1();
 
@@ -295,9 +266,6 @@ public class WorkflowsTest {
 		assert workflowDetails.isDeleted() : "Workflow is not deleted";
 	}
 
-
-		 
-
 	/**
 	 * Tests failing to deleting an invalid workflow.
 	 */
@@ -347,33 +315,240 @@ public class WorkflowsTest {
 		}
 		return matchingWorkflow.getId();
 	}
-	
+
 	/**
 	 * Tests to see workflow details
 	 */
-	  @Test   
+	@Test   
 	public void testShowWorkflowDetails() throws InterruptedException {
-	  Workflow workflow = client.importWorkflow(testAmpWorkflow1Contents);
-	  WorkflowDetails workflowDetails = client.showWorkflow(workflow.getId());
-	  Assert.assertNotNull(workflowDetails.getId());
-	  Assert.assertNotNull(workflowDetails.getName());
-	  Assert.assertNotNull(workflowDetails.getOwner());
+		Workflow workflow = client.importWorkflow(testAmpWorkflow1Contents);
+		WorkflowDetails workflowDetails = client.showWorkflow(workflow.getId());
+		Assert.assertNotNull(workflowDetails.getId());
+		Assert.assertNotNull(workflowDetails.getName());
+		Assert.assertNotNull(workflowDetails.getOwner());
+	}
+	
+	@Test
+	public void testWorkflowToolParameter() throws InterruptedException {
+		ensureHasTestWorkflow1();
+
+		final WorkflowInputs inputs = prepParameterTest();
+		inputs.setToolParameter("random_lines1", "num_lines", 5);
+		final WorkflowOutputs output = client.runWorkflow(inputs);
+		// TODO: Verify outputs...
+	}
 		
-	/* This describes the hierarchy to be followed to access each element
-	 * 
-	 * logger.info("=====>>>\nName:"+workflowDetails.getName()+"\nOwner"+
-	 * workflowDetails.getOwner()+
-	 * "\n Annotation:"+workflowDetails.getAnnotation()+"\n ID:"+workflowDetails.
-	 * getId()+"\n Model Class:"+workflowDetails.getModel_class()+"\n URL:"
-	 * +workflowDetails.getUrl()+
-	 * "\n Inputs:"+workflowDetails.getInputs()+"\n Steps:"+workflowDetails.getSteps
-	 * ()+
-	 * "\n step_output: "+workflowDetails.getSteps().get("1").getInputSteps().get(
-	 * "input").getStepOutput() + "\nIs Deleted :"+workflowDetails.isDeleted()+
-	 * "\n Is Published:"+workflowDetails.isPublished()+
-	 * "\n Tool_inputs:"+workflowDetails.getSteps().get("1").getTool_inputs());
-	 */
-		 
-	  
-	  }
+	@Test
+	public void testRunWorkflow() throws IOException, InterruptedException {
+		ensureHasTestWorkflow1();
+
+		// Find history
+		final String historyId = TestHelpers.getTestHistoryId(instance);
+		final List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
+
+		final String input1Id = ids.get(0);
+		final String input2Id = ids.get(1);
+
+		final String testWorkflowId = getTestWorkflowId();
+		final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
+		String workflowInput1Id = getWorkflowInputId(workflowDetails, "WorkflowInput1");
+		String workflowInput2Id = getWorkflowInputId(workflowDetails, "WorkflowInput2");
+
+		final WorkflowInputs inputs = new WorkflowInputs();
+		inputs.setDestination(new ExistingHistory(historyId));
+		inputs.setWorkflowId(testWorkflowId);
+		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
+		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
+		final WorkflowOutputs wos = client.runWorkflow(inputs);
+		System.out.println("Running workflow in history " + wos.getHistoryId());
+		
+		// verify basic info of the WorkflowOutputs
+		assert !wos.getId().isEmpty();
+		assert wos.getUpdateTime() != null;
+		assert wos.getHistoryId().equals(historyId);
+		assert wos.getState().equals("scheduled");
+		assert wos.getWorkflowId() != null;
+				
+		// verify inputs in WorkflowOutputs
+		assert !wos.getInputs().get("0").getId().isEmpty();
+		assert wos.getInputs().get("0").getSrc().equals("hda");
+		
+		// verify outputs in WorkflowOutputs
+		assert wos.getOutputIds().size() == 1;
+		for (final String outputId : wos.getOutputIds()) {
+			System.out.println("  Workflow Output ID " + outputId);
+			assert !outputId.isEmpty();
+		}
+		
+		// verify steps in WorkflowOutputs
+		assert wos.getSteps().size() == 3;
+		InvocationStep step = wos.getSteps().get(2);
+		assert !step.getId().isEmpty();
+		assert step.getUpdateTime() != null;
+		assert !step.getJobId().isEmpty();
+		assert step.getOrderIndex() == 2;
+		assert step.getWorkflowStepLabel() == null; // this particular tool doesn't have a label in the workflow
+		assert step.getState().equals("scheduled");
+	}
+
+	@Test
+	public void testIndexInvocations() throws IOException, InterruptedException {
+		ensureHasTestWorkflow1();
+
+		// Find history
+		final String historyId = TestHelpers.getTestHistoryId(instance);
+		final List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
+
+		final String input1Id = ids.get(0);
+		final String input2Id = ids.get(1);
+
+		final String testWorkflowId = getTestWorkflowId();
+		final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
+		String workflowInput1Id = getWorkflowInputId(workflowDetails, "WorkflowInput1");
+		String workflowInput2Id = getWorkflowInputId(workflowDetails, "WorkflowInput2");
+
+		final WorkflowInputs inputs = new WorkflowInputs();
+		inputs.setDestination(new ExistingHistory(historyId));
+		inputs.setWorkflowId(testWorkflowId);
+		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
+		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
+		final WorkflowOutputs wos = client.runWorkflow(inputs);		
+		List<Invocation> invocations = client.indexInvocations(testWorkflowId, historyId);
+		
+		// verify basic info of the invocations
+		assert !invocations.isEmpty();
+		Invocation invocation = invocations.get(0);
+		assert !invocation.getId().isEmpty();
+		assert invocation.getUpdateTime() != null;
+		assert invocation.getHistoryId().equals(historyId);
+		assert invocation.getState().equals("scheduled");
+		assert invocation.getWorkflowId() != null;				
+	}
+	
+	@Test
+	public void testShowInvocation() throws IOException, InterruptedException {
+		ensureHasTestWorkflow1();
+
+		// Find history
+		final String historyId = TestHelpers.getTestHistoryId(instance);
+		final List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
+
+		final String input1Id = ids.get(0);
+		final String input2Id = ids.get(1);
+
+		final String testWorkflowId = getTestWorkflowId();
+		final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
+		String workflowInput1Id = getWorkflowInputId(workflowDetails, "WorkflowInput1");
+		String workflowInput2Id = getWorkflowInputId(workflowDetails, "WorkflowInput2");
+
+		final WorkflowInputs inputs = new WorkflowInputs();
+		inputs.setDestination(new ExistingHistory(historyId));
+		inputs.setWorkflowId(testWorkflowId);
+		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
+		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
+		final WorkflowOutputs wos = client.runWorkflow(inputs);		
+
+		// test show invocation without step details
+		assert client.showInvocation(testWorkflowId, wos.getId(), false) instanceof InvocationBriefs;
+		
+		// test show invocation with step details
+		InvocationDetails invdetails = (InvocationDetails) client.showInvocation(testWorkflowId, wos.getId(), true);		
+		
+		// verify basic info of the invocationDetails
+		assert !invdetails.getId().isEmpty();
+		assert invdetails.getUpdateTime() != null;
+		assert invdetails.getHistoryId().equals(historyId);
+		assert invdetails.getState().equals("scheduled");
+		assert invdetails.getWorkflowId() != null;
+
+		// verify inputs in invocationDetails
+		assert !invdetails.getInputs().get("0").getId().isEmpty();
+		assert invdetails.getInputs().get("0").getSrc().equals("hda");
+		
+		// unlike the WorkflowOutputs returned upon workflow invocation, the outputs returned from showInvocation is usually empty, 
+		// because the same info is populated inside each step's outputs instead
+		
+		// verify steps in invocationDetails
+		assert invdetails.getSteps().size() == 3;
+		InvocationStepDetails step = invdetails.getSteps().get(2);
+		assert !step.getId().isEmpty();
+		assert step.getUpdateTime() != null;
+		assert !step.getJobId().isEmpty();
+		assert step.getOrderIndex() == 2;
+		assert step.getWorkflowStepLabel() == null; // this particular tool doesn't have a label in the workflow
+		assert step.getState().equals("scheduled");
+		
+		// verify jobs details in invocationDetails
+		assert step.getJobs().size() == 1;
+		Job job = step.getJobs().get(0);
+		assert !job.getId().isEmpty();
+		assert !job.getToolId().isEmpty();
+		assert job.getUpdated() != null;
+		// The following to asserts would pass if the test is run in debug mode, but would fail if run without delay. 
+		// This is due to the fact that when Galaxy process workflow invocation requests, it returns after jobs are queued without waiting for the jobs to finish. 
+//		assert job.getExitCode() == 0;
+//		assert job.getState().equals("ok");
+		assert job.getCreated() != null;
+
+		// verify outputs details in invocationDetails
+		assert step.getOutputs().size() == 1;
+		step.getOutputs().forEach( (k,v) -> {
+			assert !v.getId().isEmpty();
+			assert v.getSource().equals("hda");
+		});		
+	}
+		
+	@Test
+	public void testShowInvocationStep() throws IOException, InterruptedException {
+		ensureHasTestWorkflow1();
+
+		// Find history
+		final String historyId = TestHelpers.getTestHistoryId(instance);
+		final List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
+
+		final String input1Id = ids.get(0);
+		final String input2Id = ids.get(1);
+
+		final String testWorkflowId = getTestWorkflowId();
+		final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
+		String workflowInput1Id = getWorkflowInputId(workflowDetails, "WorkflowInput1");
+		String workflowInput2Id = getWorkflowInputId(workflowDetails, "WorkflowInput2");
+
+		final WorkflowInputs inputs = new WorkflowInputs();
+		inputs.setDestination(new ExistingHistory(historyId));
+		inputs.setWorkflowId(testWorkflowId);
+		inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
+		inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
+		final WorkflowOutputs wos = client.runWorkflow(inputs);		
+		InvocationStepDetails step = client.showInvocationStep(testWorkflowId, wos.getId(), wos.getSteps().get(2).getId());		
+		
+		// verify basic information of the step
+		assert !step.getId().isEmpty();
+		assert step.getUpdateTime() != null;
+		assert !step.getJobId().isEmpty();
+		assert step.getOrderIndex() == 2;
+		assert step.getWorkflowStepLabel() == null; // this particular tool doesn't have a label in the workflow
+		assert step.getState().equals("scheduled");
+		
+		// verify jobs details in invocationDetails
+		assert step.getJobs().size() == 1;
+		Job job = step.getJobs().get(0);
+		assert !job.getId().isEmpty();
+		assert !job.getToolId().isEmpty();
+		assert job.getUpdated() != null;
+		// The following to asserts would pass if the test is run in debug mode, but would fail if run without delay. 
+		// This is due to the fact that when Galaxy process workflow invocation requests, it returns after jobs are queued without waiting for the jobs to finish. 
+//		assert job.getExitCode() == 0;
+//		assert job.getState().equals("ok");
+		assert job.getCreated() != null;
+
+		// verify outputs details in invocationDetails
+		assert step.getOutputs().size() == 1;
+		step.getOutputs().forEach( (k,v) -> {
+			assert !v.getId().isEmpty();
+			assert v.getSource().equals("hda");
+		});			
+	}
+		
+	
 }

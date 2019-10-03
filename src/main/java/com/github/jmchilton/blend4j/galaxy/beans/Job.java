@@ -5,17 +5,24 @@ import java.util.Date;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * AMPPD extension
+ * Bean for fields included in an job (an execution of a tool, which could correspond to a step in a workflow invocation), without inputs/outputs details.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Job extends GalaxyObject {
-	@JsonProperty("state")
-	private String state;
+	
 	@JsonProperty("tool_id")
 	private String toolId;
-	@JsonProperty("create_time")
-	private Date created;
 	@JsonProperty("update_time")
 	private Date updated;
-	
+	@JsonProperty("exit_code")
+	private Integer exitCode;
+	@JsonProperty("state")
+	private String state;
+	@JsonProperty("create_time")
+	private Date created;
+
 	public final String getState() {
 		return state;
 	}
@@ -40,6 +47,11 @@ public class Job extends GalaxyObject {
 	public final void setUpdated(Date updated) {
 		this.updated = updated;
 	}
-	
-	
+	public Integer getExitCode() {
+		return exitCode;
+	}
+	public void setExitCode(Integer exitCode) {
+		this.exitCode = exitCode;
+	}
+
 }

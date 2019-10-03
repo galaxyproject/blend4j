@@ -1,119 +1,112 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
-
+/**
+ * AMPPD extension
+ * Bean for fields related to workflow step information, including details about input steps and tool inputs.
+ */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class WorkflowStepDefinition {
-  
-  @JsonIgnoreProperties(ignoreUnknown=true)
-  public static class WorkflowStepOutput {
-    private String stepOutput;
-    private String sourceStep;
 
-    public String getStepOutput() {
-      return stepOutput;
-    }
+	@JsonIgnoreProperties(ignoreUnknown=true)
+	public static class WorkflowStepOutput {
+		private String stepOutput;
+		private Integer sourceStep;
 
-    @JsonProperty("step_output")
-    public void setStepOutput(String stepOutput) {
-      this.stepOutput = stepOutput;
-    }
+		public String getStepOutput() {
+			return stepOutput;
+		}
 
-    public String getSourceStep() {
-      return sourceStep;
-    }
+		@JsonProperty("step_output")
+		public void setStepOutput(String stepOutput) {
+			this.stepOutput = stepOutput;
+		}
 
-    @JsonProperty("source_step")
-    public void setSourceStep(String sourceStep) {
-      this.sourceStep = sourceStep;
-    }
-  
-  }
-  
-  
-  
+		public Integer getSourceStep() {
+			return sourceStep;
+		}
 
-  private String tool_id;
-  private String tool_version;
-  private String id;
-  private Map<String, WorkflowStepOutput> input_steps;
-  private Map<String, Object> tool_inputs;
-  private String type; // data_input or tool
-  private String annotation;
+		@JsonProperty("source_step")
+		public void setSourceStep(Integer sourceStep) {
+			this.sourceStep = sourceStep;
+		}
 
-  
-  public String getAnnotation() {
-	  return annotation;
-  }
+	} 
 
-  @JsonProperty("annotation")
-  public void setAnnotation(String annotation) {
-	  this.annotation = annotation;
-  }
+	private String toolId;
+	private String toolVersion;
+	private Integer id;
+	private Map<String, WorkflowStepOutput> inputSteps;
+	private Map<String, Object> toolInputs;
+	private String type; // data_input or tool
+	private String annotation;
 
-  public String getTool_id() {
-	  return tool_id;
-  }
+	public String getAnnotation() {
+		return annotation;
+	}
 
-  @JsonProperty("tool_id")
-  public void setTool_id(String tool_id) {
-	  this.tool_id = tool_id;
-  }
+	@JsonProperty("annotation")
+	public void setAnnotation(String annotation) {
+		this.annotation = annotation;
+	}
 
-  public String getTool_version() {
-	  return tool_version;
-  }
+	public String getToolId() {
+		return toolId;
+	}
 
-  @JsonProperty("tool_version")
-  public void setTool_version(String tool_version) {
-	  this.tool_version = tool_version;
-  }
+	@JsonProperty("tool_id")
+	public void setToolId(String toolId) {
+		this.toolId = toolId;
+	}
 
-  public String getId() {
-	  return id;
-  }
+	public String getToolVersion() {
+		return toolVersion;
+	}
 
-  @JsonProperty("id")
-  public void setId(String id) {
-	  this.id = id;
-  }
+	@JsonProperty("tool_version")
+	public void setToolVersion(String toolVersion) {
+		this.toolVersion = toolVersion;
+	}
 
-  public Map<String, Object> getTool_inputs() {
-	  return tool_inputs;
-  }
+	public Integer getId() {
+		return id;
+	}
 
-  @JsonProperty("tool_inputs")
-  public void setTool_inputs(final Map<String, Object> tool_inputs) {
-	  this.tool_inputs = tool_inputs;
+	@JsonProperty("id")
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-  }
+	public Map<String, Object> getToolInputs() {
+		return toolInputs;
+	}
 
-  @JsonProperty("input_steps")
-  public void setInputSteps(final Map<String, WorkflowStepOutput> inputSteps) {
-	  this.input_steps = inputSteps;
-  }
+	@JsonProperty("tool_inputs")
+	public void setToolInputs(final Map<String, Object> toolInputs) {
+		this.toolInputs = toolInputs;
 
-  public Map<String, WorkflowStepOutput> getInputSteps() {
-	  return this.input_steps;
-  }
+	}
 
-  public String getType() {
-	  return type;
-  }
+	public Map<String, WorkflowStepOutput> getInputSteps() {
+		return inputSteps;
+	}
 
-  @JsonProperty("type")
-  public void setType(String type) {
-	  this.type = type;
-  }
-    
+	@JsonProperty("input_steps")
+	public void setInputSteps(final Map<String, WorkflowStepOutput> inputSteps) {
+		this.inputSteps = inputSteps;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	@JsonProperty("type")
+	public void setType(String type) {
+		this.type = type;
+	}
+
 }
