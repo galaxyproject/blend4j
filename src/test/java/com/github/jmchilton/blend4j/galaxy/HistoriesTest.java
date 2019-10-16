@@ -28,6 +28,10 @@ import org.junit.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+/**
+ * AMPPD extension
+ * Workflow/Invocation related tests.
+ */
 public class HistoriesTest {
   private GalaxyInstance instance;
   private ToolsClient toolsClient;
@@ -395,6 +399,15 @@ public class HistoriesTest {
     final Dataset dataset = historiesClient.showDataset(historyId, contents.getId());
     assert dataset.getDataType().equals("txt") : dataset.getDataType();
     assert dataset.getDataTypeExt().equals("txt") : dataset.getDataTypeExt();
+    
+    // verify AMPPD extended fields
+    assert !dataset.getFileName().isEmpty();
+    assert dataset.getFileSize() > 0;
+    assert !dataset.getCreatingJob().isEmpty();
+    assert dataset.getCreateTime() != null;
+    assert dataset.getUpdateTime() != null;
+    assert !dataset.getHistoryId().isEmpty();
+    assert dataset.getDownloadUrl().contains(dataset.getId());       
   }
 
   private HistoryContents getTestHistoryDataset(final String historyId) throws InterruptedException {
