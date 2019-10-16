@@ -14,11 +14,15 @@ public class Invocation extends GalaxyObject {
 	
 	@JsonProperty("update_time")
 	private Date updateTime;
+	
 	// in response from workflow invocation, there is also a field "history", which is the same as historyId, but its not present in workflow invocation query
 	@JsonProperty("history_id")
 	private String historyId;	
+	
 	private String state;
+	
 	// we omit the output_collection, since we don't use collection
+	
 	@JsonProperty("workflow_id")
 	private String workflowId;	// an internal workflow ID, not the same as the API workflowId used for workflow query/invocation
 	
