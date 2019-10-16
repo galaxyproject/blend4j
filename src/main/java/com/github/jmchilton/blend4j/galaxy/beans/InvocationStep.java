@@ -14,16 +14,22 @@ public class InvocationStep extends GalaxyObject {
 	
 	@JsonProperty("workflow_step_uuid")
 	private String workflowStepUuid;
+	
 	@JsonProperty("update_time")
 	private Date updateTime;
+	
 	@JsonProperty("job_id")
 	private String jobId;
+	
 	@JsonProperty("order_index")
 	private Integer orderIndex;
+	
 	@JsonProperty("workflow_step_label")
 	private String workflowStepLabel;	
+	
 	private String state;
 	private String action;
+	
 	@JsonProperty("workflow_step_id")
 	private String workflowStepId;
 	

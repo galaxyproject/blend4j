@@ -5,14 +5,18 @@ import com.github.jmchilton.blend4j.util.Objects;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * AMPPD extension
+ * Bean containing fields for a history content accessible via Galaxy REST API.
+ */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class HistoryContents extends GalaxyObject {
   private String name;
-  private String type = "file";
+  private String type = "file";						// same as api_type
   private boolean deleted = false;
   private boolean purged = false;
   private int hid;
-  private String historyContentType = "dataset";
+  private String historyContentType = "dataset";	// type_id = history_content_type + id
   private String state;
 
   public String getName() {

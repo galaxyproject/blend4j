@@ -14,11 +14,15 @@ public class Workflow extends GalaxyObject {
 	private String name;
 	private List<String> tags = new ArrayList<String>();
 	private boolean deleted;
+	
 	@JsonProperty("latest_workflow_uuid")
 	private String latestWorkflowUuid;
+	
 	// omit showInToolPanel field as its not useful outside Galaxy UI
+	
 	@JsonProperty("number_of_steps")
 	private Integer numberOfSteps;
+	
 	private boolean published;
 	private String owner;
 
