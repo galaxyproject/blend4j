@@ -6,10 +6,9 @@ import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputDefinition;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
-import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.ExistingHistory;
-import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.InputSourceType;
-import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs.WorkflowInput;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInvocationInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInvocationOutputs;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowStepDefinition;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatasetElement;
@@ -211,15 +210,42 @@ public class WorkflowsTest {
     String workflowInput2Id = getWorkflowInputId(workflowDetails, "WorkflowInput2");
 
     final WorkflowInputs inputs = new WorkflowInputs();
-    inputs.setDestination(new ExistingHistory(historyId));
+    inputs.setDestination(new WorkflowInputs.ExistingHistory(historyId));
     inputs.setWorkflowId(testWorkflowId);
-    inputs.setInput(workflowInput1Id, new WorkflowInput(input1Id, InputSourceType.HDA));
-    inputs.setInput(workflowInput2Id, new WorkflowInput(input2Id, InputSourceType.HDA));
+    inputs.setInput(workflowInput1Id, new WorkflowInputs.WorkflowInput(input1Id, WorkflowInputs.InputSourceType.HDA));
+    inputs.setInput(workflowInput2Id, new WorkflowInputs.WorkflowInput(input2Id, WorkflowInputs.InputSourceType.HDA));
     final WorkflowOutputs output = client.runWorkflow(inputs);
     System.out.println("Running workflow in history " + output.getHistoryId());
     for(final String outputId : output.getOutputIds()) {
       System.out.println("  Workflow Output ID " + outputId);
     }
+  }
+
+  @Test
+  public void testInvokeWorkflow() throws IOException, InterruptedException {
+    ensureHasTestWorkflow1();
+
+    // Find history
+    final String historyId = TestHelpers.getTestHistoryId(instance);
+    final List<String> ids = TestHelpers.populateTestDatasets(instance, historyId, 2);
+
+    final String input1Id = ids.get(0);
+    final String input2Id = ids.get(1);
+
+    final String testWorkflowId = getTestWorkflowId();
+    final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
+    String workflowInput1Id = getWorkflowInputId(workflowDetails, "WorkflowInput1");
+    String workflowInput2Id = getWorkflowInputId(workflowDetails, "WorkflowInput2");
+
+    final WorkflowInvocationInputs inputs = new WorkflowInvocationInputs();
+    inputs.setDestination(new WorkflowInvocationInputs.ExistingHistory(historyId));
+    inputs.setWorkflowId(testWorkflowId);
+    inputs.setInput(workflowInput1Id, new WorkflowInvocationInputs.WorkflowInvocationInput(input1Id, WorkflowInvocationInputs.InputSourceType.HDA));
+    inputs.setInput(workflowInput2Id, new WorkflowInvocationInputs.WorkflowInvocationInput(input2Id, WorkflowInvocationInputs.InputSourceType.HDA));
+    final WorkflowInvocationOutputs output = client.invokeWorkflow(inputs);
+    System.out.println("Running workflow in history " + output.getHistoryId());
+    final String workflowID = output.getWorkflowId();
+    System.out.println("  Workflow ID " + workflowID);
   }
 
   @Test
@@ -311,10 +337,10 @@ public class WorkflowsTest {
     final String testWorkflowId = ensureHasWorkflow(TEST_WORKFLOW_RANDOMLINES);
     final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
     final WorkflowInputs inputs = new WorkflowInputs();
-    inputs.setDestination(new ExistingHistory(historyId));
+    inputs.setDestination(new WorkflowInputs.ExistingHistory(historyId));
     inputs.setWorkflowId(testWorkflowId);
     final String inputId = workflowDetails.getInputs().keySet().iterator().next();
-    inputs.setInput(inputId, new WorkflowInput(datasetId, InputSourceType.HDA));
+    inputs.setInput(inputId, new WorkflowInputs.WorkflowInput(datasetId, WorkflowInputs.InputSourceType.HDA));
     return inputs;
   }
   
