@@ -15,13 +15,11 @@ import com.github.jmchilton.blend4j.galaxy.beans.collection.request.HistoryDatas
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -290,9 +288,52 @@ public class WorkflowsTest {
     inputs.setStepParameter(firstStepId, "num_lines", 7);
     inputs.setStepParameter(secondStepId, "num_lines", 3);
     final WorkflowOutputs output = client.runWorkflow(inputs);
-    // TODO: Verify outputs...
+    // Verify outputs...
+    WorkflowInputs.ExistingHistory hist = (WorkflowInputs.ExistingHistory)inputs.getDestination();
+    assertEquals(hist.value(), "hist_id=" + output.getHistoryId());
+    assertTrue(inputs.getParameters().containsKey(firstStepId));
+    assertTrue(inputs.getParameters().containsKey(secondStepId));
   }
-  
+
+  @Test
+  public void testInvokeWorkflowStepParameter() throws InterruptedException {
+    ensureHasTestWorkflow1();
+
+    final WorkflowInvocationInputs inputs = prepInvocationParameterTest();
+
+    final WorkflowDetails workflowDetails = client.showWorkflow(inputs.getWorkflowId());
+    workflowDetails.getInputs();
+    String firstStepId = null, secondStepId = null;
+    for(final Map.Entry<String, WorkflowStepDefinition> entry : workflowDetails.getSteps().entrySet()) {
+      final String stepId = entry.getKey();
+      final WorkflowStepDefinition stepDef = entry.getValue();
+      if(!stepDef.getType().equals("tool")) {
+        continue;
+      }
+      boolean firstStep = true;
+      for(final Map.Entry<String, WorkflowStepDefinition.WorkflowStepOutput> stepInput : stepDef.getInputSteps().entrySet()) {
+        if(stepInput.getValue().getStepOutput().equals("out_file1")) {
+          // Has an input from random lines tool, is second step...
+          firstStep = false;
+        }
+      }
+      if(firstStep) {
+        firstStepId = stepId;
+      } else {
+        secondStepId = stepId;
+      }
+    }
+
+    inputs.setStepParameter(firstStepId, "num_lines", 7);
+    inputs.setStepParameter(secondStepId, "num_lines", 3);
+    final WorkflowInvocationOutputs output = client.invokeWorkflow(inputs);
+    // Verify outputs...
+    WorkflowInvocationInputs.ExistingHistory hist = (WorkflowInvocationInputs.ExistingHistory)inputs.getDestination();
+    assertEquals(hist.value(), "hist_id=" + output.getHistoryId());
+    assertTrue(inputs.getParameters().containsKey(firstStepId));
+    assertTrue(inputs.getParameters().containsKey(secondStepId));
+  }
+
   /**
    * Tests successfully deleting a workflow.
    */
@@ -341,6 +382,21 @@ public class WorkflowsTest {
     inputs.setWorkflowId(testWorkflowId);
     final String inputId = workflowDetails.getInputs().keySet().iterator().next();
     inputs.setInput(inputId, new WorkflowInputs.WorkflowInput(datasetId, WorkflowInputs.InputSourceType.HDA));
+    return inputs;
+  }
+
+  private WorkflowInvocationInputs prepInvocationParameterTest() throws InterruptedException {
+    final String historyId = TestHelpers.getTestHistoryId(instance);
+    final String testContents = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10";
+    final String datasetId = TestHelpers.populateTestDataset(this.instance, historyId, testContents);
+
+    final String testWorkflowId = ensureHasWorkflow(TEST_WORKFLOW_RANDOMLINES);
+    final WorkflowDetails workflowDetails = client.showWorkflow(testWorkflowId);
+    final WorkflowInvocationInputs inputs = new WorkflowInvocationInputs();
+    inputs.setDestination(new WorkflowInvocationInputs.ExistingHistory(historyId));
+    inputs.setWorkflowId(testWorkflowId);
+    final String inputId = workflowDetails.getInputs().keySet().iterator().next();
+    inputs.setInput(inputId, new WorkflowInvocationInputs.WorkflowInvocationInput(datasetId, WorkflowInvocationInputs.InputSourceType.HDA));
     return inputs;
   }
   
