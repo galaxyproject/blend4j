@@ -27,7 +27,7 @@ public class TestGalaxyInstance {
   @BeforeSuite
   public static void bootStrapGalaxy() throws URISyntaxException, IOException {
     if(getTestApiKey() == null) {
-      DownloadProperties downloadProperties = DownloadProperties.forRelease("v17.01");
+      DownloadProperties downloadProperties = DownloadProperties.forRelease("release_17.01");
       if(Boolean.getBoolean(System.getProperty("galaxy.bootstrap.github", "false"))){
         downloadProperties = DownloadProperties.wgetGithubMaster();
       }
