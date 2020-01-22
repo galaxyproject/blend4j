@@ -19,7 +19,9 @@ public interface WorkflowsClient {
 
   Workflow importWorkflow(String json);
 
-  ClientResponse importWorkflowResponse(String json);
+  Workflow importWorkflow(String json, boolean publish);
+
+  ClientResponse importWorkflowResponse(String json, final boolean publish);
 
   ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
 

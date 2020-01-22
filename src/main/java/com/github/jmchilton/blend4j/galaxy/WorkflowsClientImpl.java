@@ -52,13 +52,17 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
     return runWorkflowInvocationResponse(workflowInvocationInputs).getEntity(WorkflowInvocationOutputs.class);
   }
 
-  public ClientResponse importWorkflowResponse(final String json) {
-    final String payload = String.format("{\"workflow\": %s}", json);
+  public ClientResponse importWorkflowResponse(final String json, final boolean publish) {
+    final String payload = String.format("{\"workflow\": %s, \"publish\": %s}", json, publish);
     return create(getWebResource().path("upload"), payload);
   }
 
   public Workflow importWorkflow(String json) {
-    return importWorkflowResponse(json).getEntity(Workflow.class);
+    return importWorkflowResponse(json, false).getEntity(Workflow.class);
+  }
+
+  public Workflow importWorkflow(String json, boolean publish) {
+    return importWorkflowResponse(json, publish).getEntity(Workflow.class);
   }
 
   @Override
