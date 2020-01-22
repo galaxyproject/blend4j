@@ -1,5 +1,10 @@
 # blend4j changelog
 
+## [0.2.1][021release] (Jan 22, 2020)
+
+- Added `invokeWorkflow` to `WorkflowsClient` to be used instead of `runWorkflow`.
+- Added updated `importWorkfow(String json, boolean publish)` to `WorkflowsClient` that should be used over the deprecated `importWorkflow(String json)`.
+
 ## [0.2.0][020release] (March 26, 2018)
 
 - Update to [galaxy-bootstrap 0.7.0][gxbootstrap070].
