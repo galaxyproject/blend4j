@@ -23,8 +23,10 @@ public interface WorkflowsClient {
 
   ClientResponse importWorkflowResponse(String json, final boolean publish);
 
+  @Deprecated
   ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
 
+  @Deprecated
   WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
 
   WorkflowInvocationOutputs invokeWorkflow(WorkflowInvocationInputs workflowInvocationInputs);

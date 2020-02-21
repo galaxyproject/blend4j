@@ -36,10 +36,12 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
     return webResource.get(String.class);
   }
 
+  @Deprecated
   public ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs) {
     return super.create(workflowInputs);
   }
 
+  @Deprecated
   public WorkflowOutputs runWorkflow(final WorkflowInputs workflowInputs) {
     return runWorkflowResponse(workflowInputs).getEntity(WorkflowOutputs.class);
   }
