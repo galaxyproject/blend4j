@@ -8,6 +8,8 @@ import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInvocationInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInvocationOutputs;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
@@ -34,21 +36,35 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
     return webResource.get(String.class);
   }
 
+  @Deprecated
   public ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs) {
     return super.create(workflowInputs);
   }
 
+  @Deprecated
   public WorkflowOutputs runWorkflow(final WorkflowInputs workflowInputs) {
     return runWorkflowResponse(workflowInputs).getEntity(WorkflowOutputs.class);
   }
 
-  public ClientResponse importWorkflowResponse(final String json) {
-    final String payload = String.format("{\"workflow\": %s}", json);
+  public ClientResponse runWorkflowInvocationResponse(WorkflowInvocationInputs workflowInvocationInputs) {
+    return create(getWebResource().path(workflowInvocationInputs.getWorkflowId()).path("invocations"),workflowInvocationInputs);
+  }
+
+  public WorkflowInvocationOutputs invokeWorkflow(final WorkflowInvocationInputs workflowInvocationInputs) {
+    return runWorkflowInvocationResponse(workflowInvocationInputs).getEntity(WorkflowInvocationOutputs.class);
+  }
+
+  public ClientResponse importWorkflowResponse(final String json, final boolean publish) {
+    final String payload = String.format("{\"workflow\": %s, \"publish\": %s}", json, publish);
     return create(getWebResource().path("upload"), payload);
   }
 
   public Workflow importWorkflow(String json) {
-    return importWorkflowResponse(json).getEntity(Workflow.class);
+    return importWorkflowResponse(json, false).getEntity(Workflow.class);
+  }
+
+  public Workflow importWorkflow(String json, boolean publish) {
+    return importWorkflowResponse(json, publish).getEntity(Workflow.class);
   }
 
   @Override

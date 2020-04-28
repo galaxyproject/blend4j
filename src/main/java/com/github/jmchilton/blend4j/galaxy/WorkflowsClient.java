@@ -6,6 +6,8 @@ import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInvocationInputs;
+import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInvocationOutputs;
 import com.sun.jersey.api.client.ClientResponse;
 
 public interface WorkflowsClient {
@@ -17,11 +19,17 @@ public interface WorkflowsClient {
 
   Workflow importWorkflow(String json);
 
-  ClientResponse importWorkflowResponse(String json);
+  Workflow importWorkflow(String json, boolean publish);
 
+  ClientResponse importWorkflowResponse(String json, final boolean publish);
+
+  @Deprecated
   ClientResponse runWorkflowResponse(WorkflowInputs workflowInputs);
 
+  @Deprecated
   WorkflowOutputs runWorkflow(WorkflowInputs workflowInputs);
+
+  WorkflowInvocationOutputs invokeWorkflow(WorkflowInvocationInputs workflowInvocationInputs);
   
   /**
    * Deletes the workflow with the given id (this is irreversible). This will
