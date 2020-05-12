@@ -66,6 +66,14 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 	}
 
 	/**
+	 * Returns the WebResource for invocations (excluding workflows in the path).
+	 * @return
+	 */
+	protected WebResource getInvocationWebResource() {
+		return this.getGalaxyInstance().getWebResource().path("invocations");
+	}
+
+	/**
 	 * Returns the WebResource for invocations of the specified workflow.
 	 * @param workflowId ID of the specified workflow.
 	 * @return
@@ -93,6 +101,11 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 	 */
 	protected WebResource getInvocationWebResource(String workflowId, String invocationId, String stepId) {
 		return getWebResource().path(workflowId).path("invocations").path(invocationId).path("steps").path(stepId);
+	}
+
+	@Override
+	public List<InvocationDetails> indexInvocationsDetails(String username) {
+		return get(getInvocationWebResource().queryParam("view", "element").queryParam("step_details", "true").queryParam("user_id",  username), new TypeReference<List<InvocationDetails>>() {});
 	}
 
 	@Override

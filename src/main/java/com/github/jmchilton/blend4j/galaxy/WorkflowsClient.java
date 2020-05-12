@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Invocation;
 import com.github.jmchilton.blend4j.galaxy.beans.InvocationBase;
+import com.github.jmchilton.blend4j.galaxy.beans.InvocationDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.InvocationStepDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow;
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails;
@@ -44,10 +45,17 @@ public interface WorkflowsClient {
   ClientResponse deleteWorkflowRequest(String id);
   
   /**
+   * Lists all invocations with step details for the specified user.
+   * @param username ID of the specified user
+   * @return a list of requested InvocationDetails (i.e. invocations with job/output details for each step) 
+   */
+  public List<InvocationDetails> indexInvocationsDetails(String username);
+
+  /**
    * Lists all invocations of the specified workflow within the specified history.
    * @param workflowId ID of the specified workflow
    * @param historyId ID of the specified history
-   * @return a list of requested WorkflowOutputs (i.e. invocations without job/output details for each step) 
+   * @return a list of requested Invocations (i.e. invocations without job/output details for each step) 
    */
   public List<Invocation> indexInvocations(String workflowId, String historyId);
   
