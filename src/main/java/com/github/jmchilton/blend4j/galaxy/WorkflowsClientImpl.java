@@ -38,8 +38,9 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 		return super.show(id, WorkflowDetails.class);
 	}
 
-	public WorkflowDetails showWorkflowNonStored(final String id) {
-		return super.show(id, WorkflowDetails.class);
+	public WorkflowDetails showWorkflowInstance(String workflowId) {
+		// adding query parameter instance=true to fetch by non-StoredWorkflow id instead of StoredWorkflow id 
+		return getWebResource(workflowId).queryParam("instance",  "true").get(WorkflowDetails.class);
 	}
 
 	public String exportWorkflow(final String id) {
