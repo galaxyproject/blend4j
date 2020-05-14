@@ -19,7 +19,21 @@ import com.sun.jersey.api.client.ClientResponse;
 public interface WorkflowsClient {
   List<Workflow> getWorkflows();
 
-  WorkflowDetails showWorkflow(String workflowId);
+  /**
+   * Show details of the specified workflow.
+   * @param id the ID of the specified StoredWorkflow 
+   * @return the queried workflow details
+   */
+  WorkflowDetails showWorkflow(String id);
+
+  /**
+   * Show details of the specified workflow instance. 
+   * Note: The difference between this method and showWorkflow is that, 
+   * this method takes a possibly non-StoredWorkflow ID instead of a encoded StoredWorkflow ID. 
+   * @param workflowId the workflow ID of the specified workflow instance which may not have been stored
+   * @return the queried workflow details
+   */
+  WorkflowDetails showWorkflowInstance(String workflowId);
 
   String exportWorkflow(String id);
 
