@@ -38,6 +38,10 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 		return super.show(id, WorkflowDetails.class);
 	}
 
+	public WorkflowDetails showWorkflowNonStored(final String id) {
+		return super.show(id, WorkflowDetails.class);
+	}
+
 	public String exportWorkflow(final String id) {
 		WebResource webResource = getWebResource().path("download").path(id);
 		return webResource.get(String.class);

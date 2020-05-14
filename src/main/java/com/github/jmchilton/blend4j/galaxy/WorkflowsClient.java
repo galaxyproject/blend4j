@@ -19,7 +19,19 @@ import com.sun.jersey.api.client.ClientResponse;
 public interface WorkflowsClient {
   List<Workflow> getWorkflows();
 
+  /**
+   * Show details of the given workflow.
+   * @param workflowId: 
+   * @return
+   */
   WorkflowDetails showWorkflow(String workflowId);
+
+  /**
+   * Show details of the given workflow.
+   * @param workflowId: 
+   * @return
+   */
+  WorkflowDetails showWorkflowStored(String workflowId);
 
   String exportWorkflow(String id);
 
