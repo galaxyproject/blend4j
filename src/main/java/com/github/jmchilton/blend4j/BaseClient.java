@@ -1,5 +1,18 @@
 package com.github.jmchilton.blend4j;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status.Family;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+
 import com.github.jmchilton.blend4j.exceptions.ResponseException;
 import com.github.jmchilton.blend4j.exceptions.SerializationException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -8,17 +21,11 @@ import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.Status.Family;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
+/**
+ * AMPPD extension
+ * Base class for Clients implementations.
+ */ 
 public class BaseClient {
   protected final ObjectMapper mapper = new ObjectMapper();
   protected final WebResource webResource;
@@ -57,7 +64,68 @@ public class BaseClient {
   protected <T> List<T> get(final TypeReference<List<T>> typeReference) {
     return get(getWebResource(), typeReference);
   }
-  
+
+  protected ClientResponse getResponse(final WebResource webResource) {
+	  return getResponse(webResource, true);
+  }
+
+  protected ClientResponse getResponse(final WebResource webResource, final boolean checkResponse) {
+	  final ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+	  if(checkResponse) {
+		  this.checkResponse(response);
+	  }
+	  return response;
+  }
+
+  /**
+   * Gets the response for a PUT request for the default webResource and the given object, and do check response.
+   * @param requestEntity The request entity.
+   * @return The {@link ClientResponse} for this request.
+   * @throws ResponseException If the response was not successful.
+   */
+  protected ClientResponse update(final Object object) {
+	  return update(object, true);
+  }
+
+  /**
+   * Gets the response for a PUT request for the default webResource and the given object, and checkResponse.
+   * @param requestEntity The request entity.
+   * @param checkResponse True if an exception should be thrown on failure, false otherwise.
+   * @return The {@link ClientResponse} for this request.
+   * @throws ResponseException If the response was not successful.
+   */
+  protected ClientResponse update(final Object object, final boolean checkResponse) {
+	  final ClientResponse response = update(getWebResource(), object, checkResponse);
+	  return response;
+  }
+
+  /**
+   * Gets the response for a PUT request for the given webResource and object, and do check response.
+   * @param webResource The {@link WebResource} to send the request to.
+   * @param requestEntity The request entity.
+   * @return The {@link ClientResponse} for this request.
+   * @throws ResponseException If the response was not successful.
+   */
+  protected ClientResponse update(final WebResource webResource, final Object object) {
+	  return update(webResource, object, true);
+  }
+
+  /**
+   * Gets the response for a PUT request for the given webResource, object, and checkResponse.
+   * @param webResource The {@link WebResource} to send the request to.
+   * @param requestEntity The request entity.
+   * @param checkResponse True if an exception should be thrown on failure, false otherwise.
+   * @return The {@link ClientResponse} for this request.
+   * @throws ResponseException If the response was not successful.
+   */
+  protected ClientResponse update(final WebResource webResource, final Object object, final boolean checkResponse) {
+	  final ClientResponse response = webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, object);
+	  if(checkResponse) {
+		  this.checkResponse(response);
+	  }
+	  return response;
+  }
+
   /**
    * Gets the response for a DELETE request.
    * @param webResource The {@link WebResource} to send the request to.
@@ -104,18 +172,6 @@ public class BaseClient {
    */
   protected ClientResponse deleteResponse(final WebResource webResource, final boolean checkResponse) {
     final ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).delete(ClientResponse.class);
-    if(checkResponse) {
-      this.checkResponse(response);
-    }
-    return response;
-  }
-  
-  protected ClientResponse getResponse(final WebResource webResource) {
-    return getResponse(webResource, true);
-  }
-  
-  protected ClientResponse getResponse(final WebResource webResource, final boolean checkResponse) {
-    final ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
     if(checkResponse) {
       this.checkResponse(response);
     }

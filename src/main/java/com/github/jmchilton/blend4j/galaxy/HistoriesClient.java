@@ -4,18 +4,23 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import com.github.jmchilton.blend4j.exceptions.ResponseException;
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryDeleteResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDeleteResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 
+/**
+ * AMPPD extension
+ * APIs for history and history contents.
+ */
 public interface HistoriesClient {
   ClientResponse createRequest(final History history);
 
@@ -33,6 +38,15 @@ public interface HistoriesClient {
   
   Dataset showDataset(String historyId, String datasetId);
   
+  /**
+   * Updates the given dataset in the given history
+   * @param historyId ID of the given history
+   * @param dataset  ID of the given dataset
+   * @return the updated dataset
+   * @throws ResponseException If the update was not successful.
+   */
+  Dataset updateDataset(String historyId, Dataset dataset);
+
   HistoryContentsProvenance showProvenance(String historyId, String datasetId);
   
   HistoryExport exportHistory(String historyId);

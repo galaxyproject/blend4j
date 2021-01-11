@@ -5,23 +5,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.ws.rs.core.MediaType;
+
 import org.codehaus.jackson.type.TypeReference;
 
 import com.github.jmchilton.blend4j.galaxy.beans.Dataset;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryDeleteResponse;
 import com.github.jmchilton.blend4j.galaxy.beans.History;
-import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContents;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryContentsProvenance;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryDataset;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDeleteResponse;
+import com.github.jmchilton.blend4j.galaxy.beans.HistoryDetails;
 import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.request.CollectionDescription;
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.CollectionResponse;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-import javax.ws.rs.core.MediaType;
-
+/**
+ * AMPPD extension
+ * Implementation for history and history contents.
+ */
 class HistoriesClientImpl extends Client implements HistoriesClient {
   HistoriesClientImpl(GalaxyInstanceImpl galaxyInstance) {
     super(galaxyInstance, "histories");
@@ -62,6 +66,10 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
     return getWebResourceContents(historyId).path(datasetId).path("provenance").get(HistoryContentsProvenance.class);
   }
 
+  @Override
+  public Dataset updateDataset(String historyId, Dataset dataset) {
+	  return super.update(super.path(historyId).path("contents").path(dataset.getId()), dataset).getEntity(Dataset.class);
+  }
 
   public HistoryDetails createHistoryDataset(String historyId, HistoryDataset hd) {
     final ClientResponse response = super.create(super.path(historyId).path("contents"), hd);
@@ -80,7 +88,7 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
       throw new RuntimeException("Problems with history export.");
     }
   }
-
+  
   @Override
   public CollectionResponse showDatasetCollection(String historyId,
       String datasetCollectionId) {
