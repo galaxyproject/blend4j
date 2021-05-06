@@ -111,19 +111,19 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 	}
 
 	@Override
-	public List<InvocationDetails> indexInvocationsDetails(String username) {
+	public List<InvocationDetails> indexInvocationsDetails(String userId) {
 		WebResource webResource = getInvocationWebResource().queryParam("view", "element").queryParam("step_details", "true");
-		if (username != null && !username.isEmpty()) {
-			webResource = webResource.queryParam("user_id",  username);
+		if (userId != null && !userId.isEmpty()) {
+			webResource = webResource.queryParam("user_id",  userId);
 		}
 		return get(webResource, new TypeReference<List<InvocationDetails>>() {});
 	}
 
 	@Override
-	public List<InvocationDetails> indexInvocationsDetails(String username, String workflowId, String historyId) {
+	public List<InvocationDetails> indexInvocationsDetails(String userId, String workflowId, String historyId) {
 		WebResource webResource = getInvocationWebResource().queryParam("view", "element").queryParam("step_details", "true");
-		if (username != null && !username.isEmpty()) {
-			webResource = webResource.queryParam("user_id",  username);
+		if (userId != null && !userId.isEmpty()) {
+			webResource = webResource.queryParam("user_id",  userId);
 		}
 		if (workflowId != null && !workflowId.isEmpty()) {
 			webResource = webResource.queryParam("workflow_id",  workflowId);
