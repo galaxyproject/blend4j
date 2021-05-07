@@ -17,4 +17,11 @@ public class ApiException extends RuntimeException {
     super(exception);
   }
 
+  /**
+   * AMP Extension
+   */
+  public ApiException(String message) {
+	  super(message);
+  }
+
 }
