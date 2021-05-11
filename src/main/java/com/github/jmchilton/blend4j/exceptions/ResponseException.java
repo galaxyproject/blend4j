@@ -14,7 +14,6 @@ public class ResponseException extends ApiException {
     super(clientResponse.getEntity(String.class));
     this.statusCode = clientResponse.getStatus();
     this.rawResponse = getMessage();
-//    this.rawResponse = clientResponse.getEntity(String.class);
   }
 	    
   protected MoreObjects.ToStringHelper toStringHelper() {
