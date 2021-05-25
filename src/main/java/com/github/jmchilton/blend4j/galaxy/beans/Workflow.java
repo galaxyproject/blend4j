@@ -14,6 +14,7 @@ public class Workflow extends GalaxyObject {
 	private String name;
 	private List<String> tags = new ArrayList<String>();
 	private boolean deleted;
+	private boolean hidden;
 	
 	@JsonProperty("latest_workflow_uuid")
 	private String latestWorkflowUuid;
@@ -48,6 +49,14 @@ public class Workflow extends GalaxyObject {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 
 	public String getLatestWorkflowUuid() {
