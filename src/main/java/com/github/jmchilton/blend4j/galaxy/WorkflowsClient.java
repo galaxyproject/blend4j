@@ -17,7 +17,21 @@ import com.sun.jersey.api.client.ClientResponse;
  * APIs for workflows and invocations.
  */
 public interface WorkflowsClient {
-  List<Workflow> getWorkflows();
+  /**
+   * List all workflows with no parameters, i.e., including all published/unpublished and excluding all hidden/deleted workflows.
+   * @return
+   */
+  public List<Workflow> getWorkflows();
+
+  /**
+   * List workflows satisfying the given criteria.
+   * @param showPublished: if true, include only published workflows; otherwise include both published/unpublished workflows
+   * @param showHidden: if true, include only hidden workflows; otherwise include only unhidden workflows
+   * @param showDeleted: if true, include only deleted workflows; otherwise include only undeleted workflows
+   * @param missingTools: if true, include only workflows with missing tools; otherwise include only workflows without missing tools
+   * @return
+   */
+  public List<Workflow> getWorkflows(Boolean showPublished, Boolean showHidden, Boolean showDeleted, Boolean missingTools);
 
   /**
    * Show details of the specified workflow.

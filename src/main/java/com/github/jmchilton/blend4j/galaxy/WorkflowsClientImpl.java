@@ -25,11 +25,30 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 		super(galaxyInstance, "workflows");
 	}
 
+	@Override
 	public List<Workflow> getWorkflows() {
 		return get(new TypeReference<List<Workflow>>() {
 		});
 	}
 
+	@Override
+	public List<Workflow> getWorkflows(Boolean showPublished, Boolean showHidden, Boolean showDeleted, Boolean missingTools) {
+		WebResource webResource = getWebResource();
+		if (showPublished != null && showPublished) {
+			webResource = webResource.queryParam("show_published", "true");
+		}
+		if (showHidden != null && showHidden) {
+			webResource = webResource.queryParam("show_hidden", "true");
+		}		
+		if (showDeleted != null && showDeleted) {
+			webResource = webResource.queryParam("show_deleted", "true");
+		}		
+		if (missingTools != null && missingTools) {
+			webResource = webResource.queryParam("missing_tools", "true");
+		}		
+		return get(webResource, new TypeReference<List<Workflow>>() {});
+	}
+	
 	public ClientResponse showWorkflowResponse(final String id) {
 		return super.show(id, ClientResponse.class);
 	}
