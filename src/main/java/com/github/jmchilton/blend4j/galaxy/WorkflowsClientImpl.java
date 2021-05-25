@@ -34,8 +34,8 @@ class WorkflowsClientImpl extends Client implements WorkflowsClient {
 	@Override
 	public List<Workflow> getWorkflows(Boolean showPublished, Boolean showHidden, Boolean showDeleted, Boolean missingTools) {
 		WebResource webResource = getWebResource();
-		if (showPublished != null && showPublished) {
-			webResource = webResource.queryParam("show_published", "true");
+		if (showPublished != null) {
+			webResource = webResource.queryParam("show_published", showPublished.toString());
 		}
 		if (showHidden != null && showHidden) {
 			webResource = webResource.queryParam("show_hidden", "true");

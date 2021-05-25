@@ -25,7 +25,7 @@ public interface WorkflowsClient {
 
   /**
    * List workflows satisfying the given criteria.
-   * @param showPublished: if true, include only published workflows; otherwise include both published/unpublished workflows
+   * @param showPublished: if None/True/False, include both, only published, or only unpublished workflows
    * @param showHidden: if true, include only hidden workflows; otherwise include only unhidden workflows
    * @param showDeleted: if true, include only deleted workflows; otherwise include only undeleted workflows
    * @param missingTools: if true, include only workflows with missing tools; otherwise include only workflows without missing tools
