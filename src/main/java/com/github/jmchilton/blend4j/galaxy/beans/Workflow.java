@@ -1,6 +1,7 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -12,21 +13,29 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class Workflow extends GalaxyObject {
 	
 	private String name;
-	private List<String> tags = new ArrayList<String>();
+	private String owner;
+
+	private boolean published;
 	private boolean deleted;
-	private boolean hidden;
+	private boolean hidden;	
+	@JsonProperty("show_in_tool_panel")
+	private boolean showInToolPanel;
+
+	// Note: Galaxy list workflows API includes annotations instead of annotation, while the show workflow API includes annotation but not annotations.
+	private List<String> annotations = new ArrayList<String>();
+	private List<String> tags = new ArrayList<String>();
+	
+	@JsonProperty("create_time")
+	private Date createTime;
+	@JsonProperty("update_time")
+	private Date updateTime;
 	
 	@JsonProperty("latest_workflow_uuid")
 	private String latestWorkflowUuid;
 	
-	// omit showInToolPanel field as its not useful outside Galaxy UI
-	
 	@JsonProperty("number_of_steps")
 	private Integer numberOfSteps;
 	
-	private boolean published;
-	private String owner;
-
 	public String getName() {
 		return name;
 	}
@@ -35,12 +44,20 @@ public class Workflow extends GalaxyObject {
 		this.name = name;
 	}
 
-	public List<String> getTags() {
-		return tags;
+	public String getOwner() {
+		return owner;
 	}
 
-	public void setTags(List<String> tags) {
-		this.tags = tags;
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	public boolean isPublished() {
+		return published;
+	}
+
+	public void setPublished(boolean published) {
+		this.published = published;
 	}
 
 	public boolean isDeleted() {
@@ -59,6 +76,46 @@ public class Workflow extends GalaxyObject {
 		this.hidden = hidden;
 	}
 
+	public boolean isShowInToolPanel() {
+		return showInToolPanel;
+	}
+
+	public void setShowInToolPanel(boolean showInToolPanel) {
+		this.showInToolPanel = showInToolPanel;
+	}
+
+	public List<String> getAnnotations() {
+		return annotations;
+	}
+
+	public void setAnnotations(List<String> annotations) {
+		this.annotations = annotations;
+	}
+
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
 	public String getLatestWorkflowUuid() {
 		return latestWorkflowUuid;
 	}
@@ -74,21 +131,5 @@ public class Workflow extends GalaxyObject {
 	public void setNumberOfSteps(Integer numberOfSteps) {
 		this.numberOfSteps = numberOfSteps;
 	}
-
-	public boolean isPublished() {
-		return published;
-	}
-
-	public void setPublished(boolean published) {
-		this.published = published;
-	}
-
-	public String getOwner() {
-		return owner;
-	}
-
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
-
+	
 }

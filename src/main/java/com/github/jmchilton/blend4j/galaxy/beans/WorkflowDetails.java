@@ -9,7 +9,11 @@ import java.util.Map;
 public class WorkflowDetails extends Workflow {
 	private Map<String, WorkflowInputDefinition> inputs;
 	private Map<String, WorkflowStepDefinition> steps;
-	private String annotation;
+
+	// Note: Galaxy show workflow API includes annotation but not annotations, while the list workflows API includes annotations instead of annotation.
+	private String annotation;	
+	private String creator;
+	private String license;
 	private String version;
 
 	public Map<String, WorkflowStepDefinition> getSteps() {
@@ -27,13 +31,29 @@ public class WorkflowDetails extends Workflow {
 	public Map<String, WorkflowInputDefinition> getInputs() {
 		return inputs;
 	}
-
+	
 	public String getAnnotation() {
 		return annotation;
 	}
 
 	public void setAnnotation(String annotation) {
 		this.annotation = annotation;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+	public String getLicense() {
+		return license;
+	}
+
+	public void setLicense(String license) {
+		this.license = license;
 	}
 
 	public String getVersion() {
