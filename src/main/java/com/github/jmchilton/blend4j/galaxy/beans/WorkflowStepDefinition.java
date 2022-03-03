@@ -38,6 +38,7 @@ public class WorkflowStepDefinition {
 	} 
 
 	private String toolId;
+	private String toolName;	// not included in original showWorkflow API but added for AMP
 	private String toolVersion;
 	private Integer id;
 	private Map<String, WorkflowStepOutput> inputSteps;
@@ -61,6 +62,14 @@ public class WorkflowStepDefinition {
 	@JsonProperty("tool_id")
 	public void setToolId(String toolId) {
 		this.toolId = toolId;
+	}
+
+	public String getToolName() {
+		return toolName;
+	}
+
+	public void setToolName(String toolName) {
+		this.toolName = toolName;
 	}
 
 	public String getToolVersion() {
