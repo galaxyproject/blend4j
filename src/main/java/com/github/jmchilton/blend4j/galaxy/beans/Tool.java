@@ -1,8 +1,15 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * AMPPD extension
+ * Bean for fields returned upon show tool detail request.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Tool extends GalaxyObject {
 	private String version;
@@ -15,6 +22,48 @@ public class Tool extends GalaxyObject {
 	
 	private String target;
 	
+	private boolean hidden;
+	
+	@JsonProperty("panel_section_id")
+	private String panelSectionId;
+	
+	@JsonProperty("panel_section_name")
+	private String panelSectionName;
+	
+	private List<String> labels = new ArrayList<String>();
+	
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
+
+	public String getPanelSectionId() {
+		return panelSectionId;
+	}
+
+	public void setPanelSectionId(String panelSectionId) {
+		this.panelSectionId = panelSectionId;
+	}
+
+	public String getPanelSectionName() {
+		return panelSectionName;
+	}
+
+	public void setPanelSectionName(String panelSectionName) {
+		this.panelSectionName = panelSectionName;
+	}
+
+	public List<String> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(List<String> labels) {
+		this.labels = labels;
+	}
+
 	@JsonProperty("link")
 	protected void setLink(final String link) {
 		this.link = link;
