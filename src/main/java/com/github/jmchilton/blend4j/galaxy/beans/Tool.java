@@ -25,10 +25,10 @@ public class Tool extends GalaxyObject {
 	private boolean hidden;
 	
 	@JsonProperty("panel_section_id")
-	private String panelSectionId;
+	private String sectionId;
 	
 	@JsonProperty("panel_section_name")
-	private String panelSectionName;
+	private String sectionName;
 	
 	private List<String> labels = new ArrayList<String>();
 	
@@ -40,20 +40,20 @@ public class Tool extends GalaxyObject {
 		this.hidden = hidden;
 	}
 
-	public String getPanelSectionId() {
-		return panelSectionId;
+	public String getSectionId() {
+		return sectionId;
 	}
 
-	public void setPanelSectionId(String panelSectionId) {
-		this.panelSectionId = panelSectionId;
+	public void setSectionId(String sectionId) {
+		this.sectionId = sectionId;
 	}
 
-	public String getPanelSectionName() {
-		return panelSectionName;
+	public String getSectionName() {
+		return sectionName;
 	}
 
-	public void setPanelSectionName(String panelSectionName) {
-		this.panelSectionName = panelSectionName;
+	public void setSectionName(String sectionName) {
+		this.sectionName = sectionName;
 	}
 
 	public List<String> getLabels() {
