@@ -21,6 +21,8 @@ import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 /**
  * AMPPD extension
@@ -33,6 +35,9 @@ public class BaseClient {
   public BaseClient(final WebResource baseWebResource,
                     final String module) {
     this.webResource = baseWebResource.path(module);
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    this.mapper.setDateFormat(dateFormat);
   }
   
   protected ClientResponse create(final Object object) {
