@@ -35,9 +35,11 @@ public class BaseClient {
   public BaseClient(final WebResource baseWebResource,
                     final String module) {
     this.webResource = baseWebResource.path(module);
+    // Start AMP Customization
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     this.mapper.setDateFormat(dateFormat);
+    // End AMP Customization
   }
   
   protected ClientResponse create(final Object object) {
@@ -63,6 +65,9 @@ public class BaseClient {
 
   protected <T> List<T> get(final WebResource webResource, final TypeReference<List<T>> typeReference) {
     final String json = getJson(webResource);
+    // Start AMP Customization
+    System.out.println(json);
+    // End AMP Customization
     return readJson(json, typeReference);
   }
 
