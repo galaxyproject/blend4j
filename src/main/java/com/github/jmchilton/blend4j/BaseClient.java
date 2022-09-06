@@ -266,6 +266,7 @@ public class BaseClient {
   }
 
   protected <T> T readJson(final String json, final TypeReference<T> typeReference) {
+    System.out.println("Rimsha U8--->" + json);
     try {
       return mapper.readValue(json, typeReference);
     } catch(IOException e) {
@@ -274,6 +275,7 @@ public class BaseClient {
   }
   
   protected <T> T readJson(final String json, final Class<T> clazz) {
+    System.out.println("Rimsha U9--->" + json);
     try {
       return mapper.readValue(json, clazz);
     } catch(IOException e) {
