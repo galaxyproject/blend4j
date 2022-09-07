@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.github.jmchilton.blend4j.galaxy.beans.collection.response.ElementResponse;
 import com.github.jmchilton.blend4j.util.Objects;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import com.github.jmchilton.blend4j.util.CustomJsonDateDeserializer;
 
 /**
  * AMPPD extension
@@ -29,7 +32,8 @@ public class Dataset extends HistoryContents implements HasGalaxyUrl, ElementRes
 
 	private Boolean resubmitted;
 	
-	@JsonProperty("create_time")	
+	@JsonProperty("create_time")
+	@JsonDeserialize(using = CustomJsonDateDeserializer.class) // AMP Customization
 	private Date createTime;
 
 	@JsonProperty("creating_job")	
@@ -41,7 +45,8 @@ public class Dataset extends HistoryContents implements HasGalaxyUrl, ElementRes
 	@JsonProperty("hda_ldda")	
 	private String hdaLdda;			
 
-	@JsonProperty("update_time")	
+	@JsonProperty("update_time")
+	@JsonDeserialize(using = CustomJsonDateDeserializer.class) // AMP Customization
 	private Date updateTime;
 
 	private List<String> tags = new ArrayList<String>();

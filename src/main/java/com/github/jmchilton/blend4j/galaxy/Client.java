@@ -24,7 +24,6 @@ class Client extends BaseClient {
   }
   
   protected <T extends HasGalaxyUrl> T setGalaxyUrl(final T bean) {
-    System.out.println("Rimsha U2");
     bean.setGalaxyUrl(galaxyInstance.getGalaxyUrl());
     bean.setApiKey(galaxyInstance.getApiKey());
     return bean;
