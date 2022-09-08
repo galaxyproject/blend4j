@@ -65,15 +65,10 @@ public class BaseClient {
 
   protected <T> List<T> get(final WebResource webResource, final TypeReference<List<T>> typeReference) {
     final String json = getJson(webResource);
-    // Start AMP Customization
-    System.out.println("Rimsha U7");
-    System.out.println(json);
-    // End AMP Customization
     return readJson(json, typeReference);
   }
 
   protected <T> List<T> get(final TypeReference<List<T>> typeReference) {
-    System.out.println("Rimsha U4");
     return get(getWebResource(), typeReference);
   }
 
@@ -191,14 +186,12 @@ public class BaseClient {
   }
   
   protected String getJson(final WebResource webResource) {
-    System.out.println("Rimsha U5");
     return getJson(webResource, true);
   }
 
   protected String getJson(final WebResource webResource, final boolean checkResponse) {
     final ClientResponse response = getResponse(webResource, checkResponse);
     final String json = response.getEntity(String.class);
-    System.out.println("Rimsha U6 ---> " + json);
     return json;
   }
 
@@ -224,7 +217,6 @@ public class BaseClient {
   }
 
   protected WebResource getWebResourceContents(final String id) {
-    System.out.println("Rimsha U3 --> " + id);
     return getWebResource(id).path("contents");
   }
   
@@ -266,7 +258,6 @@ public class BaseClient {
   }
 
   protected <T> T readJson(final String json, final TypeReference<T> typeReference) {
-    System.out.println("Rimsha U8--->" + json);
     try {
       return mapper.readValue(json, typeReference);
     } catch(IOException e) {
@@ -275,7 +266,6 @@ public class BaseClient {
   }
   
   protected <T> T readJson(final String json, final Class<T> clazz) {
-    System.out.println("Rimsha U9--->" + json);
     try {
       return mapper.readValue(json, clazz);
     } catch(IOException e) {

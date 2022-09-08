@@ -7,3 +7,5 @@ test-output
 *.iws
 *.iml
 *.ipr
+
+mainTest.java

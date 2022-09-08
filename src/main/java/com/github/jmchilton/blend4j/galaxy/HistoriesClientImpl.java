@@ -59,7 +59,6 @@ class HistoriesClientImpl extends Client implements HistoriesClient {
   }
 
   public Dataset showDataset(String historyId, String datasetId) {
-    System.out.println("Rimsha U1");
     return setGalaxyUrl(getWebResourceContents(historyId).path(datasetId).get(Dataset.class));
   }
 
