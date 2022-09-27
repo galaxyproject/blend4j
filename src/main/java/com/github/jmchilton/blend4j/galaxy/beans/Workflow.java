@@ -35,6 +35,8 @@ public class Workflow extends GalaxyObject {
 	
 	@JsonProperty("number_of_steps")
 	private Integer numberOfSteps;
+	@JsonProperty("creator")
+	private List<WorkflowCreator> creator = new ArrayList<WorkflowCreator>(); // AMP Customization
 	
 	public String getName() {
 		return name;
@@ -130,6 +132,18 @@ public class Workflow extends GalaxyObject {
 
 	public void setNumberOfSteps(Integer numberOfSteps) {
 		this.numberOfSteps = numberOfSteps;
+	}
+
+	// AMP Customization
+	public String getCreator() {
+		if(creator != null && creator.size() >= 1) {
+			return creator.get(0).getName();
+		}
+		return "";
+	}
+
+	public void setCreator(List<WorkflowCreator> creator) {
+		this.creator = creator;
 	}
 	
 }

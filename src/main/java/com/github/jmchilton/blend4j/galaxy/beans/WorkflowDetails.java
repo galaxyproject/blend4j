@@ -11,8 +11,7 @@ public class WorkflowDetails extends Workflow {
 	private Map<String, WorkflowStepDefinition> steps;
 
 	// Note: Galaxy show workflow API includes annotation but not annotations, while the list workflows API includes annotations instead of annotation.
-	private String annotation;	
-	private String creator;
+	private String annotation;
 	private String license;
 	private String version;
 
@@ -38,14 +37,6 @@ public class WorkflowDetails extends Workflow {
 
 	public void setAnnotation(String annotation) {
 		this.annotation = annotation;
-	}
-
-	public String getCreator() {
-		return creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
 	}
 
 	public String getLicense() {
