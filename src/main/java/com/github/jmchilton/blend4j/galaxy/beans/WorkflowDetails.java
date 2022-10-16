@@ -1,5 +1,6 @@
 package com.github.jmchilton.blend4j.galaxy.beans;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,6 +11,14 @@ public class WorkflowDetails extends Workflow {
 	private Map<String, WorkflowInputDefinition> inputs;
 	private Map<String, WorkflowStepDefinition> steps;
 
+	// TODO The following fields are AMP specific and better be moved to a subclass extended in AMP repository.
+	// input node labels and formats (data types) parsed from input node steps, fed from intermediate results for partial workflows;
+	// they are in the same order as the input nodes, but excluding AV type inputs which would be from primaryfile
+	private List<String> inputNonAvLabels;	
+	private List<String> inputNonAvFormats;	 
+	// index for the only AV type input node, fed from primaryfile; null if not applicable
+	private Integer inputAvindex;	
+		
 	// Note: Galaxy show workflow API includes annotation but not annotations, while the list workflows API includes annotations instead of annotation.
 	private String annotation;
 	private String license;
