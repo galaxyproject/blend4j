@@ -14,9 +14,6 @@ public class WorkflowInputDefinition {
   @JsonProperty("uuid")
   private String uuid;
   
-  private String format;	// data type extension
-  private Boolean isPrimaryfile = false;	// whether the input comes from a primaryfile
-  
   public void setValue(final String value) {
     this.value = value;
   }
